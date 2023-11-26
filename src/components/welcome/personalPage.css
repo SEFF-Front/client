@@ -1,0 +1,81 @@
+.course{
+    background-color: rgba(0, 0, 0, 0.336);
+    border-radius: 1rem;
+  }
+  .done{
+    background-color: rgba(104, 104, 104, 0.76);
+  }
+  .course_coler{
+    color: rgb(192, 156, 48);
+  }
+  .course_button , .color_orange{
+    background-color: rgb(192, 156, 48);
+  }
+  .edit{
+    color: rgb(192, 156, 48);
+    font-size: 30px;
+    text-align: center;
+    
+  }
+  .exams .view{
+    height: fit-content;
+    background: #bf9b30;
+    transition: 0.5s;
+  }
+  .exams .view:hover{
+    transition: 0.5s;
+    background: none;
+    border: 1px solid #bf9b30;
+  }
+  /* //////////////// */
+  .sec3_img{
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    border-radius: 1rem 0rem 0rem 1rem;
+  }
+  .img_rel::after{
+    position: absolute;
+    border-radius: 0rem 0rem 0rem 1rem;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0;
+    z-index: 1;
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgb(45, 45, 45));
+  }
+  .parent_top_courses{
+    position: relative;
+  }
+  .left_courses{
+    position: absolute;
+    left: 20px;
+    bottom: -10px;
+    font-size: 20px;
+    font-weight: 700;
+    z-index: 2;
+  }
+  .right_courses{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  .img_rel{
+    position: relative;
+  }
+  .left_courses2{
+    font-size: 30px;
+  }
+  @media(max-width:778px){
+    .parent_top_courses{
+      position: relative;
+      padding: 50px;
+    }
+    .sec3_img{
+      border-radius: 0rem;
+    }
+    .img_rel::after{
+      border-radius: 0rem;
+    }
+  }

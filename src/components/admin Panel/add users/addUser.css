@@ -1,0 +1,30 @@
+.user-line{
+  width: 100%;
+  height: 1px;
+  background-color: var(--hover) !important;
+}
+.inputs-container .form-section{
+  margin-top: 1rem;
+}
+.inputs-container div label{
+  margin-bottom: 1rem;
+}
+.inputs-container div input{
+  border: none;
+  color: white !important;
+}
+.buttons .cancel-btn{
+  background-color: rgba(208,208,208,0.5);
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.buttons .save-btn,
+.course-header div button{
+  background-color: rgba(191, 155, 48);
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.footer-div{
+  height: 20vh;
+}
+select .form-select::after {
+  color: white;
+}

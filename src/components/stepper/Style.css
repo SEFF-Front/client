@@ -1,0 +1,120 @@
+
+.create-cv{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem!important;
+    margin-top: 1.5rem!important;
+    background-color:rgba(0, 0, 0,0.4);
+    padding: 1.5rem;
+    width: 100%!important;
+}
+input{
+background-color: #ffffff1e!important;
+border: 0!important;   
+ color: #fffffff1!important;
+}
+
+.upload-personal-photo{
+    width:600px ;
+    height:  341.19px  ;
+    padding: 0 1rem;
+    margin-top: 1rem;
+    background-color: rgb(0, 0, 0);
+}
+.cv-preview-section{
+    width: 100%;
+    height: 947.5px;
+    background-color: rgb(0, 0, 0);
+}
+.cv-form-ct{
+    height: fit-content!important;
+}
+#backBtn, #continueBtn{
+    background-color: #e1e1e1!important;
+    color: #fff!important;
+    min-width: 160px;
+}
+#continueBtn{
+   background-color: #bf9b30!important; 
+}
+.footer-section{
+    background-color: rgb(0, 0, 0);
+    padding-top: 20px 0;
+    height: 416px;
+    width: 100%;
+}
+#backBtn:hover, #continueBtn:hover{
+    background-color: #e7be3e!important;
+}
+#backBtn:active, #continueBtn:active{
+    border-color:#bf9b30!important ;
+}
+i .add-icon, .remove-icon{
+    font-size: x-large;
+    line-height: 50%;
+}
+
+    /* ////////////////////////summary/////////////////////////// */
+    .cv-summary-about{
+background-color: #ffffff1e!important;
+border: 0!important;   
+ color: #fffffff1!important;
+
+    }
+
+/* ///////////////////////////////skills/////////////////////////////// */
+.skills-input-div, .hobbies-input-div{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.skills-input-formcontrol, .hobbies-input-formcontrol{
+    width: 90%;
+
+}
+
+.skills-input-div, .hobbies-input-div{
+    margin-top: 1rem; 
+     padding: 10px 0;
+}
+i{
+    display: block;
+}
+.icons-div{
+    margin-left: 85%;
+    font-size: x-large;
+}
+.icons-div i:hover{
+    transform: scale(1.1,1.1);
+}
+.remove-icon-move{
+    position: absolute;
+    margin-top: 15px   ;
+    cursor: pointer;
+   
+}
+.add-icon-move{
+    margin: 15px;
+    position: absolute;
+}
+.remove-icon{
+    cursor: pointer;
+}
+
+
+   /* ///////////////////experience///////////////////////// */
+   .experience-org-logo{
+    height: 169.328px;
+    width: 165.328;
+    border:2px dashed #bf9b30;
+   }
+   .cv-form-rounded{
+    border:2px dashed #bf9b30!important;
+    padding: 1rem!important;
+   }
+   @media (min-width: 778px){
+    .cv-form-rounded{
+        border-width: 0px;
+        padding: 0;
+    }
+}

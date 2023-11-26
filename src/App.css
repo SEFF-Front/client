@@ -1,0 +1,154 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+body{
+  background-image: url('./assest/secondary_background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+body::before{
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #1a1919f1;
+  z-index: -1;
+}
+a{
+  color: #fff !important;
+  text-decoration:  none !important;
+}
+
+
+/* table */
+
+tr ,th{
+  background-color: #070707a6 !important;
+  padding: 1rem;
+  color: #fff !important;
+  
+}
+tr{
+  border: solid #29292967!important;
+  border-width: 15px 0px !important;
+
+}
+th{
+  margin-bottom: 15px !important;
+}
+table{
+  background-color: transparent !important;
+}
+.article-search h4{
+  font-size: 18px;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 10px;
+  letter-spacing: 1px;
+}
+.article-search h4::before{
+  content: "";
+  height: 2px;
+  width: 80%;
+  background-color: #bf9b30;
+  position: absolute;
+  bottom: 0;
+}
+.search-div{
+  position: relative;
+}
+.article-search input{
+  width: 230px;
+  height: 35px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.103);
+  color: white;
+  text-align: center;
+  }
+  .article-search input::placeholder{
+      color: white;
+      text-align: center;
+  }
+  .search-div .text-warning{
+      position: absolute;
+      top: 11px;
+      right: 12px;
+      color: #bf9b30;
+  }
+  .mobile-view-button{
+      position: relative;
+      padding: 10px 20px;
+      font-weight: 500;
+      width: 100%;
+      border-radius: 10px;
+      border: none;
+      background-color: #bf9b30;
+      color: white;
+  }
+
+
+
+  table {
+              margin-top: 50px;
+              width: 100%;
+              width: 100%;
+              text-align: start;
+              background-color: #070707a6;
+          }
+         
+          table, th, td {
+              padding: 1rem !important;
+          }
+          
+          tr {
+              padding: 20px !important;
+          }
+          th, td {
+              padding: 8px;
+              text-align: left;
+          }
+
+
+/* .article-content{
+  height: 900px;
+} */
+
+
+  table i{
+      color: #bf9b30;
+     
+  }
+  table a{
+      background-color: transparent !important;
+  }
+  table button{
+  width: 100px;
+  height: 40px;
+  color:white !important;
+  background-color: #bf9b30 !important;
+  border: none;
+  border-radius: 30px;
+}
+td{
+  background-color: transparent !important;
+  color: #fff !important;
+}
+input{
+  border: none !important;
+}
+bg-warning , btn-warning{
+  background-color:#c09c30 !important ;
+}
+.user-sec,.article-sec,.job-sec,.course-sec{
+  margin-top: -48px !important;
+}

@@ -1,0 +1,13 @@
+.page-itm{
+    color: white;
+    text-decoration: none;
+    margin: 0px 5px;
+    /* border: 1px solid #000;
+    border-radius: 50% !important; */
+    padding:3px   ;
+}
+.actve,.arrow{
+    color: #BF9B30 !important;
+    padding: 3px;
+    /* border: 1px solid #BF9B30 !important; */
+}

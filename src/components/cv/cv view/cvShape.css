@@ -1,0 +1,255 @@
+
+
+.create-cv{
+    position: relative;
+    width: 200px;
+    height: 100px;
+    /* background-color: black; */
+    
+}
+.steper-sec{
+    width: 100%;
+    position: relative;
+    padding: 30px 10px;
+}
+.steper-sec .steper-title{
+color: white;
+max-width: 50%;
+padding: 20px 0px;
+}
+
+.test{
+        height: 200px;
+        background-color: rgba(0, 0, 0, .4);
+        align-items: center;
+        /* border-radius: 10px; */
+        overflow: hidden;
+        transition: .3s;
+
+      }
+      .item{
+        width: 250px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        padding: 0 30px;
+        font-size: 20px;
+        color: white;
+        position: relative;
+        
+        
+      }
+      .steper-number{
+        border: 1px solid #bf9b30;
+        padding: 1rem 1.4rem;
+        margin: 0 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: .5s;
+        position: relative;
+
+      }
+      .progress-step-active , .steper-number:hover{
+         background-color: #bf9b30;
+         border: none;
+      }
+      
+
+
+.cv-progress{
+    width: 100%;
+    background-color: rgba(0, 0, 0, .4);
+    /* border-radius: 10px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding: 1rem;
+    /* margin: 30px 0px; */
+    /* padding: 30px; */
+}
+.cv-progress input{
+    background-color: rgba(83, 83, 83, 0.4);
+    color: white;
+}
+.cv-progress input:focus{
+    outline: none;
+    border: none;
+    background-color: rgba(83, 83, 83, 0.4);
+    color: white;
+}
+.cv-progress-item{
+    height: 100%;
+    color: white;
+}
+.cv-design{
+    background-color: black;
+    height: 800px;
+}
+ .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin: 5px 0px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="date"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            outline: #bf9b30;
+            background-color: #9d9d9d3d;
+            border:none;
+            color: #fff;
+            border-radius: 3px;
+        }
+        input:focus{
+            outline: #bf9b30 !important;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .drag-drop{
+            width: 100%;
+            height: 300px;
+            background-color: black;
+        }
+        .formBtn{
+            position: relative;
+            top: -50px;
+            left: 10px;
+        }
+        footer{
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            height: 300px;
+            background-color: black;
+            margin-top: -15px;
+        }
+
+        
+        .next-btn{
+            position: absolute;
+            right: 30px;
+            
+        }
+        #previusBtn{
+            border: none;
+            background-color: #9d9d9d;
+            color: #fff;
+            width: 10%;
+        }
+
+        #nextBtn{
+            width: 10%;
+            background-color: #bf9b30;
+            color: #FFE;
+        }
+
+        .blanck-form{
+            position: relative;
+            height: 400px;
+            background-color: black;
+            color: white;
+        }
+        .form-step{
+            display: none;
+        }
+        .form-step-active{
+            display: block;
+            
+        }
+
+        @media only screen and (max-width: 778px){
+            .steper-sec .steper-title{
+                max-width: 100%;
+                }
+                .second-nav{
+                    display: none;
+                }
+                .create-cv{
+                    width: 100px;
+                    height: 100px;
+                    background-color: black;
+                    
+                }
+                .test{
+                    height: 150px;
+                }
+                .cv-design{
+                    display: none;
+                }
+                .formBtn{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .formBtn button{
+                    width: 100%;
+                    margin: 10px 5px;
+                }
+                .formBtn{
+                    position: relative;
+                    left: -10px;
+                }
+                .main-sec{
+                   
+                    padding-bottom: 10px;
+
+
+                }
+                .next-btn{
+                    position: static;
+                }
+                .blanck-form {
+                    width: 200%;
+                    margin: auto;
+                }
+                .phone-none{
+                    display: none;
+                }
+                .cv-progress input,textarea{
+                    width: 100%;
+                }
+                .cv-progress textarea{
+                    max-width: 100%;
+                }
+                .cv-progress label{
+                    font-size:x-small;
+                }
+                .skills-input-remove,.hobbies-input-remove{
+                    margin-left: 10px;
+                }
+                #cv-form-rounded{
+                    position: relative;
+                }
+                #add-icon-move {
+                    position: absolute;
+                    right: 4%;
+                    top: 30%;
+                }
+                #remove-icon-move{
+                    position: absolute;
+                    bottom: 3%;
+                    right: 4%;
+                }
+                #nextBtn,#previusBtn{
+                    width: max-content;
+                    border: none;
+                }
+        }
+
+
+      
+ 
+        

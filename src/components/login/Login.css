@@ -1,0 +1,100 @@
+
+:root {
+  --primary:#BF9B30;
+  --Green:#34A853;
+  --Red:#3d3d3d;
+  --Grey:#D0D0D0;
+  --Black:#454545;
+  --white:#fff;
+  --overlay-bage :#302e2ef1;
+  --bg-cards:#1d1b1b40;
+  --hover:#dbb338;
+  --background-input: #ffffff1e ;
+}
+
+.sign-login-form{
+    background-color: var(--overlay-bage);
+    height: 100vh;
+}
+.sign-login-form .form-parent {
+    width: 35%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.sign-login-form .form-container{
+    background-color:rgb(0,0,0,0.5) ;
+    width: 100%;
+    padding: 20px 10px;
+    border-radius: 5px;
+}
+
+.sign-login-form .form-img img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.sign-login-form .form-img{
+    top:-50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.sign-login-form .form-content input,.sign-login-form .form-content .input-group-text{
+    background-color: var(--Red);
+    border: none;
+    height: 50px;
+}
+
+.sign-login-form .form-content input::placeholder{
+    color: var(--white);
+    text-transform: uppercase;
+}
+.sign-login-form .form-content .user-icon,.sign-login-form .form-content .email-icon,
+.sign-login-form .form-content .lock-icon {
+    color: var(--primary) !important;
+}
+.sign-login-form .form-content .user-icon,.sign-login-form .form-content .lock-icon{
+    width: 20px;
+    height: 20px;
+}
+.sign-login-form .form-content .eye-icon{
+    color: var(--Grey);
+    cursor: pointer;
+    right: 4px;
+    z-index: 7;  
+}
+.sign-login-form .form-content .user-icon,.sign-login-form .form-content .forget-password{
+    color: white;
+}
+.sign-login-form .submit-btn .btn{
+    background-color: var(--primary) !important;
+    width: 230px;
+    height: 50px;
+    transition: var(--transition-1);
+}
+.sign-login-form input:focus{
+    box-shadow: none;
+}
+.sign-login-form .submit-btn .btn:hover{
+    background-color: transparent !important;
+    background-color: var(--hover) !important;
+}
+.sign-login-form .login-link a{
+    transition: var(--transition-1);
+    color: var(--Primary);
+}
+.sign-login-form .login-link a:hover{color: var(--btn-hover) !important;}
+.sign-login-form .login-btn{width: 100% !important;}
+.sign-login-form .forget-password a{transition: var(--transition-1) !important;}
+.sign-login-form .forget-password a:hover{color: var(--Primary) !important;}
+@media (max-width:992px) {
+    .sign-login-form{height: 120vh;}
+    .sign-login-form .form-parent{width: 70%;}
+    .sign-login-form .submit-btn .btn{width: 100% !important;} 
+}
+@media (max-width:778px) {
+    .sign-login-form .form-parent{width: 100%;}
+    .sign-login-form{padding: 20px;}
+}
+

@@ -1,0 +1,182 @@
+
+
+.tech-overlay{
+    width: 100%;
+    height: 100%;
+    padding: 70px;
+    color: #fff !important;
+}
+.tech-title{
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 18px;
+    color: #D0D0D0;
+}
+
+.tech-line{
+    width: 100px;
+    height: 2px;
+    background-color: #BF9B30;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.tech h1{
+    font-size: 40px;
+    margin: 20px 0;
+}
+.tech h4{
+    font-weight: normal;
+    font-size: 18px;
+    color: #D0D0D0;
+}
+.tech h4 span{
+    color: #BF9B30;
+    font-weight: bold;
+}
+.tech #first-sec{
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+.tech #first-sec img{
+    width: 740px;
+    height: 380px;
+}
+
+#tech-data #data{
+    /* width: 45%; */
+    height: 70px;
+    background-color: rgba(22, 22, 22, 0.4);
+    border-radius: 5px;
+    /* margin-bottom: 30px;
+    margin-left: 15px; */
+
+} 
+#tech-data #data .icon{
+    font-size: 30px;
+    color: #BF9B30;
+    float: left;
+    margin-right: 25px;
+    margin-top: 13px;
+}
+#tech-data #data p{
+    color: #D0D0D0;
+    font-size: 17px;
+    margin-top: 5px;
+}
+#tech-data2 .icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+#tech-data2 p{
+    font-weight: 600;
+}
+#tech-data2{
+    padding-top: 1.5rem !important;
+}
+#tech-data2 p span{
+    font-weight: 100;
+    color: #D0D0D0;
+}
+#tech-data2 button{
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    background-color: #c1c0c0;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+#tech-data4{
+    background-color: rgba(22, 22, 22, 0.4);
+    padding: 0 20px;
+    padding-bottom: 20px;
+    line-height: 20px;
+}
+#second-sec p{
+    color: #D0D0D0;
+    text-align: justify;
+}
+#second-sec h3{
+    margin: 25px 0;
+    font-size: 26px;
+}
+
+#accordion #item{
+    background-color: rgba(22, 22, 22, 0.4);
+    color:#D0D0D0;
+    margin-bottom: 20px;
+    position: relative;
+}
+#accordion #item h3{
+    color: #fff;
+    font-size: 25px;
+    margin: 5px 0; 
+}
+#accordion #item h3 .icon{
+    color: #BF9B30;
+    margin-left: auto;
+    font-size: medium;
+}
+#accordion #item p{
+    margin-bottom: 80px;
+}
+#accordion #item button{
+    width: 230px;
+    height: 50px;
+    background-color: #BF9B30;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 17px;
+    margin-top: 20px;
+    position: absolute;
+    top: 150px;
+    right: 20px;
+}
+.card-body{
+    transition: .4s;
+}
+.rotate{
+    transform: rotate(45deg);
+}
+#item .card-header a{
+    text-decoration: none;
+}
+.card-header{
+    cursor: pointer;
+}
+@media (max-width: 778px){
+    #accordion #item h3 {
+        font-size: 20px;
+    }
+    .tech-overlay{
+        padding: 20px;
+    }
+    .tech h1{
+        font-size: 35px;
+        margin: 20px 0;
+    }
+    .tech h4{
+        font-weight: normal;
+        font-size: 15px;
+        color: #D0D0D0;
+    }
+    .tech #first-sec img{
+        width: 100%;
+        height: 230px;
+    }
+    #tech-data #data{
+        margin-top: 30px;
+    } 
+    .lessions-data{
+        margin-top: 0;
+    }
+    #accordion #item button{
+        width: 200px;
+        height: 50px;
+        position: absolute;
+        right: 20px;
+    }
+    
+}

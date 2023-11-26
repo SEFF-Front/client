@@ -1,0 +1,625 @@
+
+  #menu{
+    display: none;
+  }
+  .joboverlay{
+    background-color: rgba(29,29,29,.9);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+  .cv-btn{
+    background-color: var(--primary) !important;
+    width: 100%;
+  }
+  .filter-btn{
+    color:var(--primary) !important;
+  }
+  body{
+      max-width: 100%;
+      overflow-x: hidden;
+    font-family: Arial,Helvetica,sans-serif;
+  }
+  input[type=checkbox] {
+    accent-color: #BF9B30 !important;
+    line-height: 25px;
+  }
+  .form-check-input:checked {
+
+    background-color: #BF9B30 !important;
+    color: #fff !important;
+
+  }
+  .userBar{
+    height: 35px;
+  }
+  .navbar{
+    height: 70px;
+    font-family: sans-serif;
+  }
+  .date,
+  .jobLooking{
+    width: 400px;
+  }
+  .jobLooking h1,p{
+    color: white;
+    font-family: sans-serif;
+  }
+  .searchBox{
+    font-family:sans-serif;
+  }
+  
+  .searchBox .icon{
+    color: var(--primary);
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px !important;
+  }
+  .searchBox input{
+    height: 40px;
+    border: none;
+    background-color: rgba(115, 115, 115, 0.5);
+    padding: 0 50px;
+    color: white;
+    border-radius: 5px 0px 0px 5px;
+  }
+  #location{
+    background-color: rgba(115, 115, 115, 0.5) !important;
+  }
+  .searchBox input:focus{
+    outline: none;
+  }
+  .searchBox input::placeholder{
+    color:white;
+  }
+  .searchBox button{
+    height: 40px;
+    background-color: var(--primary);
+    padding: 0px 20px;
+    color: white;
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+  }
+  .filter-side{
+    line-height: 30px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    width: 100%;
+  }
+  .filter-head{
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .job-filter {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: max-content;
+  }
+
+  .filter-item{
+    margin-bottom: 1rem;
+  }
+  .job-item{
+    background-color: rgba(0, 0, 0, 0.493) !important;
+  
+  }
+  .job-list div{
+    background-color: #000000;
+    color: white;
+    padding: 20px;
+    margin-bottom: 1rem;
+  }
+
+  
+  body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* //////////////////////////////////////////////////////////////// */
+                       /* jops section */
+            
+
+
+.div1
+{
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 25px 45px;
+    color: white;
+    border-radius: 5px;
+}
+
+
+
+.spn
+{
+    font-size: 35px;
+    color: red;
+    letter-spacing: 0cap;
+}
+ .div1 h2 {
+    font-size: 23px;
+    color: white;
+}
+.dd-info p{
+    font-size: 17px;
+    color: grey;
+}  
+.info2 h5
+{
+    color: rgb(225, 218, 218);
+    font-size: 18px;
+}
+.info2 .p{
+    margin-left: 100px;
+    color:rgb(225, 219, 219);
+    font-size: 17px;
+}
+.loc{
+    color:rgb(199, 143, 70);
+    margin-left: 165px;
+}
+.p-general
+{
+    color: rgb(204, 199, 199);
+    text-align: justify;
+}
+.div1 .btn
+{
+    height: 40px;
+    border: 1px solid var(--primary);
+    margin: auto;
+    border-radius: 5px;
+    text-align: center;
+    color:rgb(217, 212, 212);
+    margin-right: 7px;
+    margin-bottom: 30px;
+}
+.view-details
+{
+    margin-top: 15px;
+}
+.clock
+{
+    color: gray;
+    font-size: 28px;
+}
+
+.btn-details
+{
+    width: 150px;
+    height: 40px;
+    background-color: var(--primary);
+    border-radius: 5px;
+    color: white;
+    border: none;
+    
+}
+
+.info-header p{
+  color:white;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+  font-family: 'Cambria', 'Cochin', 'Georgia', 'Times', 'Times New Roman', 'serif';
+}
+.info-header span{
+  display: inline-block;
+  background-color: var(--primary);
+  width: 75px;
+  height: 1px;
+}
+/* media query section 1 */
+
+@media(max-width:576px)
+{
+ .looking-and-search{
+    width:450px;
+    height: 300px;
+ }
+ .looking{
+    width: 180px;
+    margin: 70px 15px;
+ }
+ .looking h1{
+    font-size: 22px;
+ }
+ .looking p{
+    margin-left: 10px;
+ }
+.i-search{
+    font-size: 25px;
+    margin-left: 20px;
+    height: 35px;
+    width: 30px;
+    text-align: center;   
+}
+.form-control
+{
+    width: 90px;
+    height: 35px;
+    border-radius: 0px;
+    font-size: 21px;
+}
+.input-search .btn
+{
+    width: 70px;
+    height: 35px;
+    font-size: 15px;
+    text-align: center;
+}
+.sec-jops
+{
+    height: 2300px;
+}
+.parent
+{
+  grid-gap: 15px;
+  width: 470px;
+}
+.filters
+{
+    grid-row: 1/4;
+    height:800px;
+     width: 160px;
+}
+.dd-info
+{
+    width: 250px;
+    margin-right: 20px;
+}
+.spn
+{
+    font-size: 27px;
+    letter-spacing: 4px;
+}
+ .div1 h2 {
+    font-size: 19px;
+    color: white;
+    margin-left: 40px;
+    margin-top: 9px;
+}
+.dd-info p{
+    font-size: 14px;
+    color: grey;
+    margin-left: 50px;
+}  
+.info2 h5
+{
+    color: rgb(225, 218, 218);
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.info2 .p{
+    margin-left: 100px;
+    color:rgb(225, 219, 219);
+    font-size: 10px;
+}
+.loc{
+    color:rgb(199, 143, 70);
+    margin-left: 10px;
+}
+.p-general
+{
+    color: rgb(204, 199, 199);
+    margin-top: 15px;
+    font-size: 14px;
+}
+.div1 .btn
+{
+    height: 35px;
+}
+.view-details
+{
+    margin-top: 15px;
+}
+.clock
+{
+    font-size: 21px;
+}
+.btn-details
+{
+    width: 120px;
+    height: 32px;
+    margin-left:20px;
+}
+.boxing-footer
+{
+    height: 200px;
+    width: 470px;
+    margin: auto;
+}
+}
+
+/*******************page2  ********************/
+.sec-jops2
+{
+    height: 1450px;
+    background-color: rgba(0, 0, 0, 0.507);
+}
+/* .jops2 {
+    height:1000px;
+    background-image: url(../assets/secondary_background.jpg);
+    background-size: 100% 100%;
+    position: relative;
+} */
+.parent2
+{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-auto-rows: minmax(200px,auto);
+  grid-gap: 20px;
+  width: 90%;
+  margin: auto;
+
+}
+.page2
+{
+    grid-column: 2/4;
+    height: 300px;
+    width: 800px;
+}
+.view-details2
+{
+    margin-top: 20px;
+}
+.view-details2 h1
+{
+    font-size: 25px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.view-details2 .p-details2{
+    color: gray;
+}
+.view-details2 .btn-details2
+{
+    background-color: rgb(211, 211, 19);;
+    height: 40px;
+    width: 120px;
+    margin-left: 85%;
+    border-radius: 7px;
+    color: rgb(230, 227, 227);
+    text-align: center;
+    font-size: 18px;
+    
+}
+.boxing-footer2{
+    width: 99%;
+    height: 200px;
+    border: 1px solid rgb(63, 62, 62);
+    margin: auto;
+}
+       /* media query section2 page31*/
+@media(max-width:576px)
+{
+ .sec-jops2
+{
+    height: 1820px;
+}
+.jops2 {
+    height:1000px;
+}
+.parent2
+{
+  grid-gap: 15px;
+  width: 95%;
+}
+.page2
+{
+    grid-column: 2/4;
+    height: 620px;
+    width: 300px;
+}
+.view-details2 h1
+{
+    font-size: 23px;
+}
+.view-details2 .p-details2{
+    font-size: 15px;
+}
+.view-details2 .btn-details2
+{
+    height: 35px;
+    width: 100px;
+    margin-left: 110px;    
+}
+.boxing-footer2{
+    width: 480px;
+    height: 200px;
+    border: 2px solid rgb(63, 62, 62);
+}
+}
+
+/********************section-jop3 files  */
+.sec-jops3
+{
+    height: 1480px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.info3
+{
+    width: 300px;
+    height: 100px;
+}
+.h-info3{
+    font-size: 23px;
+}
+.p-info3{
+    color: grey;
+}
+.lab1{
+    color: rgb(233, 230, 230);
+}
+.lab2{
+    color: rgb(233, 230, 230);
+} 
+.inp1,.inp2{
+    border-radius: 5px;
+   margin-top: 10px;
+   background-color: rgba(115, 115, 115, 0.5);
+   border: none;
+}
+.lab3{
+    margin-top: 20px;
+    color: rgb(233, 230, 230);
+}
+.inp3{
+    border-radius: 5px;
+    background-color: rgba(115, 115, 115, 0.5);
+   margin-top: 10px;
+   border: none;
+}
+.lab4{
+    margin-top: 20px;
+    color: rgb(255, 249, 249);
+}
+.uploud-cv{
+    height: 180px;
+    border: 3px dashed var(--primary);
+    text-align: center;
+    margin-top: 10px;
+}
+.i-uploud{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 60px;
+    color:rgba(211, 211, 19, 0.832) ;
+
+}
+.cvdrag-drop{
+    margin-top: 20px;
+    font-size: 18px;
+}
+.browse-link{
+    border: none;
+    background: none;
+    color:var(--primary);
+}
+.p-uploud{
+    margin-top: 10px;
+    color: gray;
+    font-size: 15px;
+}
+.cancel{
+    
+    background-color: gray;
+    display: inline-block;
+    color: rgb(240, 239, 239);
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 5px 20px;
+    border: none;
+}
+.submit{
+    border-radius: 5px;
+    color: rgb(240, 239, 239);
+    background-color: var(--primary);
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 5px 20px;
+    border: none;
+}
+.boxing-footer3{
+    width: 99%;
+    height: 200px;
+    margin: auto;
+    border: 1px solid grey;
+    margin-top: 20px;
+}
+.dd-info p{
+  line-height: 1em;
+}
+.dd-info h2{
+  line-height: 0.5em;
+}
+.page-itm{
+    color: white;
+    text-decoration: none;
+    margin: 0px 5px;
+    /* border: 1px solid #000;
+    border-radius: 50% !important; */
+    padding:3px   ;
+}
+.actve,.arrow{
+    color: #BF9B30 !important;
+    padding: 3px;
+    /* border: 1px solid #BF9B30 !important; */
+}
+ /****************** media query page32*************************/
+ @media(max-width:778px )
+{
+    body{
+        font-size:small;
+    }
+    .jobLooking {
+        width: 100vw;
+    }
+    .head{
+        flex-direction: column;
+    }
+    .filter{
+        position: absolute;
+        width: 100%;
+        background-color: #000;
+        padding: 30px 0px;
+        z-index: 1;
+    }
+    .job-filter{
+        width: 100%;
+    }
+    .display-none{
+        display: none;
+    }
+    .searchBox input {
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    .searchBox button{
+        display: inline-block;
+        width: 80%;
+        margin-right: 10px;
+        border-radius: 5px;
+    }
+    .searchBox .icon {
+        top: 5%;
+        transform: translateY(-5%);
+    }
+    #menu{
+        display: inline-block;
+        background-color: black;
+        width: 15%;
+        margin-right: 0;
+        color: var(--primary);
+    }
+    .div1 h2 {
+        margin-left: 0;
+    }
+    .dd-info p {
+        margin-left: 0;
+    }
+    .info2 h5 {
+        display: inline-block;
+    }
+    .dd-info h2 {
+        line-height: normal;
+    }
+    #pi{
+        display: inline-block;
+        margin-left: 15px;
+    }
+    #detail {
+        padding: 5px;
+    }
+    .form-control {
+        width: max-content;
+    }
+    .cancel{
+        font-size: small;
+    }
+    .submit{
+        font-size: small;
+    }
+}

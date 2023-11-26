@@ -1,0 +1,38 @@
+.input-group-icon {
+  position: relative;
+}
+.input-group-icon .input-group-text{
+color: gray;
+border: none !important;
+}
+.input-group-icon .input-group-text i {
+  font-size: 1.2em;
+}
+.details-line{
+width: 60px;
+height: 1px;
+background-color: var(--hover) !important;
+}
+/* .cover-photo{
+height: 18vh;
+} */
+.inputs-container .form-section{
+margin-top: 1rem;
+}
+.inputs-container div label{
+margin-bottom: 1rem;
+}
+.inputs-container div input,
+.inputs-container div textarea{
+border: none;
+color: white !important;
+}
+.buttons .cancel-btn{
+background-color: rgba(208,208,208,0.5);
+font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.buttons .save-btn,
+.course-header div button{
+background-color: rgba(191, 155, 48);
+font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}

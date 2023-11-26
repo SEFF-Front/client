@@ -1,0 +1,81 @@
+
+  :root {
+    --primary:#BF9B30;
+    --Green:#34A853;
+    --Red:#1A1919;
+    --Grey:#D0D0D0;
+    --Black:#000000;
+    --white:#fff;
+    --overlay-bage :#1a1919f1;
+    --bg-cards:#00000040;
+    --hover:#dbb338;
+    --background-input: #ffffff1e ;
+  }
+.footer-component{
+    position: relative;
+    padding-top: 20px;
+    overflow: hidden;
+}
+.backfooter{
+    display: none;
+}
+.footer-component .footer-logo
+{width: 90px;}
+.footer-component .footer-title h3
+{font-size: var(--p-24);
+    margin-bottom: 20px;}
+.footer-component .footer-nav a{
+    color: var(--white);
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: var(--transition-1);
+    font-size: small;
+}
+
+.footer-component .social-icon:hover{
+    transform: scale(1.1);}
+.footer-component .email-icon{
+    color: var(--primary);
+    width: 25px;
+    height: 25px;
+}
+.footer-component .phone-icon{
+    font-size: 18px;
+    color: var(--primary);}
+    .footer-component .email-icon:hover,
+    .footer-component .phone-icon:hover{
+        cursor: pointer;
+    }
+    
+.footer-component .footer-last-sec{
+    border-top:1px solid var(--Grey);}
+.footer-component .copy-right{
+    font-size:14px;}
+.footer-component .social-icon{
+    font-size: 25px;
+    margin-left: 25px;
+    cursor: pointer;
+}
+.footer-component .footer-bg{
+    height: 35px;
+    margin-top: -25px;
+}
+@media  (max-width:767px),
+(min-width:767px) and (max-width:767.5px){
+    .footer-component{padding-bottom: 0;}
+    .footer-component .footer-logo{width: 110px;height: 110px;}
+    .footer-component .container-md{padding: 20px 20px 0 20px;}
+    .footer-component .footer-contact p{margin-top: -10px !important;}
+    .footer-component .footer-last-sec{ border: none;}
+    .footer-component .footer-icons{position: absolute;top: -250px;right: 0;}
+    .footer-component .social-icon{margin-bottom: 20px;font-size: 30px;}  
+    .footer-component{position: absolute;bottom: 0;z-index: 4;width: 100vw;}
+    .backfooter{
+        display: block;
+    }
+}
+@media (max-width:280px) {
+    .footer-component{position: absolute;bottom: 0;z-index: 4;}
+    .footer-component .footer-title p{font-size: 18px;}   
+}
