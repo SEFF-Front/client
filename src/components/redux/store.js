@@ -5,7 +5,7 @@ import CourseSlice from "./reducers/CourseSlice";
 import cvDataSlice from "./reducers/cvDataSlice";
 import ApplicationSlice from "./reducers/ApplicationSlice";
 import { CertificateSlice } from "./reducers/certificateSlice";
-import userSlice from "./reducers/userSlice.";
+import userSlice from "./reducers/userSlice";
 // import authSlice from "./reducers/authSlice";
 const Store = configureStore({
   reducer: {

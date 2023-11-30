@@ -18,6 +18,7 @@ export const currentUser = createAsyncThunk('auth/current-user',async(userData,{
     return rejectWithValue(error.response.data)
   }
 })
+
 export const updateUserProfile = createAsyncThunk('user/update-profile',async(userData,{rejectWithValue})=>{
   try {
     const response =await Api.patch(`/users/update-profile`,userData,{
@@ -29,11 +30,60 @@ export const updateUserProfile = createAsyncThunk('user/update-profile',async(us
     return rejectWithValue(error.response.data)
   }
 })
+/*********** Admin *************** */
+export const getAllUsers = createAsyncThunk('users/get-all',async(queries,{rejectWithValue})=>{
+  try {
+    const {page,fieldValue,fieldName,searchBy,searchValue}=queries
+    console.log( {page,fieldValue,fieldName});
+    const response =await Api.get(`/users/get-all?page=${page}&fieldName=${fieldName}&fieldValue=${fieldValue}&searchBy=${searchBy}&searchValue=${searchValue}`)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+export const createUser = createAsyncThunk('users/create-by-admin',async(userData,{rejectWithValue})=>{
+  try {
+    const response =await Api.post('/users/create-by-admin',userData)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+export const getUser = createAsyncThunk('users/get-one',async(_id,{rejectWithValue})=>{
+  try {
+    const response =await Api.get(`/users/get-one/${_id}`)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+export const updateUser = createAsyncThunk('users/update-by-admin',async({_id,userData},{rejectWithValue})=>{
+  try {
+    console.log(_id,userData)
+    const response =await Api.patch(`/users/update-by-admin/${_id}`,userData)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+export const deleteUser = createAsyncThunk('users/delete-user',async({_id},{rejectWithValue})=>{
+  try {
+    console.log(_id)
+    const response =await Api.delete(`/users/delete-user/${_id}`)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 
 const userSlice = createSlice({
     name: "user",
     initialState: {
         user: null,
+        users:[],
+        getUser: null,
+        pagination:null,
         loading: false,
         error: null,
         success: true,
@@ -58,8 +108,7 @@ const userSlice = createSlice({
                 state.success = true
                 state.isAuthenticated = true
                 state.user= payload.data
-            })
-            
+            })           
             .addCase(loginUser.rejected, (state,{payload} ) => {
                 state.loading = false;
                 if (payload) {
@@ -105,14 +154,127 @@ const userSlice = createSlice({
               } else {
                   state.error = "Network error occurred";
               }
+          }) 
+            .addCase(updateUser.pending,(state)=>{
+              state.loading = true
+                state.error = null
+            })
+            .addCase(updateUser.fulfilled, (state, { payload }) => {
+              state.loading = false
+              state.success = true
+              state.getUser= payload.data
           })
-           
+            .addCase(updateUser.rejected, (state,{payload} ) => {
+              state.loading = false;
+              if (payload) {
+                  if (Array.isArray(payload.error)) {
+                      console.log(payload.error);
+                      payload.error.map(err => toast.error(err.message));
+                  } else if (payload.success === false && payload.error) {
+                      state.error = payload.error;
+                      state.success = payload.success;
+                  } else {
+                      state.error = "An unknown error occurred";
+                  }
+              } else {
+                  state.error = "Network error occurred";
+              }
+          })
+            .addCase(getAllUsers.pending,(state)=>{
+              state.loading = true
+                state.error = null
+            })
+            .addCase(getAllUsers.fulfilled, (state, { payload }) => {
+              state.loading = false
+              state.success = true
+              state.pagination=payload.pagination
+              state.users= payload.data
+          })
+            .addCase(getAllUsers.rejected, (state,{payload} ) => {
+              state.loading = false;
+              if (payload) {
+               if (payload.success === false && payload.error) {
+                      state.error = payload.error;
+                      state.success = payload.success;
+                  } else {
+                      state.error = "An unknown error occurred";
+                  }
+              } else {
+                  state.error = "Network error occurred";
+              }
+          })
+            .addCase(deleteUser.pending,(state)=>{
+              state.loading = true
+                state.error = null
+            })
+            .addCase(deleteUser.fulfilled, (state, { payload }) => {
+              state.loading = false
+              state.success = true
+          })
+            .addCase(deleteUser.rejected, (state,{payload} ) => {
+              state.loading = false;
+              if (payload) {
+               if (payload.success === false && payload.error) {
+                      state.error = payload.error;
+                      state.success = payload.success;
+                  } else {
+                      state.error = "An unknown error occurred";
+                  }
+              } else {
+                  state.error = "Network error occurred";
+              }
+          })
+            .addCase(getUser.pending,(state)=>{
+              state.loading = true
+                state.error = null
+            })
+            .addCase(getUser.fulfilled, (state, { payload }) => {
+              state.loading = false
+              state.success = true
+              state.getUser= payload.data
+          })
+            .addCase(getUser.rejected, (state,{payload} ) => {
+              state.loading = false;
+              if (payload) {
+               if (payload.success === false && payload.error) {
+                      state.error = payload.error;
+                      state.success = payload.success;
+                  } else {
+                      state.error = "An unknown error occurred";
+                  }
+              } else {
+                  state.error = "Network error occurred";
+              }
+          })
+            .addCase(createUser.pending,(state)=>{
+              state.loading = true
+                state.error = null
+            })
+            .addCase(createUser.fulfilled, (state, { payload }) => {
+              state.loading = false
+              state.success = true
+          })
+            .addCase(createUser.rejected, (state,{payload} ) => {
+              state.loading = false;
+              if (payload) {
+                  if (Array.isArray(payload.error)) {
+                      console.log(payload.error);
+                      payload.error.map(err => toast.error(err.message));
+                  } else if (payload.success === false && payload.error) {
+                      state.error = payload.error;
+                      state.success = payload.success;
+                  } else {
+                      state.error = "An unknown error occurred";
+                  }
+              } else {
+                  state.error = "Network error occurred";
+              }
+          })
     }
 })
 export default userSlice.reducer
 
 
-// export const UsersSlice= createSlice({
 //     name:"UsersSlice",
 //     initialState:[
 //         {

@@ -11,7 +11,7 @@ import image from "../../assest/seff_logo_black.jpg"
 import "./Login.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useDispatch, useSelector } from "react-redux";
-import { setOnline } from "../redux/reducers/userSlice.";
+import { setOnline } from "../redux/reducers/userSlice";
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './../alert/customUi.css';
 import { confirmAlert } from "react-confirm-alert";
@@ -115,7 +115,7 @@ const LoginComponent = () => {
                               // onChange={(e) => {
                               //   setuserid(e.target.value);
                               // }}
-                              type="text"
+                              type="number"
                               // pattern="[0-9]{10}"
                               // maxLength="10"
                               className="form-control text-white"

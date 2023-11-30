@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import PersonalPage from './components/welcome/personalPage';
 import AddUser from './components/admin Panel/add users/addUser';
+import EditUser from './components/admin Panel/edit users/editUser';
 import Profile from './components/profile/profile';
 import AddArticles from './components/admin Panel/add articles/AddArtciles';
 import FindJobs from './components/jobPage studentPortal/findJob';
@@ -126,6 +127,7 @@ if (isLoading) {
               <Route path="addcourses" element={<AddCourses />} />
               <Route path="users" element={<Users />} />
               <Route path="addusers" element={<AddUser />} />
+              <Route path="edit-user" element={<EditUser />} />
               <Route path="application" element={<Applications />} />
               <Route
                 path="userstudents"

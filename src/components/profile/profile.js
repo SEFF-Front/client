@@ -10,12 +10,11 @@ import {
 import Footer from "../footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { updateUserProfile } from "../redux/reducers/userSlice.";
+import { updateUserProfile } from "../redux/reducers/userSlice";
 import { toast } from "react-toastify";
 
 export default function Profile() {
-  const { user, isAuthenticated } = useSelector((state) => state.user);
-
+  const { user } = useSelector((state) => state.user);
 
   var [editMode, setEditMode] = useState(false);
   var [age, setAge] = useState("26yo");
@@ -30,7 +29,7 @@ export default function Profile() {
   var [graduation, setGraduation] = useState(2019);
   var [email, setEmail] = useState("balqeessaber@gmail.com");
   var [mobile, setMobile] = useState("0020 1064569047");
-  
+
   var [about, setAbout] = useState(
     "At Vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores"
   );
@@ -43,7 +42,7 @@ export default function Profile() {
   //   setImage(file);
   // }
   const handleClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setEditMode(!editMode);
     if (editMode) {
       var x = [
@@ -68,23 +67,25 @@ export default function Profile() {
   const [userProfileImage, setUserProfileImage] = useState(
     user?.profileImage
       ? `http://localhost:4000/seff-academy/uploads/${user.profileImage}`
-      : null
+      : 'https://cdn.pixabay.com/photo/2021/07/25/08/03/account-6491185_1280.png'
   );
-  
+
   function imageUpload() {
     imageInput.current.click();
   }
-  
+
   function imageDisplay(e) {
     let file = e.target.files[0];
     setImage(file);
     setUserProfileImage(URL.createObjectURL(file));
   }
   const { register, handleSubmit } = useForm();
-  const initialProfileData ={
-    username:(user?.firstName+' '+ user?.lastName)||null,
-    userInfo:`${user?.major ?? ''}${user?.major && user?.university ? ', ' : ''}${user?.university ?? ''}`,
-    userId:user?.userId,
+  const initialProfileData = {
+    username: user?.firstName + " " + user?.lastName || null,
+    userInfo: `${user?.major ?? ""}${
+      user?.major && user?.university ? ", " : ""
+    }${user?.university ?? ""}`,
+    userId: user?.userId,
     age: user?.age || null,
     nationality: user?.nationality || null,
     country: user?.country || null,
@@ -95,9 +96,9 @@ export default function Profile() {
     graduation: user?.graduationYear || null,
     email: user?.email || null,
     mobile: user?.mobileNumber || null,
-     about: user?.about || null,
-  }
-const  dispatch =  useDispatch()
+    about: user?.about || null,
+  };
+  const dispatch = useDispatch();
   const onSubmit = (data) => {
     const filteredData = Object.fromEntries(
       Object.entries(data).filter(([key, value]) => value !== undefined)
@@ -107,7 +108,7 @@ const  dispatch =  useDispatch()
     }
     if (Object.keys(filteredData).length === 0) {
       toast.warn("No data to submit.");
-      return; 
+      return;
     }
     setEditMode(!editMode);
     dispatch(updateUserProfile(filteredData))
@@ -118,50 +119,57 @@ const  dispatch =  useDispatch()
       .catch((backendError) => {
         toast.error(backendError.error);
       });
-  }
+  };
   return (
     <>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1"
       />
-      <form className="profilebody pt-5"  onSubmit={handleSubmit(onSubmit)} >
+      <form className="profilebody pt-5" onSubmit={handleSubmit(onSubmit)}>
         <div class="profileoverlay"></div>
         <div class="resume1 position-relative">
           <div class="row gx-0 p-5 gy-3">
             <span className="col-sm-1 col-md-1 position-relative">
-    <img
-      src={userProfileImage || ""}
-      className="rounded-circle bg-white"
-      alt=""
-      width="100"
-      height="100"
-    />
-    <span className={editMode ? "pen" : "none"} onClick={imageUpload}>
-      <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#bf9b30" }} />
-    </span>
-    <input
-      onChange={imageDisplay}
-      type="file"
-      accept="image/*"
-      ref={imageInput}
-      // {...register("profileImage")}
-      style={{ display: "none" }}
-    />
-  </span>
-            <span class="col-sm-12 ps-3 col-md-11">
-              <h5 class="text-white"style={{textTransform:"capitalize"}} >{initialProfileData.username}</h5>
-              <span class="text-white">
-{initialProfileData.userInfo}
+              <img
+                src={userProfileImage || ""}
+                className="rounded-circle bg-white"
+                alt=""
+                width="100"
+                height="100"
+              />
+              <span className={editMode ? "pen" : "none"} onClick={imageUpload}>
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  style={{ color: "#bf9b30" }}
+                />
               </span>
+              <input
+                onChange={imageDisplay}
+                type="file"
+                accept="image/*"
+                ref={imageInput}
+                // {...register("profileImage")}
+                style={{ display: "none" }}
+              />
+            </span>
+            <span class="col-sm-12 ps-3 col-md-11">
+              <h5 class="text-white" style={{ textTransform: "capitalize" }}>
+                {initialProfileData.username}
+              </h5>
+              <span class="text-white">{initialProfileData.userInfo}</span>
             </span>
             <button
               class=" btn text-white  text-uppercase edit"
-              style={{ top: "25px !important",display: "flex", justifyContent: "end"}}
+              style={{
+                top: "25px !important",
+                display: "flex",
+                justifyContent: "end",
+              }}
               type={editMode ? "submit" : "button"}
-              onClick={editMode? null: handleClick} 
+              onClick={editMode ? null : handleClick}
             >
-                {editMode ? "Save Changes" : "Edit Profile"}
+              {editMode ? "Save Changes" : "Edit Profile"}
             </button>
           </div>
         </div>
@@ -174,16 +182,16 @@ const  dispatch =  useDispatch()
               <div>
                 <h4>Personal Info</h4>
                 <p class="text-white inputlabel">Student ID</p>
-                
+
                 <span class="text-white ms-3">{initialProfileData.userId}</span>
                 <p class="text-white inputlabel">Age</p>
                 <input
                   type="number"
-                //   id="Age"
-                //   name="Age"
+                  //   id="Age"
+                  //   name="Age"
                   defaultValue={initialProfileData.age}
                   {...register("age")}
-                //   onChange={(e) => setAge(e.target.value)}
+                  //   onChange={(e) => setAge(e.target.value)}
                   class={editMode ? " profileinput" : " profileinput disabled"}
                   disabled={!editMode}
                 />
@@ -193,8 +201,8 @@ const  dispatch =  useDispatch()
                   id="Nationality"
                   name="Nationality"
                   defaultValue={initialProfileData.nationality}
-                //   onChange={(e) => setNationality(e.target.value)}
-                {...register("nationality")}
+                  //   onChange={(e) => setNationality(e.target.value)}
+                  {...register("nationality")}
                   class={editMode ? " profileinput" : " profileinput disabled"}
                   disabled={!editMode}
                 />
@@ -204,8 +212,8 @@ const  dispatch =  useDispatch()
                   id="Country"
                   name="Country"
                   defaultValue={initialProfileData.country}
-                //   onChange={(e) => setCountry(e.target.value)}
-                {...register("country")}
+                  //   onChange={(e) => setCountry(e.target.value)}
+                  {...register("country")}
                   class={editMode ? " profileinput" : " profileinput disabled"}
                   disabled={!editMode}
                 />
@@ -215,8 +223,8 @@ const  dispatch =  useDispatch()
                   id="City"
                   name="City"
                   defaultValue={initialProfileData.city}
-                //   onChange={(e) => setCity(e.target.value)}
-                {...register("city")}
+                  //   onChange={(e) => setCity(e.target.value)}
+                  {...register("city")}
                   class={editMode ? " profileinput" : " profileinput disabled"}
                   disabled={!editMode}
                 />
@@ -226,8 +234,8 @@ const  dispatch =  useDispatch()
                   id="Score"
                   name="Score"
                   defaultValue={initialProfileData.score}
-                //   onChange={(e) => setScore(e.target.value)}
-              
+                  //   onChange={(e) => setScore(e.target.value)}
+
                   class=" profileinput disabled"
                   disabled
                 />
@@ -239,7 +247,7 @@ const  dispatch =  useDispatch()
                   name="University"
                   defaultValue={initialProfileData.university}
                   {...register("university")}
-                //   onChange={(e) => setUniversity(e.target.value)}
+                  //   onChange={(e) => setUniversity(e.target.value)}
                   class={editMode ? " profileinput" : " profileinput2 disabled"}
                   disabled={!editMode}
                 />
@@ -249,8 +257,8 @@ const  dispatch =  useDispatch()
                   id="Major"
                   name="Major"
                   defaultValue={initialProfileData.major}
-                //   onChange={(e) => setMajor(e.target.value)}
-                {...register("major")}
+                  //   onChange={(e) => setMajor(e.target.value)}
+                  {...register("major")}
                   class={
                     editMode ? " profileinput2" : " profileinput2 disabled"
                   }
@@ -262,8 +270,8 @@ const  dispatch =  useDispatch()
                   id="Graduation Year"
                   name="Graduation Year"
                   defaultValue={initialProfileData.graduation}
-                //   onChange={(e) => setGraduation(e.target.value)}
-                {...register("graduationYear")}
+                  //   onChange={(e) => setGraduation(e.target.value)}
+                  {...register("graduationYear")}
                   class={
                     editMode ? " profileinput2" : " profileinput2 disabled"
                   }
@@ -298,8 +306,8 @@ const  dispatch =  useDispatch()
                   id="Mobil Number"
                   name="Mobil Number"
                   defaultValue={initialProfileData.mobile}
-                //   onChange={(e) => setMobile(e.target.value)}
-                {...register("mobileNumber")}
+                  //   onChange={(e) => setMobile(e.target.value)}
+                  {...register("mobileNumber")}
                   class={
                     editMode ? " profileinput2" : " profileinput2 disabled"
                   }
@@ -316,8 +324,8 @@ const  dispatch =  useDispatch()
                     editMode ? " profileinput2" : " profileinput2 disabled"
                   }
                   defaultValue={initialProfileData.about}
-                //   onChange={(e) => setAbout(e.target.value)}
-                {...register("about")}
+                  //   onChange={(e) => setAbout(e.target.value)}
+                  {...register("about")}
                   disabled={!editMode}
                 />
               </div>
