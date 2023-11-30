@@ -13,30 +13,38 @@ import { deleteUser, getAllUsers ,getUser} from "../../redux/reducers/userSlice"
 // import {getAllUsers} from '../../redux/reducers/userSlice'
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Pagination from "../../pagination/pagination";
 
 function Users() {
   const dispatch = useDispatch();
   const navigate =useNavigate()
-    const [queries, setQueries] = useState({
-      page: 1,
-      fieldValue: "",
-      fieldName: "",
-      searchBy:"userId",
-      searchValue: "",
-    });
-  useEffect(() => {
-    dispatch(getAllUsers(queries));
-  }, [dispatch, queries]);
+  const [queries, setQueries] = useState({
+    page: 1,
+    fieldValue: "",
+    fieldName: "",
+    searchBy: "userId",
+    searchValue: "",
+  });
+  const handlePageChange = (page) => {
+    setQueries((prevQueries) => ({ ...prevQueries, page }));
+  };
+
   const [search, setSearch] = useState("");
+
   const handleSearch = () => {
     setQueries({
       ...queries,
+      page:1,
       searchValue: search,
     });
-
-    dispatch(getAllUsers(queries));
   };
-  const { users } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(getAllUsers(queries));
+  }, [dispatch, queries]);
+
+  const { users ,pagination } = useSelector((state) => state.user);
+  const {total, limit, page, pages}=pagination
   let allUsers = users;
 const handleEditUser=(userId)=>{
   dispatch(getUser(userId)).unwrap()
@@ -53,6 +61,7 @@ const handleDeleteUser = async (userId) => {
     toast.error(backendError.error);
   }
 };
+
   const [isMobile, setIsMobile] = useState(false);
   const [availableWidth, setAvailableWidth] = useState(window.innerWidth);
   const handleMobileView = useCallback(() => {
@@ -227,6 +236,7 @@ const handleDeleteUser = async (userId) => {
                 )}
               </tbody>
             </table>
+            <Pagination total={total} pages={pages} currentPage={page} limit={limit} onPageChange={handlePageChange} />
           </div>
         </div>
       )}

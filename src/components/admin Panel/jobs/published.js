@@ -1,18 +1,13 @@
-import { faEdit, faPenToSquare, faSearch, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPenToSquare, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeJob } from "../../redux/reducers/JobSlice.";
 import { useCallback, useEffect, useState } from "react";
 function Jobs(){
-  const [search,setSearch]=useState("");
+
   const jobs = useSelector(state=>state.jobs)
-  let diplayedArr = jobs;
-  if(search){
-    diplayedArr=jobs.filter((el)=>el?.companyName.toLowerCase()?.includes(search.toLowerCase()))
-  }else{
-    diplayedArr = jobs;
-  }
+  
   const dispatch = useDispatch()
   // useEffect(()=>{
   //     dispatch(fetchCourses())
@@ -48,7 +43,7 @@ function Jobs(){
         <>
         {
           isMobile ? (<div class="row m-0 mt-5 col-12" id="items" >
-          {diplayedArr?.map((job,index)=>(
+          {jobs?.map((job,index)=>(
             <div class="col-12 text-light  user-part" key={index} id="item" >
             <button className={job.status?"table_btn publish_btn Active":"Active bg-secondary table_btn text-light"}>
             {job.status ? "opened" : "closed"}
@@ -80,13 +75,13 @@ function Jobs(){
           </div>)
           : <div class="article-sec  ">
           <Link to="/adminPanel/addJobs">
-          <button className="btn btn-outline-warning ps-4 m-2 d-block pe-4 p-2 ms-auto" > Create new job</button>
+          <button className="btn btn-outline-warning ps-4 m-2 d-block pe-4 p-2 ms-auto" style={{transform:'translateY(-50px)'}}> Create new job</button>
           </Link>
               <div class="article-search d-lg-flex justify-content-lg-between">
                 <h4 className="text-light">Jobs</h4>
                 <div class="search-div">
-                  <input type="text" placeholder="Search For Jops" onChange={(e)=>{setSearch(e.target.value)}}/>
-                  <FontAwesomeIcon icon={faSearch} className="text-warning"/>
+                  <input type="text" placeholder="Search For Jops"/>
+                  <i class="fas fa-search"></i>
                 </div>
               </div>
               <div class="article-content">
@@ -103,7 +98,7 @@ function Jobs(){
                   </thead>
                   <tbody>
                     {
-                      diplayedArr?.map((job,index)=>(
+                      jobs?.map((job,index)=>(
                         <tr key={index} className="text-light">
                           <td>{job.companyName}</td>
                           <td>{job.position}</td>

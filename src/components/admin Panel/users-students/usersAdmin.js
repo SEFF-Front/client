@@ -13,6 +13,7 @@ import { deleteUser, getAllUsers ,getUser} from "../../redux/reducers/userSlice"
 
 import moment from "moment";
 import { toast } from "react-toastify";
+import Pagination from "../../pagination/pagination";
 function UserAdmins() {
   const [search, setSearch] = useState("");
   const navigate =useNavigate()
@@ -24,19 +25,24 @@ function UserAdmins() {
     searchBy:"userId",
     searchValue: "",
   });
-  useEffect(() => {
-    dispatch(getAllUsers(queries));
-  }, [dispatch, queries]);
+  const handlePageChange = (page) => {
+    setQueries((prevQueries) => ({ ...prevQueries, page }));
+  };
 
   const handleSearch = () => {
     setQueries({
       ...queries,
+      page:1,
       searchValue: search,
     });
-
-    dispatch(getAllUsers(queries));
   };
-  const { users } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(getAllUsers(queries));
+  }, [dispatch, queries]);
+
+  const { users ,pagination } = useSelector((state) => state.user);
+  const {total, limit, page, pages}=pagination
   let Admins = users;
   const [isMobile, setIsMobile] = useState(false);
   const [availableWidth, setAvailableWidth] = useState(window.innerWidth);
@@ -226,6 +232,8 @@ function UserAdmins() {
                 )}
               </tbody>
             </table>
+            <Pagination total={total} pages={pages} currentPage={page} limit={limit} onPageChange={handlePageChange} />
+       
           </div>
         </div>
       )}

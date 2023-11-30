@@ -34,7 +34,7 @@ export const updateUserProfile = createAsyncThunk('user/update-profile',async(us
 export const getAllUsers = createAsyncThunk('users/get-all',async(queries,{rejectWithValue})=>{
   try {
     const {page,fieldValue,fieldName,searchBy,searchValue}=queries
-    console.log( {page,fieldValue,fieldName});
+    console.log( {page,fieldValue,fieldName,searchBy,searchValue});
     const response =await Api.get(`/users/get-all?page=${page}&fieldName=${fieldName}&fieldValue=${fieldValue}&searchBy=${searchBy}&searchValue=${searchValue}`)
     return response.data
   } catch (error) {
@@ -83,7 +83,7 @@ const userSlice = createSlice({
         user: null,
         users:[],
         getUser: null,
-        pagination:null,
+        pagination:[],
         loading: false,
         error: null,
         success: true,
@@ -187,6 +187,7 @@ const userSlice = createSlice({
             .addCase(getAllUsers.fulfilled, (state, { payload }) => {
               state.loading = false
               state.success = true
+              console.log(payload.pagination)
               state.pagination=payload.pagination
               state.users= payload.data
           })

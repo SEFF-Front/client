@@ -1,7 +1,7 @@
-import { faEdit, faPenToSquare, faSearch, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPenToSquare, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { removeJob } from "../../redux/reducers/JobSlice.";
 import { useCallback, useEffect, useState } from "react";
 function Jobs(){
@@ -12,7 +12,6 @@ function Jobs(){
   //     dispatch(fetchCourses())
   // }
   //     ,[])
-  const [search,setSearch]=useState("");
   const [isMobile , setIsMobile] = useState(false)
   const [availableWidth ,setAvailableWidth ] = useState(window.innerWidth)
   const handleMobileView = useCallback(() => {
@@ -23,12 +22,7 @@ function Jobs(){
       setIsMobile(false);
     }
   }, [availableWidth]);
-  let diplayedArr = jobs;
-  if(search){
-    diplayedArr=jobs.filter((el)=>el?.companyName.toLowerCase()?.includes(search.toLowerCase()))
-  }else{
-    diplayedArr = jobs;
-  }
+
   useEffect(() => {
     const handleResize = () => {
       setAvailableWidth(window.innerWidth);
@@ -43,19 +37,22 @@ function Jobs(){
   useEffect(() => {
     handleMobileView();
   }, [handleMobileView]);
-  
+  const navigate=useNavigate()
+  const handleapp=()=>{
+    navigate("../application")
+  }
     return(
         <>
         {
           isMobile ? (<div class="row m-0 mt-5 col-12" id="items" >
-          {diplayedArr?.map((job,index)=>(
+          {jobs?.map((job,index)=>(
             <div class="col-12 text-light  user-part" key={index} id="item" >
             <button className={job.status?"table_btn publish_btn Active":"Active bg-secondary table_btn text-light"}>
             {job.status ? "opened" : "closed"}
             </button>
-                <h4>company Name</h4>
-                <p>{job.companyName}</p>
-                <div class="d-flex flex-column  gap-2">
+                <h4 onClick={handleapp}>company Name</h4>
+                <p onClick={handleapp}>{job.companyName}</p>
+                <div class="d-flex flex-column  gap-2" onClick={handleapp}>
                     <div className="col-xs-12">
                         <h4>field</h4>
                         <p>{job.field}</p>
@@ -80,13 +77,13 @@ function Jobs(){
           </div>)
           : <div class="article-sec  ">
           <Link to="/adminPanel/addJobs">
-          <button className="btn color-yellow ps-4 m-2 d-block pe-4 p-2 ms-auto" style={{border:"1px solid #bf9b30"}}> Create new job</button>
+          <button className="btn color-yellow ps-4 m-2 d-block pe-4 p-2 ms-auto" style={{transform:'translateY(-50px)',border:"1px solid #bf9b30"}}> Create new job</button>
           </Link>
               <div class="article-search d-lg-flex justify-content-lg-between">
                 <h4 className="text-light">Jobs</h4>
                 <div class="search-div">
-                  <input type="text" placeholder="Search For Jobs" onChange={(e)=>{setSearch(e.target.value)}} style={{padding:"5px",borderRadius:"5px"}}/>
-                  <FontAwesomeIcon icon={faSearch} className="text-warning"/>
+                  <input type="text" placeholder="Search For Jobs" style={{padding:"5px",borderRadius:"5px"}}/>
+                  <i class="fas fa-search"></i>
                 </div>
               </div>
               <div class="article-content">
@@ -103,15 +100,17 @@ function Jobs(){
                   </thead>
                   <tbody>
                     {
-                      diplayedArr?.map((job,index)=>(
-                        <tr key={index} className="text-light">
-                          <td>{job.companyName}</td>
-                          <td>{job.position}</td>
+                      jobs?.map((job,index)=>(
+                        
+                        <tr key={index} className="text-light" style={{cursor:"pointer"}}>
+                          
+                          <td onClick={handleapp}>{job.companyName}</td>
+                          <td onClick={handleapp}>{job.position}</td>
                           <td><button className={job.status?"table_btn publish_btn":"bg-secondary table_btn text-light"}>
                             {job.status ? "opened":"closed"}
                             </button></td>
-                          <td>{job.date} <br/>{job.time}</td>
-                          <td>{job.application}</td>
+                          <td onClick={handleapp}>{job.date} <br/>{job.time}</td>
+                          <td onClick={handleapp}>{job.application}</td>
                           <td>
                           <Link href="">
                             <FontAwesomeIcon icon={faPenToSquare} className='color-yellow' />
@@ -121,6 +120,7 @@ function Jobs(){
                           </Link>
                           </td>
                     </tr>
+                    
                       ))
                     }
                   </tbody>

@@ -14,6 +14,7 @@ import { deleteUser, getAllUsers ,getUser} from "../../redux/reducers/userSlice"
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import { toast } from "react-toastify";
+import Pagination from "../../pagination/pagination";
 function UserInstructors() {
   const dispatch = useDispatch();
   const navigate =useNavigate()
@@ -25,20 +26,23 @@ function UserInstructors() {
   searchBy:"userId",
   searchValue: "",
   })
-    useEffect(() => {
-      dispatch(getAllUsers(queries));
-    }, [dispatch, queries]);
+  const handlePageChange = (page) => {
+    setQueries((prevQueries) => ({ ...prevQueries, page }));
+  };
+  const handleSearch = () => {
+    setQueries({
+      ...queries,
+      page:1,
+      searchValue: search,
+    });
+  };
 
-    const handleSearch = () => {
-      setQueries({
-        ...queries,
-        searchValue: search,
-      });
-  
-      dispatch(getAllUsers(queries));
-    };
-    
-  const { users } = useSelector((state) => state.user);
+  useEffect(() => {
+    dispatch(getAllUsers(queries));
+  }, [dispatch, queries]);
+
+  const { users ,pagination } = useSelector((state) => state.user);
+  const {total, limit, page, pages}=pagination
   let instructors =users
   const [isMobile, setIsMobile] = useState(false);
   const [availableWidth, setAvailableWidth] = useState(window.innerWidth);
@@ -224,6 +228,8 @@ function UserInstructors() {
                 )}
               </tbody>
             </table>
+            <Pagination total={total} pages={pages} currentPage={page} limit={limit} onPageChange={handlePageChange} />
+       
           </div>
         </div>
       )}
