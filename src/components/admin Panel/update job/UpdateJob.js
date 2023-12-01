@@ -1,17 +1,17 @@
 import { useState } from "react";
 import Dragdrop from "../../Drag drop/Dragdrop";
-import "./AddJob.css";
+import "./updateJob.css";
 import { useDispatch } from "react-redux";
 import {createJob } from "../../redux/reducers/JobSlice.";
 import toast from "react-hot-toast";
 
-function AddJob() {
+function UpdateJob() {
   const [formData, setFormData] = useState({
     companyName: "",
     field: "",
     location: "",
     aboutCompany: "",
-    companyLogo: "",
+    // companyLogo: "",
     position: "",
 
     jobType: "",
@@ -25,16 +25,6 @@ function AddJob() {
     isAvailable: false,
   });
   
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prevDetails) => ({
-        ...prevDetails,
-        companyLogo: URL.createObjectURL(file),
-      })); 
-    }
-  }; 
-
   const dispatch = useDispatch();
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -65,7 +55,7 @@ function AddJob() {
       field: "",
       location: "",
       aboutCompany: "",
-      companyLogo: "",
+      // companyLogo: "",
       position: "",
 
       jobType: "",
@@ -88,7 +78,7 @@ function AddJob() {
             className="h2-title border-bottom border-warning pb-2"
             style={{ width: "fit-content" }}
           >
-            Add Job Details
+            Update Job Details
           </h2>
           <button
             className="btn ps-5 pe-5 pt-1 pb-1  text-light "
@@ -101,7 +91,7 @@ function AddJob() {
         <div className="row align-items-center ">
           <div className="col-lg-7 col-md-12 ">
             <label className="label mb-2 " htmlFor="company_name">
-              Company Name
+              Update Company Name
             </label>
             <input
               type="text"
@@ -116,7 +106,7 @@ function AddJob() {
             <div className="row mt-5">
               <div className="col-md-6">
                 <label className="label" htmlFor="filed">
-                  Field
+                Update Field
                 </label>
                 <select
                   className="input2"
@@ -135,7 +125,7 @@ function AddJob() {
               </div>
               <div className="col-md-6">
                 <label className="label" htmlFor="location">
-                  Location
+                Update  Location
                 </label>
                 <select
                   className="input2"
@@ -156,19 +146,15 @@ function AddJob() {
           </div>
 
           <div className="col-lg-5 col-md-12 p-0">
-            <p className="text-light">Company Logo</p>
+            <p className="text-light">Update Company Logo</p>
             <div className="">
-              {/* <Dragdrop /> */}
-              <input
-          type="file"
-          onChange={handleImageChange}
-        />
+              <Dragdrop />
             </div>
           </div>
         </div>
         <div>
           <label className="label" htmlFor="about-company">
-            About The Company
+          Update About The Company
           </label>
           <textarea
             name="aboutCompany"
@@ -182,7 +168,7 @@ function AddJob() {
         <div className="info info4">
           <div className="inp1 inp4">
             <label className="label" htmlFor="Position">
-              Position
+            Update Position
             </label>
             <input
               type="text"
@@ -194,7 +180,7 @@ function AddJob() {
           </div>
           <div className="inp1 inp4">
             <label className="label" htmlFor="jobtype">
-              Job Type
+            Update Job Type
             </label>
             <input
               type="text"
@@ -237,7 +223,7 @@ function AddJob() {
         <div className="row align-items-center">
           <div className="col-md-4 p-0">
             <label className="label" htmlFor="salary">
-              Salary
+            Update Salary
             </label>
             <input
               type="text"
@@ -274,7 +260,7 @@ function AddJob() {
           </div>
           <div className="col-md-3 p-0">
             <label className="label" htmlFor="link">
-              link
+            Update link
             </label>
             <input
               type="text"
@@ -287,7 +273,7 @@ function AddJob() {
         </div>
         <div>
           <label className="label" htmlFor="job-description">
-            Job Description
+          Update Job Description
           </label>
           <textarea
             name="textarea"
@@ -300,7 +286,7 @@ function AddJob() {
         </div>
         <div>
           <label className="label" htmlFor="job-requirements">
-            Job Requirements
+          Update Job Requirements
           </label>
           <textarea
             name="textarea"
@@ -313,7 +299,7 @@ function AddJob() {
         </div>
         <div>
           <label className="label" htmlFor="skills">
-            Skills
+          Update Skills
           </label>
           <input
             type="text"
@@ -325,13 +311,13 @@ function AddJob() {
         </div>
         <div className="d-flex p-3 flex-row gap-3 justify-content-end">
           <button
-            id="save"
+            id="update"
             className="btn  ps-4 pe-4 p-2 text-light fw-lg"
             style={{ background: "#bf9b30" }}
             type="submit"
             onClick={handleSubmit}
           >
-            Save
+            Update
           </button>
           <button
             id="reset"
@@ -339,7 +325,7 @@ function AddJob() {
             onclick="resetresetValue()"
             type="reset"
           >
-            CANCEL
+            Cancel
           </button>
         </div>
       </div>
@@ -347,4 +333,4 @@ function AddJob() {
   );
 }
 
-export default AddJob;
+export default UpdateJob;

@@ -63,7 +63,7 @@ function AddCourses(){
         courseMaterials: '',
         publishingDate: '',
         instructor: '',
-        pubplish:false,
+        publish:false,
         draft:false,
         uploadedFile:null,
       });
@@ -105,13 +105,13 @@ function AddCourses(){
 
         <div class="form-section col-md-4 col-lg-4 col-12">
           <label for="numOfLessons">Number of Lessons</label>
-          <input type="text" id="numOfLessons" class="form-control bg-secondary bg-opacity-25  " value={courseDetails.language}
+          <input type="text" id="numOfLessons" class="form-control bg-secondary bg-opacity-25  " value={courseDetails.numOfLessons}
             onChange={handleInputChange}/>
         </div>
 
         <div class="form-section col-md-3 col-lg-3 col-12">
           <label for="language">Language</label>
-          <input type="text" id="language" class="form-control bg-secondary bg-opacity-25 " value={courseDetails.courseName}
+          <input type="text" id="language" class="form-control bg-secondary bg-opacity-25 " value={courseDetails.language}
             onChange={handleInputChange}/>
         </div>
 

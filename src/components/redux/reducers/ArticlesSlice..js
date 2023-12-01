@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Api from "../../../utils/Api";
 // import moment from 'moment';
 // const currentTime = moment().format('hh:mm A');
 // export const fetchArticles = createAsyncThunk(
@@ -10,61 +11,124 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //     }
 //   );
 
-export const ArticleSlice= createSlice({
-    name:"ArticleSlice",
-    initialState:[
-        {
-            articleTitle:'this is articleTitle',
-            category:'tech',
-            status:true,
-            content: '',
-            publishingDate: 'monday June 5th',
-            // publishingTime:currentTime,
-            uploadedFile: null ,
-            id:0,
-        },
-        {
-            articleTitle:'this is articleTitle',
-            category:'tech',
-            status:true,
-            content: '',
-            publishingDate: 'monday June 5th',
-            // publishingTime:currentTime,
-            uploadedFile: null ,
-            id:1,
-        },
-        {
-            articleTitle:'this is articleTitle',
-            category:'Education',
-            status:false,
-            content: '',
-            publishingDate: 'monday June 5th',
-            // publishingTime:currentTime,
-            uploadedFile: null ,
-            id:2,
-        },
-    ],
-    reducers:{
-        addArticle:(state,action)=>{
-                // state.push({...action.payload,id:state.length})
-                // const ids = state.map((article=>article.id))
-                // let index = state.findIndex(action.payload.id)
-                // if(index){
-                    // ids?.includes(action.payload.id) ? state[index] = ({...action.payload,id:action.payload.id})
-                // :
-                 state.push({...action.payload,id:state.length})
-                    // ;console.log(state)
-                // }
-        },
-        removeArticle:(state,action)=>{
-            return state.filter(article=>article.id!==action.payload.id)
+export const createArticle = createAsyncThunk(
+  "ArticleSlice/createArticle",
+  async (articleData, { rejectWithValue }) => {
+    try {
+      const response = await Api.post("/articles", articleData,{
+        headers:{
+          "Content-Type":"multipart/form-data"
         }
-    },
-    // extraReducers: (builder) => {
-    //     builder.addCase(fetchArticles.fulfilled, (state, action) => {
-    //     state.all = action.payload;
-    //     })}
-})
+      });
+      return response.data.data;
+    } catch (error) {
+      const errorMessages = error.response.data.error.map((err) => err.message);
 
-export const {addArticle , removeArticle} = ArticleSlice.actions;
+      console.log(errorMessages);
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchAllArticles = createAsyncThunk(
+  "ArticleSlice/fetchAllArticles",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await Api.get("/articles");
+      console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+export const fetchOneArticle = createAsyncThunk(
+  "ArticleSlice/fetchOneArticle",
+  async (articleId, { rejectWithValue }) => {
+    try {
+      const response = await Api.patch(`/articles/${articleId}` );
+      return response.data;
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteArticle = createAsyncThunk(
+  "ArticleSlice/deleteArticle",
+  async (articleId, { rejectWithValue }) => {
+    try {
+      const response = await Api.delete(`/articles/${articleId}`);
+      return response.data.data;
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateArticle = createAsyncThunk(
+  "ArticleSlice/updateArticle",
+  async ({ updatedData, articleId }, { rejectWithValue }) => {
+    try {
+      const response = await Api.update(`/articles/${articleId}`, updatedData,{
+        headers:{
+          "Content-Type":"multipart/form-data"
+        }
+      });
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const ArticleSlice = createSlice({
+  name: "ArticleSlice",
+  initialState: {
+    all: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllArticles.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllArticles.fulfilled, (state, action) => {
+        state.all = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchAllArticles.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteArticle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteArticle.fulfilled, (state, action) => {
+        state.loading = false;
+        // Add logic to update state based on successful delete if needed
+      })
+      .addCase(deleteArticle.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateArticle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateArticle.fulfilled, (state, action) => {
+        // Add logic to update state based on successful update if needed
+        state.loading = false;
+      })
+      .addCase(updateArticle.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
+});
+
+export const { addArticle, removeArticle } = ArticleSlice.actions;
 export default ArticleSlice.reducer;

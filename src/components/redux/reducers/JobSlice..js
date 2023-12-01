@@ -1,58 +1,122 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Api from "../../../utils/Api";
 
-// export const fetchJobs = createAsyncThunk(
-//     "JobSlice/fetchJobs",
-//     async () => {
-//       const response = await api('/products/categories'
-//       );
-//       return response.data;
-//     }
-//   );
-
-export const JobSlice= createSlice({
-    name:"JobSlice",
-    initialState:[
-        {
-            companyName:'this is companyName',
-            position:'tech',
-            status:true,
-            date:'monday June 5th',
-            time:'12:30 PM',
-            id:0,
-            application:12,
-        },
-        {
-            companyName:'this is companyName',
-            position:'tech',
-            status:true,
-            date:'monday June 5th',
-            time:'12:30 PM',
-            id:1,
-            application:12,
-        },
-        {
-            companyName:'this is companyName',
-            position:'Education',
-            status:false,
-            date:'sunday June 5th',
-            time:'12:30 PM',
-            id:2,
-            application:12,
-        },
-    ],
-    reducers:{
-        addJob:(state,action)=>{
-                state.push({...action.payload,id:state.length})
-        },
-        removeJob:(state,action)=>{
-            return state.filter(article=>article.id!==action.payload.id)
+export const createJob = createAsyncThunk(
+  "jobSlice/createJob",
+  async (jobData, { rejectWithValue }) => {
+    try {
+      const response = await Api.post('/jobs/create-job', jobData ,{
+        headers:{
+          "Content-Type":"multipart/form-data"
         }
-    },
-    // extraReducers: (builder) => {
-    //     builder.addCase(fetchJobs.fulfilled, (state, action) => {
-    //     state.all = action.payload;
-    //     })}
-})
+      });
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
 
-export const {addJob , removeJob} = JobSlice.actions;
-export default JobSlice.reducer;
+export const fetchAllJobs = createAsyncThunk(
+  "jobSlice/fetchAllJobs",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await Api.get('/jobs/get-all-jobs');
+      console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+export const fetchOneJob = createAsyncThunk(
+    "jobSlice/fetchOneJob",
+    async (jobId, { rejectWithValue }) => {
+      try {
+        const response = await Api.patch(`/jobs/get-job/${jobId}`);
+        return response.data;
+      } catch (error) {
+        throw rejectWithValue(error.response.data);
+      }
+    }
+  );
+
+export const deleteJob = createAsyncThunk(
+  "jobSlice/deleteJob",
+  async (jobId, { rejectWithValue }) => {
+    try {
+      const response = await Api.delete(`/jobs/delete-job/${jobId}`);
+      return response.data.data;
+    } catch (error) {
+      throw rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateJob = createAsyncThunk(
+    "jobSlice/updateJob",
+    async ({ updatedData, jobId }, { rejectWithValue }) => {
+      try {
+        const response = await Api.update(`/jobs/update-job/${jobId}`, updatedData ,{
+          headers:{
+            "Content-Type":"multipart/form-data"
+          }
+        });
+        return response.data.data;
+      } catch (error) {
+        throw rejectWithValue(error.response.data);
+      }
+    }
+  );
+  
+
+export const jobSlice = createSlice({
+  name: "jobSlice",
+  initialState: {
+    all: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder 
+      .addCase(fetchAllJobs.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllJobs.fulfilled, (state, action) => {
+        state.all = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchAllJobs.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteJob.fulfilled, (state, action) => {
+        state.loading = false;
+        // Add logic to update state based on successful delete if needed
+      })
+      .addCase(deleteJob.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateJob.fulfilled, (state, action) => {
+        // Add logic to update state based on successful update if needed
+        state.loading = false;
+      })
+      .addCase(updateJob.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
+  
+});
+
+export default jobSlice.reducer;

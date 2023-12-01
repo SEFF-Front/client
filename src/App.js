@@ -16,6 +16,8 @@ import PersonalPage from './components/welcome/personalPage';
 import AddUser from './components/admin Panel/add users/addUser';
 import Profile from './components/profile/profile';
 import AddArticles from './components/admin Panel/add articles/AddArtciles';
+import UpdateArticle from './components/admin Panel/update article/UpdateAricle';
+import UpdateJob from './components/admin Panel/update job/UpdateJob';
 import FindJobs from './components/jobPage studentPortal/findJob';
 import Applications from './components/admin Panel/application/application';
 import UserStudents from './components/admin Panel/users-students/UsersStudents';
@@ -37,12 +39,12 @@ import { useNavigate,useLocation } from 'react-router-dom';
 import React, { useEffect ,useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {currentUser} from "./components/redux/reducers/authSlice"
-function App() {
+function App() {  const dispatch =useDispatch()
+
   const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const [cookies] = useCookies([]);
   let navigate = useNavigate()
-  const dispatch =useDispatch()
   const location = useLocation();
   const currentRoute = location.pathname;
 
@@ -67,11 +69,15 @@ function App() {
 if (isLoading) {
   return null;
 }
+
     return (
     <>
     <div className="App">
       <Toaster/>
       <Navbar />
+
+   
+
       {/* <AdminSideBar/> */}
       {/* <AdminPanel/> */}
       {/* <Jobs/> */}
@@ -110,6 +116,14 @@ if (isLoading) {
               <Route
                 path="addarticles"
                 element={<AddArticles />}
+              />
+                 <Route
+                path="updatearticle"
+                element={<UpdateArticle />}
+              />
+               <Route
+                path="updatejob"
+                element={<UpdateJob />}
               />
               <Route path="Jobbs" element={<Jobs />} />
               <Route path="publishedarticles" element={<PublishedArticles />} />

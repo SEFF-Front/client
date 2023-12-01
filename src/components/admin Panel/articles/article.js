@@ -2,13 +2,12 @@ import { faEdit, faPenToSquare, faSearch, faTrash, faTrashCan } from "@fortaweso
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { removeArticle } from "../../redux/reducers/ArticlesSlice.";
-import Pagination from "../../pagination/pagination";
+import { fetchAllArticles, removeArticle } from "../../redux/reducers/ArticlesSlice.";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
 function Articles(){
   const [search,setSearch]=useState("");
-  const articles = useSelector(state=>state.articles)
+  const { all: articles } = useSelector((state) =>  state.articles);
   let diplayedArr = articles;
   if(search){
     diplayedArr=articles.filter((el)=>el?.articleTitle.toLowerCase()?.includes(search.toLowerCase()))
@@ -17,7 +16,12 @@ function Articles(){
   }
   console.log(articles)
   const dispatch = useDispatch()
+  const handleDeleteArticle =(articleId)=>{
+    dispatch(removeArticle(articleId));
 
+  }
+
+  useEffect(()=>{dispatch(fetchAllArticles())},[dispatch])
   // useEffect(()=>{
   //     dispatch(fetchArticles())
   // }
@@ -70,12 +74,12 @@ function Articles(){
 
 
                 {isMobile?(<div class="row m-0 mt-5 col-12" id="items" >
-                    {diplayedArr?.map((article,index)=>(
-                      <div class="col-12 text-light  user-part" id="item" >
+                    {diplayedArr?.map((article)=>(
+                      <div class="col-12 text-light  user-part" id="item" key={article.id}>
                       <button className={article.status?"table_btn publish_btn Active":"Active bg-secondary table_btn text-light"}>
                       {article.status ? "published" : "draft"}
                       </button>                          <h4>Title</h4>
-                          <p>{article.articleTitle}</p>
+                          <p>{article.title}</p>
                           <div class="d-flex  justify-content-between">
                               <div>
                                   <h4>Category </h4>
@@ -88,8 +92,8 @@ function Articles(){
                               </div>
                           </div>
                           <div class="icons2 d-flex justify-content-end gap-2">
-                            <FontAwesomeIcon icon={faEdit} className="table-icon" color="#bf9b30"/>
-                            <FontAwesomeIcon icon={faTrash} onClick={()=>dispatch(removeArticle(article))} className="table-icon" color="#bf9b30"/>
+                 <Link to={'/adminPanel/updatearticle'}>        <FontAwesomeIcon icon={faEdit} className="table-icon" color="#bf9b30"/></Link>   
+                            <FontAwesomeIcon icon={faTrash} onClick={()=>handleDeleteArticle(article._id)} className="table-icon" color="#bf9b30"/>
                           </div>
                       </div>))}
                     </div>)
@@ -105,9 +109,9 @@ function Articles(){
                     <th class="col"></th>
                 </tr>
                   </thead>
-                {diplayedArr?.map((article,index)=>(
-                  <tr key={index}>
-                    <td>{article.articleTitle}</td>
+                {diplayedArr?.map((article)=>(
+                  <tr key={article.id}>
+                    <td>{article.title}</td>
                     <td>{article.category}</td>
                     <td><button className={article.status?"":"bg-secondary text-light"}>
                       {article.status ? "published" : "draft"}
@@ -117,10 +121,10 @@ function Articles(){
                     }<br/>{""}
                     </td>
                     <td>
-                    <Link href="">
+                    <Link to='/adminPanel/updatearticle'>
                       <FontAwesomeIcon icon={faPenToSquare} className='color-yellow' />
                     </Link> 
-                    <Link href="" onClick={()=>dispatch(removeArticle(article))}>
+                    <Link href="" onClick={()=>handleDeleteArticle(article._id)}>
                       <FontAwesomeIcon icon={faTrashCan} className='color-yellow' />
                     </Link>
                     </td>
