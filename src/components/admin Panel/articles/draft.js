@@ -2,7 +2,7 @@ import { faEdit, faPenToSquare, faSearch, faTrash, faTrashCan } from "@fortaweso
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { removeArticle } from "../../redux/reducers/ArticlesSlice.";
+import { removeArticle } from "../../redux/reducers/ArticlesSlice";
 import Pagination from "../../pagination/pagination";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";

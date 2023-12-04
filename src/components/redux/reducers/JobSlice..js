@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Api from "../../../utils/Api";
+import { toast } from "react-toastify";
 
 export const createJob = createAsyncThunk(
   "jobSlice/createJob",
@@ -11,7 +12,7 @@ export const createJob = createAsyncThunk(
         }
       });
     } catch (error) {
-      throw rejectWithValue(error.response.data);
+            throw rejectWithValue(error.response.data.error);
     }
   }
 );
@@ -24,7 +25,7 @@ export const fetchAllJobs = createAsyncThunk(
       console.log(response.data.data);
       return response.data.data;
     } catch (error) {
-      throw rejectWithValue(error.response.data);
+            throw rejectWithValue(error.response.data.error);
     }
   }
 );
@@ -35,7 +36,7 @@ export const fetchOneJob = createAsyncThunk(
         const response = await Api.patch(`/jobs/get-job/${jobId}`);
         return response.data;
       } catch (error) {
-        throw rejectWithValue(error.response.data);
+              throw rejectWithValue(error.response.data.error);
       }
     }
   );
@@ -47,7 +48,7 @@ export const deleteJob = createAsyncThunk(
       const response = await Api.delete(`/jobs/delete-job/${jobId}`);
       return response.data.data;
     } catch (error) {
-      throw rejectWithValue(error.response.data);
+            throw rejectWithValue(error.response.data.error);
     }
   }
 );
@@ -63,7 +64,7 @@ export const updateJob = createAsyncThunk(
         });
         return response.data.data;
       } catch (error) {
-        throw rejectWithValue(error.response.data);
+              throw rejectWithValue(error.response.data.error);
       }
     }
   );
@@ -79,6 +80,30 @@ export const jobSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder 
+        .addCase(createJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createJob.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(createJob.rejected, (state, { payload }) => {
+        state.loading = false;
+        if (payload) {
+          if (Array.isArray(payload.error)) {
+            console.log(payload.error);
+            payload.error.map((err) => toast.error(err[err].message));
+          } else if (payload.success === false && payload.error) {
+            state.error = payload.error;
+            state.success = payload.success;
+          } else {
+            state.error = "An unknown error occurred";
+          }
+        } else {
+          state.error = "Network error occurred";
+        }
+      })
       .addCase(fetchAllJobs.pending, (state) => {
         state.loading = true;
         state.error = null;

@@ -69,7 +69,6 @@ function AdminSideBar(){
           <div class="lg-ul">
             <ul>
               <li><Link to="userAdmins">Admins</Link></li>
-              <li><Link to="#">Editors</Link></li>
               <li><Link to="userInstructors">Instructors</Link></li>
               <li onClick={()=>setCertifiCateeBtn(true)}><Link to="userstudents">Students</Link></li>
             </ul>

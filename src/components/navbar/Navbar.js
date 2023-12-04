@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.min.js"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../redux/reducers/userSlice.";
+import { logOut } from "../redux/reducers/userSlice";
 // import 'bootstrap/dist/js/bootstrap.min.js';
 // import 'bootstrap/dist/umd/popper.min.js';
 

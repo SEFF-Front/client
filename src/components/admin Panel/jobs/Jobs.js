@@ -4,10 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { deleteJob, fetchAllJobs } from "../../redux/reducers/JobSlice.";
+
+import moment from "moment";
 function Jobs() {
   
   const { all: jobs } = useSelector((state) =>  state.jobs);
   const dispatch = useDispatch();
+  const date = moment();
+
   useEffect(() => {
     dispatch(fetchAllJobs());
   }, [dispatch]);
@@ -75,7 +79,10 @@ function Jobs() {
                 </div>
                 <div className="col-xs-12">
                   <h4>published data</h4>
-                  <p>{job.date}</p>
+                  {moment(job.date, "YYYY-MM-DD").format(
+                      "D MMMM YYYY"
+                    )}
+                  {/* <p>{job.date}</p> */}
                 </div>
                 <div className="col-xs-12">
                   <h4>published time</h4>
@@ -161,7 +168,9 @@ function Jobs() {
                       </button>
                     </td>
                     <td>
-                      {job.date} <br />
+                    {moment(job.date, "YYYY-MM-DD").format(
+                      "D MMMM YYYY"
+                    )}                       <br />
                       {job.time}
                     </td>
                     <td>{job.application}</td>

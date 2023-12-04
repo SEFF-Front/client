@@ -10,11 +10,12 @@ import {
 import Footer from "../footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { updateUserProfile } from "../redux/reducers/userSlice.";
+import { updateUserProfile } from "../redux/reducers/userSlice";
 import { toast } from "react-toastify";
 
 export default function Profile() {
-  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { user, isUser } = useSelector((state) => state.user);
+
 
   var [editMode, setEditMode] = useState(false);
   var [age, setAge] = useState("26yo");
@@ -67,7 +68,7 @@ export default function Profile() {
   const [userProfileImage, setUserProfileImage] = useState(
     user?.profileImage
       ? `http://localhost:4000/seff-academy/uploads/${user.profileImage}`
-      : null
+      : 'https://cdn.pixabay.com/photo/2021/07/25/08/03/account-6491185_1280.png'
   );
 
   function imageUpload() {
