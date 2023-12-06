@@ -315,7 +315,7 @@ function AddJob() {
             />
           </p>
           <div className="col-md-6  ">
-            <label className="label mb-1 mt-2" htmlFor="salary">
+            <label className="label mb-1 mt-4" htmlFor="salary">
               currency
             </label>
             <input

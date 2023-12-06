@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import {
   deleteArticle,
   fetchAllArticles,
-  updateArticle,
+  getArticle,
 } from "../../redux/reducers/ArticlesSlice.js";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
@@ -58,12 +58,16 @@ function Articles() {
     diplayedArr = articles;
   }
   console.log(articles);
+ 
   const handleDeleteArticle = (articleId) => {
     dispatch(deleteArticle(articleId));
   };
   const handleUpdateArticle = (articleId) => {
-    dispatch(updateArticle(articleId));
-  };
+    dispatch(getArticle(articleId))
+    .unwrap()
+    .then(() => {
+      // navigate("/adminPanel/UpdateJob");
+    });  };
 
   useEffect(() => {
     dispatch(fetchAllArticles());

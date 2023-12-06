@@ -33,7 +33,7 @@ export const fetchOneJob = createAsyncThunk(
     "jobSlice/fetchOneJob",
     async (jobId, { rejectWithValue }) => {
       try {
-        const response = await Api.patch(`/jobs/get-job/${jobId}`);
+        const response = await Api.get(`/jobs/get-job/${jobId}`);
         return response.data;
       } catch (error) {
               throw rejectWithValue(error.response.data.error);
@@ -57,11 +57,13 @@ export const updateJob = createAsyncThunk(
     "jobSlice/updateJob",
     async ({ updatedData, jobId }, { rejectWithValue }) => {
       try {
-        const response = await Api.update(`/jobs/update-job/${jobId}`, updatedData ,{
+        const response = await Api.patch(`/jobs/update-job/${jobId}`, updatedData ,{
           headers:{
             "Content-Type":"multipart/form-data"
           }
-        });
+          
+        }); 
+        console.log(response)
         return response.data.data;
       } catch (error) {
               throw rejectWithValue(error.response.data.error);
@@ -74,6 +76,7 @@ export const jobSlice = createSlice({
   name: "jobSlice",
   initialState: {
     all: [],
+    fetchOneJob:null,
     loading: false,
     error: null,
   },
@@ -116,6 +119,28 @@ export const jobSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      .addCase(fetchOneJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOneJob.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+        state.fetchOneJob = payload.data;
+      })
+      .addCase(fetchOneJob.rejected, (state, { payload }) => {
+        state.loading = false;
+        if (payload) {
+          if (payload.success === false && payload.error) {
+            state.error = payload.error;
+            state.success = payload.success;
+          } else {
+            state.error = "An unknown error occurred";
+          }
+        } else {
+          state.error = "Network error occurred";
+        }
+      })
       .addCase(deleteJob.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -132,14 +157,28 @@ export const jobSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateJob.fulfilled, (state, action) => {
-        // Add logic to update state based on successful update if needed
+      .addCase(updateJob.fulfilled, (state ,  { payload }) => {
         state.loading = false;
+        state.success = true;
+        state.fetchOneJob = payload;
+        console.log(payload)
       })
-      .addCase(updateJob.rejected, (state, action) => {
+      .addCase(updateJob.rejected, (state,  { payload }) => {
         state.loading = false;
-        state.error = action.error.message;
-      });
+        if (payload) {
+          if (Array.isArray(payload.error)) {
+            console.log(payload.error);
+            payload.error.map((err) => toast.error(err.message));
+          } else if (payload.success === false && payload.error) {
+            state.error = payload.error;
+            state.success = payload.success;
+          } else {
+            state.error = "An unknown error occurred";
+          }
+        } else {
+          state.error = "Network error occurred";
+        }
+      })
   },
   
 });

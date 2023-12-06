@@ -1,14 +1,23 @@
-import { faEdit, faPenToSquare,  faSearch,  faTrash,  faTrashCan,} from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faPenToSquare,
+  faSearch,
+  faTrash,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { deleteJob, fetchAllJobs } from "../../redux/reducers/JobSlice.";
+import {
+  deleteJob,
+  fetchAllJobs,
+  fetchOneJob,
+} from "../../redux/reducers/JobSlice.";
 
 import moment from "moment";
 function Jobs() {
-  
-  const { all: jobs } = useSelector((state) =>  state.jobs);
+  const { all: jobs } = useSelector((state) => state.jobs);
   const dispatch = useDispatch();
   const date = moment();
 
@@ -16,11 +25,18 @@ function Jobs() {
     dispatch(fetchAllJobs());
   }, [dispatch]);
 
-  const handleDeleteJob=(jobId)=>{
+  const navigate =useNavigate()
+
+  const handleDeleteJob = (jobId) => {
     dispatch(deleteJob(jobId));
-
-  }
-
+  };
+  const handleEditJob = (jobId) => {
+    dispatch(fetchOneJob(jobId))
+      .unwrap()
+      .then(() => {
+        navigate("/adminPanel/UpdateJob");
+      });
+  };
   const [search, setSearch] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [availableWidth, setAvailableWidth] = useState(window.innerWidth);
@@ -79,9 +95,7 @@ function Jobs() {
                 </div>
                 <div className="col-xs-12">
                   <h4>published data</h4>
-                  {moment(job.date, "YYYY-MM-DD").format(
-                      "D MMMM YYYY"
-                    )}
+                  {moment(job.date, "YYYY-MM-DD").format("D MMMM YYYY")}
                   {/* <p>{job.date}</p> */}
                 </div>
                 <div className="col-xs-12">
@@ -90,11 +104,17 @@ function Jobs() {
                 </div>
               </div>
               <div class="icons2 d-flex justify-content-end gap-2">
-          <Link to={'/adminpanel/updatejob'}>  <FontAwesomeIcon
-                  icon={faEdit}
-                  className="table-icon"
-                  color="#bf9b30"
-                /></Link>    
+                <Link
+                  to={"/adminpanel/updatejob"}
+                  onClick={() => handleEditJob(job._id)}
+                >
+                  {" "}
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className="table-icon"
+                    color="#bf9b30"
+                  />
+                </Link>
                 <FontAwesomeIcon
                   icon={faTrash}
                   onClick={() => handleDeleteJob(job._id)}
@@ -168,22 +188,22 @@ function Jobs() {
                       </button>
                     </td>
                     <td>
-                    {moment(job.date, "YYYY-MM-DD").format(
-                      "D MMMM YYYY"
-                    )}                       <br />
+                      {moment(job.date, "YYYY-MM-DD").format("D MMMM YYYY")}{" "}
+                      <br />
                       {job.time}
                     </td>
                     <td>{job.application}</td>
                     <td>
-                    <Link to="/adminPanel/updateJob">
+                      <Link
+                        to="/adminPanel/updateJob"
+                        onClick={() => handleEditJob(job._id)}
+                      >
                         <FontAwesomeIcon
                           icon={faPenToSquare}
                           className="color-yellow"
                         />
                       </Link>
-                      <Link href="" 
-                  onClick={() => handleDeleteJob(job._id)}
-                  >
+                      <Link href="" onClick={() => handleDeleteJob(job._id)}>
                         <FontAwesomeIcon
                           icon={faTrashCan}
                           className="color-yellow"

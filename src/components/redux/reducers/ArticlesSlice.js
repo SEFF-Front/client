@@ -46,7 +46,8 @@ export const getArticle = createAsyncThunk(
   async (articleId, { rejectWithValue }) => {
     try {
       const response = await Api.get(`/articles/${articleId}`);
-      return response.data.data;
+      console.log(response)
+      return response.data;
       // console.log(response);
     } catch (error) {
             throw rejectWithValue(error.response.data.error);
@@ -72,7 +73,7 @@ export const updateArticle = createAsyncThunk(
   "ArticleSlice/updateArticle",
   async ({ updatedData, articleId }, { rejectWithValue }) => {
     try {
-      const response = await Api.update(`/articles/${articleId}`, updatedData, {
+      const response = await Api.patch(`/articles/${articleId}`, updatedData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -175,14 +176,29 @@ export const ArticleSlice = createSlice({
           state.error = "Network error occurred";
         }
       })
-      .addCase(updateArticle.fulfilled, (state, action) => {
-        // Add logic to update state based on successful update if needed
+      
+      .addCase(updateArticle.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.success = true;
+        state.getArticel = payload.data;
+        console.log(payload)
       })
-      .addCase(updateArticle.rejected, (state, action) => {
+      .addCase(updateArticle.rejected, (state, { payload }) => {
         state.loading = false;
-        state.error = action.error.message;
-      });
+        if (payload) {
+          if (Array.isArray(payload.error)) {
+            console.log(payload.error);
+            payload.error.map((err) => toast.error(err.message));
+          } else if (payload.success === false && payload.error) {
+            state.error = payload.error;
+            state.success = payload.success;
+          } else {
+            state.error = "An unknown error occurred";
+          }
+        } else {
+          state.error = "Network error occurred";
+        }
+      })
   },
 });
 

@@ -1,95 +1,22 @@
-import { useRef, useState } from "react";
-import Dragdrop from "../../Drag drop/Dragdrop";
+import { useEffect, useRef, useState } from "react"; 
 import "./updateJob.css";
 import { useDispatch, useSelector } from "react-redux";
-import { createJob } from "../../redux/reducers/JobSlice.";
+import {   updateJob } from "../../redux/reducers/JobSlice.";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-function UpdateJob() {
-  // const [formData, setFormData] = useState({
-  //   companyName: "",
-  //   field: "",
-  //   location: "",
-  //   aboutCompany: "",
-  //   companyLogo: "",
-  //   position: "",
-
-  //   jobType: "",
-
-  //   link: "",
-  //   salary: [],
-  //   currency: "",
-  //   jobDescription: "",
-  //   jobRequirements: "",
-  //   skills: "",
-  //   isAvailable: false,
-  // });
-
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setFormData((prevDetails) => ({
-  //       ...prevDetails,
-  //       companyLogo: URL.createObjectURL(file),
-  //     }));
-  //   }
-  // };
-
-  // const dispatch = useDispatch();
-  // const handleInputChange = (e) => {
-  //   const { id, value } = e.target;
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [id]: value,
-  //   }));
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Use formData object for further processing (e.g., sending to API)
-  //   console.log(formData);
-  //   const required = Object.keys(formData).every((key) => {
-  //     if (formData[key] !== undefined && formData[key] !== "") {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  //   required ? handleSuccess() : toast.error("fill all fields");
-  //   // Reset form data after submission
-  // };
-  // const handleSuccess = () => {
-  //   dispatch(createJob(formData));
-  //   setFormData({
-  //     companyName: "",
-  //     field: "",
-  //     location: "",
-  //     aboutCompany: "",
-  //     companyLogo: "",
-  //     position: "",
-
-  //     jobType: "",
-
-  //     link: "",
-  //     salary: [],
-  //     currency: "",
-  //     jobDescription: "",
-  //     jobRequirements: "",
-  //     skills: "",
-  //     isAvailable: false,
-  //   });
-  //   toast.success("successfully uploaded");
-  // };
-
-  //////////////////////////////////////
- 
-
+function UpdateJob() { 
+  const { fetchOneJob:job } = useSelector((state) => state.jobs);
+  console.log(job);
   const dispatch = useDispatch();
 
   const [img, setImg] = useState(null);
-  const [show, setShow] = useState(null);
+  const [show, setShow] = useState(
+    job?.companyLogo
+      ? `http://localhost:4000/seff-academy/uploads/${job.companyLogo}`
+      : ''
+  );
 
   const imgInput = useRef();
   const navigate=useNavigate()
@@ -99,6 +26,38 @@ function UpdateJob() {
     setImg(file);
     setShow(URL.createObjectURL(file));
   };
+
+  const initialJobDataRef = useRef({
+    companyName: job?.companyName ?? null,
+    field: job?.field ?? null,
+    location: job?.location,
+    aboutCompany: job?.aboutCompany,
+    position: job?.position ?? null,
+    jobType: job?.jobType ?? null,
+    jobDescription: job?.jobDescription ?? null,
+    jobRequirements: job?.jobRequirements ?? null,
+    link: job?.link ?? null,
+    currency: job?.currency ?? null,
+    skills: job?.skills ?? null,
+    salary: job?.salary    || 0,
+
+  });
+  useEffect(() => {
+    initialJobDataRef.current = {
+      companyName: job?.companyName ?? null,
+      field: job?.field ?? null,
+      location: job?.location,
+      aboutCompany: job?.aboutCompany,
+      position: job?.position ?? 0,
+      jobType: job?.jobType ?? null,
+      jobDescription: job?.jobDescription ?? null,
+      jobRequirements: job?.jobRequirements ?? null,
+      link: job?.link ?? null,
+      currency: job?.currency ?? null,
+      skills: job?.skills ?? null,
+      salary: job?.salary || 0,
+    };
+  }, [job]);
 
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
@@ -112,15 +71,15 @@ function UpdateJob() {
       toast.warn("No data to submit.");
       return;
     }
-    dispatch(createJob(jobData))
+      dispatch(updateJob({jobId:job._id,updatedData:jobData}))
       .unwrap()
       .then(() => {
-        toast.success("successfully submitted");
+        toast.success("successfully updated job.");
         navigate('/adminpanel/jobbs/')
       })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.error);
+      .catch((backendError) => {
+        console.log(backendError);
+        toast.error(backendError.error);
       });
     console.log(jobData);
   };
@@ -149,13 +108,12 @@ function UpdateJob() {
               Update Update Company Name
             </label>
             <input
+              defaultValue={initialJobDataRef.current.companyName}
               type="text"
               style={{ height: "50px" }}
               id="companyName"
               className="input m-2 ms-0 mb-5"
-              {...register("companyName")}
-              // value={formData.companyName}
-              // onChange={handleInputChange}
+              {...register("companyName")} 
             />
 
             <div className="row mt-5">
@@ -164,11 +122,11 @@ function UpdateJob() {
                   Update Update Field
                 </label>
                 <input
+                              defaultValue={initialJobDataRef.current.field}
+
                   className="input2"
                   id="field"
-                  {...register("field")}
-                  // value={formData.field}
-                  // onChange={handleInputChange}
+                  {...register("field")} 
                 />
                 
               </div>
@@ -177,11 +135,11 @@ function UpdateJob() {
                   Update Location
                 </label>
                 <input
+                              defaultValue={initialJobDataRef.current.location}
+
                   className="input2"
                   id="location"
-                  {...register("location")}
-                  // value={formData.location}
-                  // onChange={handleInputChange}
+                  {...register("location")} 
                 />
               </div>
             </div>
@@ -189,8 +147,7 @@ function UpdateJob() {
 
           <div className="col-lg-5   col-md-1  2 p-0">
             <p className="text-light">Update Company Logo</p>
-            <div className="">
-              {/* <Dragdrop /> */}
+            <div className=""> 
               <div>
                 {show && (
                   <img
@@ -210,15 +167,15 @@ function UpdateJob() {
             Update About The Company
           </label>
           <textarea
+                        defaultValue={initialJobDataRef.current.aboutCompany}
+
                     style={{height:'115px'}}
 
             name="aboutCompany"
             id="aboutCompany"
             rows={3}
             className="input"
-            {...register("aboutCompany")}
-            // value={formData.aboutCompany}
-            // onChange={handleInputChange}
+            {...register("aboutCompany")} 
           ></textarea>
         </div>
         <div className="info info4">
@@ -227,12 +184,12 @@ function UpdateJob() {
               Update Position
             </label>
             <input
+                          defaultValue={initialJobDataRef.current.position}
+
               type="text"
               id="position"
               className="input2"
-              {...register("position")}
-              // value={formData.position}
-              // onChange={handleInputChange}
+              {...register("position")} 
             />
           </div>
           
@@ -240,13 +197,13 @@ function UpdateJob() {
        <span className="fs-5 mb-1 mt-4">Update job type : </span>
             <div className="d-flex gap-2">
               <input
+                            defaultValue={initialJobDataRef.current.jobType}
+
                 type="radio"
                 name="jobType"
                 id="jobType"
                 value="remote"
-                {...(register("jobType") )}
-                // checked={formData.jobType === "remote"}
-                // onChange={handleInputChange}
+                {...(register("jobType") )} 
               />
               <label className="label  " htmlFor="remote">
                 Remote
@@ -254,13 +211,13 @@ function UpdateJob() {
             </div>
             <div className="d-flex gap-2">
               <input
+                            defaultValue={initialJobDataRef.current.jobType}
+
                 type="radio"
                 name="jobType"
                 id="jobType"
                 value="onSite"
-                {...(register("jobType"))}
-                // checked={formData.jobType === "onSite"}
-                // onChange={handleInputChange}
+                {...(register("jobType"))} 
               />
               <label className="label " htmlFor="onsite">
                 On site
@@ -274,6 +231,8 @@ function UpdateJob() {
               Update Salary from
             </label>
             <input
+                          // defaultValue={initialJobDataRef.current.salary[0].from}
+
               className="input2"
               id="from"
               {...register("salary[0].from")}
@@ -285,12 +244,12 @@ function UpdateJob() {
           >
             To
             <input
+                                      // defaultValue={initialJobDataRef.current.salary[0].to}
+
               type="text"
               id="to"
               className="input2"
-              {...register("salary[0].to")}
-              // value={formData.salary}
-              // onChange={handleInputChange}
+              {...register("salary[0].to")} 
             />
           </p>
           <div className="col-md-6  ">
@@ -298,11 +257,11 @@ function UpdateJob() {
               Update currency
             </label>
             <input
+                                      defaultValue={initialJobDataRef.current.currency}
+
               className="input2"
               id="currency"
-              {...register("currency")}
-              // value={formData.currency}
-              // onChange={handleInputChange}
+              {...register("currency")} 
             />
           </div>
           <div className="col-md-3   p-0">
@@ -310,12 +269,12 @@ function UpdateJob() {
              Update link
             </label>
             <input
+                                      defaultValue={initialJobDataRef.current.link}
+
               type="url"
               id="link"
               className="input2"
-              {...register("link")}
-              // value={formData.link}
-              // onChange={handleInputChange}
+              {...register("link")} 
             />
           </div>
         </div>
@@ -324,14 +283,14 @@ function UpdateJob() {
             Update Job Description
           </label>
           <textarea
+                                    defaultValue={initialJobDataRef.current.jobDescription}
+
           style={{height:'115px'}}
             name="textarea"
             id="jobDescription"
             rows={3}
             className="input"
-            {...register("jobDescription")}
-            // value={formData.jobDescription}
-            // onChange={handleInputChange}
+            {...register("jobDescription")} 
           ></textarea>
         </div>
         <div>
@@ -339,15 +298,15 @@ function UpdateJob() {
             Update Job Requirements
           </label>
           <textarea
+                                    defaultValue={initialJobDataRef.current.jobRequirements}
+
                     style={{height:'115px'}}
 
             name="textarea"
             id="jobRequirements"
             rows={3}
             className="input"
-            {...register("jobRequirements")}
-            // value={formData.jobRequirements}
-            // onChange={handleInputChange}
+            {...register("jobRequirements")} 
           ></textarea>
         </div>
         <div>
@@ -355,12 +314,12 @@ function UpdateJob() {
             Update Skills
           </label>
           <input
+                                    defaultValue={initialJobDataRef.current.skills}
+
             type="text"
             id="skills"
             className="input2 disabled skills"
-            {...register("skills")}
-            // value={formData.skills}
-            // onChange={handleInputChange}
+            {...register("skills")} 
           />
         </div>
         <div className="d-flex p-3 flex-row gap-3 justify-content-end">
@@ -368,8 +327,7 @@ function UpdateJob() {
             type="submit"
             id="save"
             className="btn  ps-4 pe-4 p-2 text-light fw-lg"
-            style={{ background: "#bf9b30" }}
-            // onClick={handleSubmit}
+            style={{ background: "#bf9b30" }} 
           >
             Save
           </button>
@@ -377,8 +335,7 @@ function UpdateJob() {
             type="reset"
             id="reset"
             className="btn bg-secondary ps-4 pe-4 p-2 text-light fw-lg"
-            // onclick="resetresetValue()"
-          >
+           >
             CANCEL
           </button>
         </div>
