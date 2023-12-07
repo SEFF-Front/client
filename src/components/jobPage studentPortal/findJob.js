@@ -1,23 +1,28 @@
-import React, {  useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faClock, faCloudArrowUp, faFilter, faLocationDot, faMagnifyingGlass, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
 import './Jobsstyle.css'
 import Title from "../title/title";
 import Dragdrop from "../Drag drop/Dragdrop";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../footer/Footer";
 import { addApplication } from "../redux/reducers/ApplicationSlice";
+import { fetchAllJobs, fetchOneJob } from "../redux/reducers/JobSlice.";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 export default function FindJobs(){
-    const jobs = [
-        {id:1, title: 'Front-end React Developer', location: 'New York', jobType: 'Full-time', jobLevel: 'Entry-level', salary: 5000 ,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        {id:2, title: 'Back-end  JS Developer', location: 'New York', jobType: 'Part-time', jobLevel: 'Entry-level', salary: 5000,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        {id:3, title: 'Front-end React Developer', location: 'San Francisco', jobType: 'Part-time', jobLevel: 'Intermediate', salary: 8000,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        {id:4, title: 'Front-end React Developer', location: 'New York', jobType: 'Remote', jobLevel: 'Expert', salary: 12000,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        {id:5, title: 'Front-end React Developer', location: 'New York', jobType: 'Full-time', jobLevel: 'Entry-level', salary: 5000,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        {id:6, title: 'Back-end  JS Developer', location: 'San Francisco', jobType: 'Part-time', jobLevel: 'Intermediate', salary: 8000,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        {id:7, title: 'Back-end  JS Developer', location: 'New York', jobType: 'Full-time', jobLevel: 'Expert', salary: 12000,data:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",about:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",req:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-      ];
+  const { all: jobs } = useSelector((state) => state.jobs);
+  
+  
+  const dispatch = useDispatch();
+  const date = moment();
+
+  useEffect(() => {
+    dispatch(fetchAllJobs());
+  }, [dispatch]);
+   
       var jobData=jobs;
       var [location,setLocation]=useState("");
       var [jobType,setJobType]=useState([]);
@@ -48,7 +53,7 @@ export default function FindJobs(){
             mobNum:'',
             uploadedFile:null,
         }])
-      const dispatch = useDispatch()
+      // const dispatch = useDispatch()
 const handleInputChange = (e) => {
   const { id, value } = e.target;
   setFormData({ ...formData, [id]: value });
@@ -86,11 +91,28 @@ const handleSubmit =()=>{
         setSalaryRange("");
         selectRef.current.value=""
       }
-      var handleDetails=(id)=>{
+
+      const navigate = useNavigate()
+      var handleDetails = (jobId) => {
+        dispatch(fetchOneJob(jobId))
+          .unwrap()
+          .then((result) => {
         setDetails(true)
-        var job=jobs.find((el)=>el.id==id);
-        setCurrentJob(job)
-      }
+
+            setCurrentJob(result.data); // Assuming result is the data fetched by fetchOneJob
+          })
+          .catch((error) => {
+            // Handle errors if needed
+            console.error("Error fetching job details:", error);
+          });
+      };
+
+      // var handleDetails=(id)=>{
+      //   setDetails(true)
+      //   var job=jobs.find((el)=>el.id==id);
+      //   setCurrentJob(job)
+      // }
+      
       var data=jobData
       if(search&&clicked){
         data=data.filter((el)=>el?.title?.includes(search))
@@ -257,27 +279,36 @@ return(
             <div class="pl-3 flex-grow-1">
             { !details&&
             <div>{
-            jobData.map((job,index)=>(
-              <div class="div1 m-md-3"> 
+            jobData.map((job)=>(
+              <div key={job?._id} class="div1 m-md-3"> 
                 <div class="dd-info row">
-                <div class="spn col-1 p-0 d-flex justify-content-center"><span style={{fontSize:"larger",fontWeight:"900",fontFamily:"Cambria,Cochin,Georgia,Times,Times New Roman,serif"}}>≡</span>IT</div>
+                <div class="spn col-1 p-0 d-flex justify-content-center">                {job.companyLogo && (
+  <img
+    src={`http://localhost:4000/seff-academy/uploads${job?.companyLogo}`}
+    alt="Company Logo"
+    style={{ maxWidth: "100%", maxHeight: "200px" }}
+  />
+)}
+  </div>
+           
                 <div className="col-md-8 col-sm-12 p-0">
-                <h2>{job.title}</h2>
-                <p>IT solution , {job.location}</p>
+                <h2>{job?.companyName}</h2>
+                <p> {job?.field}</p>
                 </div>
-                <div class="info2 col-md-3 p-0 text-md-end"><h5>{job.salary} per month</h5>
-                <p id="pi"> <FontAwesomeIcon icon={faLocationDot} style={{color: "#bf9b30"}} /> On Site</p>
+                <div class="info2 col-md-3 p-0 text-md-end"><h5>salary from {job?.salary[0].from} to {job?.salary[0].to} per month</h5>
+                <p id="pi"> <FontAwesomeIcon icon={faLocationDot} style={{color: "#bf9b30"}} />{job?.jobType}</p>
                 </div>
               </div>
               
-                <p class="p-general">{job.data}</p>
-                <button class="btn">React JS</button>
-                <button class="btn">Develpment</button>
+                <p class="p-general">{job?.aboutCompany}</p>
+                <button class="btn">{job?.skills}</button>
 
               <div class="view-details row d-flex m-0 mt-5  p-0">
-                <div class=" col-6"><p class="p-details "><FontAwesomeIcon icon={faClock} style={{color:"grey"}}/>  2 h ago</p></div>
+                <div class=" col-6"><p class="p-details "><FontAwesomeIcon icon={faClock} style={{color:"grey"}}/> {job?.date && (
+  <p>{formatDistanceToNow(new Date(job.date), { addSuffix: true })}</p>
+)}</p></div>
                 <div className="col-6 d-flex justify-content-end m-0 p-0">
-                <button class="btn-details" id="detail" onClick={()=>handleDetails(job.id)}>VIEW DETAILS</button>
+                <button class="btn-details" id="detail" onClick={()=>handleDetails(job?._id)}>VIEW DETAILS</button>
                 </div>
               </div>
               </div>
@@ -319,25 +350,32 @@ href='#'>
             { details&&!form&&
                 <div class="div1 m-md-3"> 
                 <div class="dd-info row">
-                <div class="spn col-1 p-0 d-flex justify-content-center"><span style={{fontSize:"larger",fontWeight:"900",fontFamily:"Cambria,Cochin,Georgia,Times,Times New Roman,serif"}}>≡</span>IT</div>
+                     <div class="spn col-1 p-0 d-flex justify-content-center">                {currentJob.companyLogo && (
+  <img
+    src={`http://localhost:4000/seff-academy/uploads${currentJob?.companyLogo}`}
+    alt="Company Logo"
+    style={{ maxWidth: "100%", maxHeight: "200px" }}
+  />
+)}
+  </div>
+        
                 <div className="col-md-8 col-sm-12 p-0">
-                <h2>{currentJob.title}</h2>
-                <p>IT solution , {currentJob.location}</p>
+                <h2>{currentJob?.companyName}</h2>
+                <p>IT solution , {currentJob?.location}</p>
                 </div>
-                <div class="info2 col-md-3 p-0 text-md-end"><h5>{currentJob.salary} per month</h5>
-                <p id="pi"> <FontAwesomeIcon icon={faLocationDot} style={{color: "#bf9b30"}} /> On Site</p>
+                <div class="info2 col-md-3 p-0 text-md-end"><h5> salary from {currentJob?.salary[0].from} to {currentJob?.salary[0].to} per month</h5>
+                <p id="pi"> <FontAwesomeIcon icon={faLocationDot} style={{color: "#bf9b30"}} /> {currentJob?.jobType}</p>
                 </div>
               </div>
 
-                <p class="p-general">{currentJob.data}</p>
-                <button class="btn">React JS</button>
-                <button class="btn">Develpment</button>
+                <p class="p-general">{currentJob?.data}</p>
+                <button class="btn">{currentJob.skills}</button>
                 <h2>About us</h2>
-                <p class="p-general">{currentJob.about}</p>
+                <p class="p-general">{currentJob?.aboutCompany}</p>
                 <h2>Job Description</h2>
-                <p class="p-general">{currentJob.desc}</p>
+                <p class="p-general">{currentJob?.jobDescription}</p>
                 <h2>Job Requirments</h2>
-                <p class="p-general">{currentJob.req}</p>
+                <p class="p-general">{currentJob?.jobRequirements}</p>
               <div class="view-details row d-flex m-0 mt-5  p-0">
                 <div class=" col-6"><p class="p-details "><FontAwesomeIcon icon={faClock} style={{color:"grey"}}/>  2 h ago</p></div>
                 <div className="col-6 d-flex justify-content-end">
@@ -349,13 +387,19 @@ href='#'>
                 { form&&
                 <div class="view-details3 div1 m-md-3">
                   <div class="dd-info row">
-                <div class="spn col-1 p-0 d-flex justify-content-center"><span style={{fontSize:"larger",fontWeight:"900",fontFamily:"Cambria,Cochin,Georgia,Times,Times New Roman,serif"}}>≡</span>IT</div>
+                <div class="spn col-1 p-0 d-flex justify-content-center">          {currentJob.companyLogo && (
+  <img
+    src={`http://localhost:4000/seff-academy/uploads${currentJob?.companyLogo}`}
+    alt="Company Logo"
+    style={{ maxWidth: "100%", maxHeight: "200px" }}
+  />
+)}</div>
                 <div className="col-md-8 col-sm-12 p-0">
-                <h2>{currentJob.title}</h2>
-                <p>IT solution , {currentJob.location}</p>
+                <h2>{currentJob?.companyName}</h2>
+                <p> {currentJob.location}</p>
                 </div>
-                <div class="info2 col-md-3 p-0 text-md-end"><h5>{currentJob.salary} per month</h5>
-                <p id="pi"> <FontAwesomeIcon icon={faLocationDot} style={{color: "#bf9b30"}} /> On Site</p>
+                <div class="info2 col-md-3 p-0 text-md-end"><h5>salary from {currentJob?.salary[0].from} to {currentJob?.salary[0].to} per month</h5>
+                <p id="pi"> <FontAwesomeIcon icon={faLocationDot} style={{color: "#bf9b30"}} />  {currentJob?.jobType}</p>
                 </div>
               </div>
               <h2>Balqees Hamdi Sabir</h2>
