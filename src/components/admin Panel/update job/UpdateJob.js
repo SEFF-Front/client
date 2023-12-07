@@ -58,6 +58,8 @@ function UpdateJob() {
       salary: job?.salary || 0,
     };
   }, [job]);
+  console.log('Initial Job Type:', initialJobDataRef.current.jobType);
+
 
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
@@ -157,7 +159,8 @@ function UpdateJob() {
                   />
                 )}
 
-                <input ref={imgInput} type="file" onChange={handleImgUpload} />
+                <input ref={imgInput} type="file" onChange={handleImgUpload}       defaultValue={initialJobDataRef.current.companyLogo}
+/>
               </div>
             </div>
           </div>
@@ -193,15 +196,21 @@ function UpdateJob() {
             />
           </div>
           
-          <div className=" text-white d-flex flex-row   gap-2 ms-1   align-items-end">
-       <span className="fs-5 mb-1 mt-4">Update job type : </span>
+          <div className=" text-white d-flex flex-row  fs-5 mb-1 mt-4 ms-4 align-items-end">
+                 {` Job Type is: ${initialJobDataRef.current.jobType}`}
+      
+          </div>
+          <div className=" text-white d-flex flex-row   gap-2   align-items-end">
+                 {/* {` Job Type is: ${initialJobDataRef.current.jobType}`} */}
+       <span className="fs-5   ms-1 mt-4">Update job type</span>
             <div className="d-flex gap-2">
               <input
-                            defaultValue={initialJobDataRef.current.jobType}
+                defaultChecked={initialJobDataRef.current.jobType === 'remote'}
+
 
                 type="radio"
                 name="jobType"
-                id="jobType"
+                id="remote"
                 value="remote"
                 {...(register("jobType") )} 
               />
@@ -211,11 +220,11 @@ function UpdateJob() {
             </div>
             <div className="d-flex gap-2">
               <input
-                            defaultValue={initialJobDataRef.current.jobType}
+                            defaultValue={initialJobDataRef.current.jobType==='onSite'}
 
                 type="radio"
                 name="jobType"
-                id="jobType"
+                id="onSite"
                 value="onSite"
                 {...(register("jobType"))} 
               />
@@ -231,7 +240,7 @@ function UpdateJob() {
               Update Salary from
             </label>
             <input
-                          // defaultValue={initialJobDataRef.current.salary[0].from}
+                          defaultValue={initialJobDataRef.current.salary[0]?.from}
 
               className="input2"
               id="from"
@@ -244,7 +253,7 @@ function UpdateJob() {
           >
             To
             <input
-                                      // defaultValue={initialJobDataRef.current.salary[0].to}
+                                      defaultValue={initialJobDataRef.current.salary[0]?.to}
 
               type="text"
               id="to"

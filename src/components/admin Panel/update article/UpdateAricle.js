@@ -8,9 +8,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-function UpdateArticle(){ 
-    
-
+function UpdateArticle(){  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -23,9 +21,7 @@ function UpdateArticle(){
     article?.cover
       ? `http://localhost:4000/seff-academy/uploads/${article.cover}`
       : ''
-  );
-  console.log(img);
-  
+  ); 
   const imgInput = useRef();
     const dispatch = useDispatch();
     const navigate =useNavigate()
@@ -46,15 +42,29 @@ function UpdateArticle(){
         publish_date: article?.publish_date ??null,
       };
     }, [article]);
+    // Assuming initialArticleDataRef.current.publish_date is in the format "YYYY-MM-DDTHH:mm:ss.sssZ"
+
+ 
     const {
       register,
       handleSubmit,
       reset,
       formState: { isSubmitSuccessful },
     } = useForm();
-  
+        const initialPublishDate = initialArticleDataRef?.current?.publish_date?.slice(0, 10);
+
     const onSubmit = (data) => {
       console.log(data);
+
+<input
+  type="date"
+  className="form-control border-0 opacity-75"
+  aria-describedby="basic-addon1"
+  id="publish_date"
+  defaultValue={initialArticleDataRef.current.publish_date}
+  {...register('publish_date')}
+/>
+
       const articleData = Object.fromEntries(
         Object.entries(data).filter(([key, value]) => value !== undefined)
       );
@@ -70,13 +80,19 @@ function UpdateArticle(){
           .unwrap()
           .then(() => {
             toast.success("article Successfully Updated");
+            navigate('adminPanel/articles')
             reset();
           })
           .catch((backendError) => {
             console.log(backendError);
-            toast.error(backendError.error);
+            if (Array.isArray(backendError)) {
+              backendError.map((error) => {
+                toast.error(error.message);
+              });
+            } else {
+              toast.error(backendError.error || "An unknown error occurred");
+            }
           });
-    
   
      
       
@@ -125,13 +141,14 @@ function UpdateArticle(){
  
                         ></textarea>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-3">   
                         <label for="inputState" className="form-label text-light fw-medium">Update Publishing Date</label>
                         <div className="input-group mb-3 ">
                             <span className="input-group-text border-0 text-white bg-secondary opacity-75"><FontAwesomeIcon icon={faCalendar } className='color-yellow ' /></span>
                             <input type="date" className="form-control border-0  opacity-75 " aria-describedby="basic-addon1"
                             id="publish_date"
-                            defaultValue={initialArticleDataRef.current.publish_date}
+                                           defaultValue={initialPublishDate}
+
 
                             {...register('publish_date')}
  

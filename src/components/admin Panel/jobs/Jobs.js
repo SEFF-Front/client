@@ -14,9 +14,20 @@ import {
   fetchAllJobs,
   fetchOneJob,
 } from "../../redux/reducers/JobSlice.";
+import Pagination from "../../pagination/pagination";
 
 import moment from "moment";
 function Jobs() {
+  const [queries, setQueries] = useState({
+    page: 1,
+    fieldValue: "",
+    fieldName: "",
+    searchBy: "userId",
+    searchValue: "",
+  });
+  const handlePageChange = (page) => {
+    setQueries((prevQueries) => ({ ...prevQueries, page }));
+  };
   const { all: jobs } = useSelector((state) => state.jobs);
   const dispatch = useDispatch();
   const date = moment();

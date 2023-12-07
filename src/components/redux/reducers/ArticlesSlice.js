@@ -79,6 +79,7 @@ export const updateArticle = createAsyncThunk(
         },
       });
       console.log(response);
+      return response.data.data;
     } catch (error) {
             throw rejectWithValue(error.response.data.error);
 
@@ -149,11 +150,7 @@ export const ArticleSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(updateArticle.pending, (state, { payload }) => {
-        state.loading = true;
-        state.error = null;
-        state.getArticle = payload.data;
-      })
+  
       .addCase(getArticle.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -176,11 +173,14 @@ export const ArticleSlice = createSlice({
           state.error = "Network error occurred";
         }
       })
-      
+      .addCase(updateArticle.pending, (state, { payload }) => {
+        state.loading = true;
+        state.error = null; 
+      })
       .addCase(updateArticle.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.success = true;
-        state.getArticel = payload.data;
+        state.getArticle = payload.data;
         console.log(payload)
       })
       .addCase(updateArticle.rejected, (state, { payload }) => {

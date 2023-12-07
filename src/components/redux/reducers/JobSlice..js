@@ -114,6 +114,7 @@ export const jobSlice = createSlice({
       .addCase(fetchAllJobs.fulfilled, (state, action) => {
         state.all = action.payload;
         state.loading = false;
+        
       })
       .addCase(fetchAllJobs.rejected, (state, action) => {
         state.loading = false;
@@ -147,7 +148,6 @@ export const jobSlice = createSlice({
       })
       .addCase(deleteJob.fulfilled, (state, action) => {
         state.loading = false;
-        // Add logic to update state based on successful delete if needed
       })
       .addCase(deleteJob.rejected, (state, action) => {
         state.loading = false;

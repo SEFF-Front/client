@@ -220,12 +220,12 @@ function Articles() {
                     <br />
                     {""}
                   </td>
-                  <td>
+                  <td className=" ">
                     <Link to="/adminPanel/updatearticle">
                       <FontAwesomeIcon
                         icon={faPenToSquare}
                         onClick={() => handleUpdateArticle(article._id)}
-                        className="color-yellow"
+                        className="color-yellow "
                       />
                     </Link>
                     <Link
