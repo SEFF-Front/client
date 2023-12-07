@@ -6,10 +6,11 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 function Pagination({ total, limit,pages,currentPage:activePage, onPageChange }) {
-    const [currentPage, setCurrentPage] = useState(activePage);
-    useEffect(() => {
-      setCurrentPage(1);
-    }, [total, limit]);
+  const [currentPage, setCurrentPage] = useState(activePage);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [total, limit]);
+  console.log(total, limit,pages,currentPage,activePage, onPageChange);
 
     const pageNumbers = Array.from({ length: pages }, (_, index) => index + 1);
   const changeByNumber=(pageNumber)=>{

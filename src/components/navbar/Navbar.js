@@ -46,7 +46,7 @@ const Navbar = () => {
           <Link to='/StudentPanel' className="nav-link  p-0">STUDENT PANEL</Link>
         </li>
         }
-        {isAuthenticated && user.role == 'instructor' && <li className="nav-item  p-0">
+        {isAuthenticated && user.role == 'Instructor' && <li className="nav-item  p-0">
           <Link to='/instructorPanel' className="nav-link  p-0">INSTRUCTOR PANEL</Link>
         </li>
         }

@@ -36,7 +36,7 @@ export const getAllUsers = createAsyncThunk('users/get-all',async(queries,{rejec
     const {page,fieldValue,fieldName,searchBy,searchValue}=queries
     console.log( {page,fieldValue,fieldName,searchBy,searchValue});
     const response =await Api.get(`/users/get-all?page=${page}&fieldName=${fieldName}&fieldValue=${fieldValue}&searchBy=${searchBy}&searchValue=${searchValue}`)
-    return response.data
+    return response.data 
   } catch (error) {
     return rejectWithValue(error.response.data)
   }

@@ -18,6 +18,7 @@
     
   }
   .exams .view{
+    display: flex;
     height: fit-content;
     background: #bf9b30;
     transition: 0.5s;
@@ -77,5 +78,13 @@
     }
     .img_rel::after{
       border-radius: 0rem;
+    }
+  }
+  @media(max-width:550px){
+    .d-m-block{
+      display: block;
+    }
+    .sm{
+      font-size: medium;
     }
   }
