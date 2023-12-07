@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.add-exam input,select,option{
+    padding: 5px 10px;
+    background: #ffffff1e !important;
+    border: none;
+    color: #fffffff1;
+    outline: none;
+}
+.add-exam option{
+    color: black;
+    --bs-bg-opacity: 1;
+    background: rgba(var(--bs-secondary-rgb),var(--bs-bg-opacity))!important;
+}
+.add-exam .darked{
+    background: rgba(0,0,0,0.4);
+    padding: 50px 0px;
+}
+@media(max-width:500px){
+    .add-exam option{
+        padding: initial;
+        background: initial !important;
+        border: initial;
+        color: initial;
+        outline: initial;
+    }
+}

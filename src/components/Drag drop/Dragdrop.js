@@ -142,7 +142,9 @@ function Dragdrop({ size, useFor ,onFileDrop}) {
         </div>
       </div>
 }
-    <button className={(!drop && drop2) || (drop && drop2 )? "d-none":"btn ps-4 pe-4 p-2 btn btn-outline-warning ms-3"} onClick={()=>{
+    <button className={(!drop && drop2) || (drop && drop2 )? "d-none":"btn ps-4 pe-4 p-2 btn btn-outline-warning ms-3"} 
+    onClick={(event)=>{
+      event.preventDefault();
       setDrop(!drop);
       setDrop2(!drop2)
     }} >change file</button>

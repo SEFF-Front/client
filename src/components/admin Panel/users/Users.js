@@ -37,7 +37,7 @@ function Users() {
       page:1,
       searchValue: search,
     });
-  };
+  }; 
 
   useEffect(() => {
     dispatch(getAllUsers(queries));

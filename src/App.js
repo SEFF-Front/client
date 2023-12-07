@@ -27,8 +27,6 @@ import DraftArticles from './components/admin Panel/articles/draft';
 import Users from './components/admin Panel/users/Users';
 import AddCourses from './components/admin Panel/add courses/addCourses';
 import Courses from './components/admin Panel/courses/Courses';
-import PublishedCourses from './components/admin Panel/courses/saved';
-import DraftCourses from './components/admin Panel/courses/draft';
 import AddCertificateDetails from './components/admin Panel/add certificate/Add_Certificate_Details';
 import { useSelector } from 'react-redux';
 import Jobs from './components/admin Panel/jobs/Jobs';
@@ -38,6 +36,8 @@ import { useNavigate,useLocation } from 'react-router-dom';
 import React, { useEffect ,useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {currentUser} from "./components/redux/reducers/authSlice"
+import Personal from './components/welcome/personal';
+import Addexam from './components/admin Panel/add exam/addexam';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -96,15 +96,21 @@ if (isLoading) {
        <Route path='/login' element={<LoginComponent/>}/>
        {console.log(user?.role )}
       {isAuthenticated && <Route path='/jobs' element={<FindJobs/>}/>}
-      {isAuthenticated && (user?.role === 'Student' || user?.role === 'instructor' || user?.role === 'Admin') && (
+      {isAuthenticated && (user?.role === 'Student' || user?.role === 'Instructor' || user?.role === 'Admin') && (
       <Route path="/profile" element={<Profile />} />
       )}    
         {isAuthenticated && user?.role === 'Student'&& (<Route path='/createCv' element={<CvShape/>}/>)}
-        {isAuthenticated && user?.role === 'Student'&& (<Route path='/StudentPanel/coursedetails' element={<Coursedeatels />}/>)}
+        {isAuthenticated && user?.role === 'Student'&& (<Route path='/StudentPanel/coursedetails/:courseId' element={<Coursedeatels />}/>)}
         
-        {isAuthenticated && user?.role === 'Student' &&(<Route path='/StudentPanel' element={<PersonalPage/>}/>)}
-        {isAuthenticated &&user?.role === 'instructor' &&<Route path='/instructorPanel' element={<PersonalPage/>}/>}
-
+        {isAuthenticated && user?.role === 'Student' &&(<Route path='/StudentPanel' element={<Personal />}/>)}
+        {isAuthenticated &&user?.role === 'Instructor' &&<Route path='/instructorPanel' element={<PersonalPage />}/>}
+        {isAuthenticated && user?.role === 'Instructor'&& (
+          <>
+            <Route path='/instructorPanel/coursedetails/:courseId' element={<Coursedeatels />}/>
+            <Route path="/instructorPanel/addexam" element={<Addexam />} />
+            <Route path="/instructorPanel/editexam/:examId" element={<Addexam type='edit' />} />
+          </>
+        )}
         {isAuthenticated &&user?.role === 'Admin' && (
               <Route path='/adminPanel' element={<AdminPanel/>}>
               <Route path="articles" element={<Articles />} />
@@ -117,14 +123,17 @@ if (isLoading) {
               <Route path="draftarticles" element={<DraftArticles />} />
               <Route path="addjobs" element={<AddJob />} />
               <Route
-                path="addcertificate"
-                element={<AddCertificateDetails />}
-              />
-              <Route path="courses" element={<Courses />} />
-              <Route path="publishedcourses" element={<PublishedCourses />} />
+                path="addcertificate" element={<AddCertificateDetails />} />
+
               
-              <Route path="draftcourses" element={<DraftCourses />} />
-              <Route path="addcourses" element={<AddCourses />} />
+
+              <Route path="courses" element={<Courses />} />
+							<Route path="courses/:courseId" element={<AddCourses type="edit" />} />
+							<Route path="addcourses" element={<AddCourses type='new' />} />
+							<Route path="courses/publishedcourses" element={<Courses StatusQuery = 'published' />} />
+							<Route path="courses/scheduledcourses" element={<Courses StatusQuery = 'scheduled' />} />
+							<Route path="courses/draftcourses" element={<Courses StatusQuery = 'draft' />} />							
+
               <Route path="users" element={<Users />} />
               <Route path="addusers" element={<AddUser />} />
               <Route path="edit-user" element={<EditUser />} />

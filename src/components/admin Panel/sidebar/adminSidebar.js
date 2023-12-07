@@ -104,11 +104,11 @@ function AdminSideBar(){
           <h2 onClick={()=>{setCertifiCateeBtn(false);handleShowDropdown('course')}} ><Link to="courses" className={courseDropdown ? 'color-yellow':'' }>Courses</Link></h2>
             
           <div class="lg-ul">
-             <ul>
-            <li><Link to="publishedcourses">Published Courses</Link></li>
-            <li><Link to="">Scheduled Courses</Link></li>
-            <li><Link to="draftcourses">Saved Drafts</Link></li>
-          </ul>
+            <ul>
+              <li><Link to="courses/publishedcourses">Published Courses</Link></li>
+              <li><Link to="courses/scheduledcourses">Scheduled Courses</Link></li>
+              <li><Link to="courses/draftcourses">Saved Drafts</Link></li>
+            </ul>
           </div>
         </div>
         {
@@ -158,9 +158,9 @@ function AdminSideBar(){
                 courses
               </button>
               <ul className='dropdown-menu bg-dark w-100 col-xs-12' >
-                <li><Link className='dropdown-item text-light' to="publishedcourses">Published courses</Link></li>
-                <li><Link className='dropdown-item text-light' to="#">Scheduled courses </Link></li>
-                <li><Link className='dropdown-item text-light' to="draftcourses">Saved Drafts</Link></li>
+                <li><Link className='dropdown-item text-light' to="courses/publishedcourses">Published courses</Link></li>
+                <li><Link className='dropdown-item text-light' to="courses/scheduledcourses">Scheduled courses </Link></li>
+                <li><Link className='dropdown-item text-light' to="courses/draftcourses">Saved Drafts</Link></li>
               </ul>
             </div>
           ): ''

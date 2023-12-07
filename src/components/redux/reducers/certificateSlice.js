@@ -1,65 +1,242 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import moment from 'moment';
-// const currentTime = moment().format('hh:mm A');
-// export const fetchcertificates = createAsyncThunk(
-//     "CertificateSlice/fetchcertificates",
-//     async () => {
-//       const response = await api('/products/categories'
-//       );
-//       return response.data;
-//     }
-//   );
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Api from '../../../utils/Api';
+import { toast } from 'react-toastify';
 
-export const CertificateSlice= createSlice({
-    name:"CertificateSlice",
-    initialState:[
-        {
-            studentname: "sssss",
-            date_acquired: "dddddd",
-            upload_date: "ddddd",
-            course: "dddddd",
-            uploadedFile:null,
-            id:0,
-        },
-        {
-            studentname: "",
-            date_acquired: "",
-            upload_date: "",
-            course: "",
-            uploadedFile:null,
-            id:1,
-        },
-        {
-            studentname: "",
-            date_acquired: "",
-            upload_date: "",
-            course: "",
-            uploadedFile:null,
-            uploadedFile: null ,
-            id:2,
-        },
-    ],
-    reducers:{
-        addCertificate:(state,action)=>{
-                // state.push({...action.payload,id:state.length})
-                // const ids = state.map((certificate=>certificate.id))
-                // let index = state.findIndex(action.payload.id)
-                // if(index){
-                    // ids?.includes(action.payload.id) ? state[index] = ({...action.payload,id:action.payload.id})
-                // :
-                 state.push({...action.payload,id:state.length})
-                    // ;console.log(state)
-                // }
-        },
-        remoceCertificate:(state,action)=>{
-            return state.filter(certificate=>certificate.id!==action.payload.id)
-        }
-    },
-    // extraReducers: (builder) => {
-    //     builder.addCase(fetchcertificates.fulfilled, (state, action) => {
-    //     state.all = action.payload;
-    //     })}
-})
+const apiOption = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-export const {addCertificate , remoceCertificate} = CertificateSlice.actions;
+export const fetchCertificates = createAsyncThunk(
+	'CertificateSlice/fetchCertificates',
+	async ({ role, filter = {} }, { rejectWithValue }) => {
+		try {
+			const response = await Api.get(`/certificates/${'student'}`);
+			console.log('response.data', response.data);
+			return response.data;
+		} catch (error) {
+			console.log('error', error);
+			console.log('error.response.data', error.response.data.message);
+			toast.error(error.response?.data?.message);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const createCertificate = createAsyncThunk(
+	'CertificateSlice/createCertificate',
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await Api.post('certificates/admin', data, apiOption);
+			console.log('response.data', response.data);
+			if (response.data?.message) {
+				toast.success(response.data?.message);
+			}
+			return response.data;
+		} catch (error) {
+			console.log('error', error);
+			console.log('error.response.data', error.response.data.error);
+			if (Array.isArray(error.response?.data?.error)) {
+				console.log('its array');
+				error.response.data.error.map((e) => e.message);
+				toast.error(error.response.data.error.map((e) => e.message));
+			}
+			return rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+export const getCertificate = createAsyncThunk(
+	'CertificateSlice/getCertificate',
+	async (id, { rejectWithValue }) => {
+		try {
+			const response = await Api(`certificates/admin/${id}`);
+			console.log('response.data', response.data);
+			return response.data;
+		} catch (error) {
+			console.log('error', error);
+			console.log('error.response.data', error.response.data.error);
+			toast.error(error.response?.data?.error);
+			return rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+
+// export const getStudentCertificates = createAsyncThunk(
+// 	'CertificateSlice/getStudentCertificates',
+// 	async ({ role, filter = {} }, { rejectWithValue }) => {
+// 		try {
+// 			const response = await Api.get(`/certificates/${role}`);
+// 			console.log('response.data', response.data);
+// 			return response.data;
+// 		} catch (error) {
+// 			console.log('error', error);
+// 			console.log('error.response.data', error.response.data?.message);
+// 			toast.error(error.response?.data?.message);
+// 			return rejectWithValue(error.response.data);
+// 		}
+// 	}
+// );
+
+
+
+// export const updateCertificate = createAsyncThunk(
+// 	'CertificateSlice/updateCertificate',
+// 	async ({ id, data }, { rejectWithValue }) => {
+// 		try {
+// 			const response = await Api.patch(`certificates/admin/${id}`, data, {
+// 				...apiOption,
+// 			});
+// 			console.log('response.data', response.data);
+// 			if (response.data?.message) {
+// 				toast.success(response.data?.message);
+// 			}
+// 			return response.data;
+// 		} catch (error) {
+// 			console.log('error', error);
+// 			console.log('error.response.data', error.response.data.error);
+// 			if (Array.isArray(error.response?.data?.error)) {
+// 				console.log('its array');
+// 				error.response.data.error.map((e) => e.message);
+// 				toast.error(error.response.data.error.map((e) => e.message));
+// 			}
+// 			return rejectWithValue(error.response.data.error);
+// 		}
+// 	}
+// );
+
+// export const deleteCertificate = createAsyncThunk(
+// 	'CertificateSlice/deleteCertificate',
+// 	async (id, { rejectWithValue }) => {
+// 		try {
+// 			const response = await Api.delete(`certificates/admin/${id}`);
+// 			console.log('response.data', response.data);
+// 			toast.success(response.data?.message);
+// 			fetchCertificates();
+// 			return response.data;
+// 		} catch (error) {
+// 			console.log('error', error);
+// 			console.log('error.response.data', error.response.data.error);
+// 			toast.error(error.response?.data?.error);
+// 			return rejectWithValue(error.response.data.error);
+// 		}
+// 	}
+// );
+
+export const CertificateSlice = createSlice({
+	name: 'CertificateSlice',
+	initialState: {
+		loading: false,
+		errors: '',
+		success: '',
+		message: '',
+		certificate: null,
+		certificates: [],
+	},
+
+	extraReducers: (builder) => {
+		builder.addCase(fetchCertificates.pending, (state, action) => {
+			state.loading = true;
+			state.errors = '';
+			state.message = '';
+			state.certificates = [];
+		});
+		builder.addCase(fetchCertificates.fulfilled, (state, action) => {
+			state.loading = false;
+			state.errors = '';
+			state.message = action.payload.message;
+			state.certificates = action.payload.data;
+			console.log('fulfilled', action.payload);
+		});
+		builder.addCase(fetchCertificates.rejected, (state, action) => {
+			state.loading = false;
+			state.errors = action.payload;
+			state.message = '';
+			state.certificates = [];
+		});
+
+
+		builder.addCase(createCertificate.pending, (state, action) => {
+			state.loading = true;
+			state.errors = '';
+			state.message = '';
+			state.certificate = {};
+		});
+		builder.addCase(createCertificate.fulfilled, (state, action) => {
+			state.loading = false;
+			state.errors = '';
+			state.message = action.payload.message;
+			state.certificate = action.payload.data;
+		});
+		builder.addCase(createCertificate.rejected, (state, action) => {
+			state.loading = false;
+			state.message = '';
+			state.errors = action.error.message;
+			state.certificate = {};
+		});
+
+		builder.addCase(getCertificate.pending, (state, action) => {
+			state.loading = true;
+			state.errors = '';
+			state.message = '';
+			state.certificate = {};
+		});
+		builder.addCase(getCertificate.fulfilled, (state, action) => {
+			state.loading = false;
+			state.errors = '';
+			state.success = action.payload.success;
+			state.message = '';
+			state.certificate = action.payload.data;
+		});
+		builder.addCase(getCertificate.rejected, (state, action) => {
+			state.loading = false;
+			state.message = '';
+			state.errors = action.error.message;
+			state.certificate = {};
+		});
+
+		
+		// builder.addCase(getStudentCertificates.pending, (state, action) => {
+		// 	state.loading = true;
+		// 	state.errors = '';
+		// 	state.message = '';
+		// 	state.certificates = [];
+		// });
+		// builder.addCase(getStudentCertificates.fulfilled, (state, action) => {
+		// 	state.loading = false;
+		// 	state.errors = '';
+		// 	state.message = action.payload.message;
+		// 	state.certificates = action.payload.data;
+		// 	console.log('fulfilled', action.payload);
+		// });
+		// builder.addCase(getStudentCertificates.rejected, (state, action) => {
+		// 	state.loading = false;
+		// 	state.errors = action.payload;
+		// 	state.message = '';
+		// 	state.certificates = [];
+		// });
+
+		
+
+		// builder.addCase(updateCertificate.pending, (state, action) => {
+		// 	state.loading = true;
+		// 	state.errors = '';
+		// 	state.message = '';
+		// 	state.certificate = {};
+		// });
+		// builder.addCase(updateCertificate.fulfilled, (state, action) => {
+		// 	state.loading = false;
+		// 	state.errors = '';
+		// 	state.message = action.payload.message;
+		// 	state.certificate = action.payload.data;
+		// 	console.log('fulfilled', action.payload);
+		// });
+		// builder.addCase(updateCertificate.rejected, (state, action) => {
+		// 	state.loading = false;
+		// 	state.message = '';
+		// 	state.errors = action.error.message;
+		// 	state.certificate = {};
+		// 	console.log('rejected', action);
+		// });
+	},
+});
+
 export default CertificateSlice.reducer;
