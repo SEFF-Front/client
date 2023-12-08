@@ -87,7 +87,7 @@ function Articles() {
     dispatch(getArticle(articleId))
     .unwrap()
     .then(() => {
-      navigate("/adminPanel/UpdateJob");
+      navigate("/adminPanel/UpdateArticle");
     });  };
 
   useEffect(() => {

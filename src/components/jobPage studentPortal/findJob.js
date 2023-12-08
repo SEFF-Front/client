@@ -350,7 +350,8 @@ href='#'>
             { details&&!form&&
                 <div class="div1 m-md-3"> 
                 <div class="dd-info row">
-                     <div class="spn col-1 p-0 d-flex justify-content-center">                {currentJob.companyLogo && (
+                     <div class="spn col-1 p-0 d-flex justify-content-center">      
+                               {currentJob.companyLogo && (
   <img
     src={`http://localhost:4000/seff-academy/uploads${currentJob?.companyLogo}`}
     alt="Company Logo"
