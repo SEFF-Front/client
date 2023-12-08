@@ -196,7 +196,7 @@ function Courses({ StatusQuery }) {
 						<div class="search-div">
 							<input
 								type="text"
-								placeholder="Search For Jobs"
+								placeholder="Search For course"
 								// onChange={handelSearchInput}
 								onInput={handelSearchInput}
 								style={{ borderRadius: '5px', padding: '5px' }}

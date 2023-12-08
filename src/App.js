@@ -3,7 +3,7 @@ import Navbar from './components/navbar/Navbar';
 import News from './components/news/news';
 import LoginComponent from './components/login/Login';
 import Scroll from './components/scroll/scroll';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import ShowNews from './components/news/showNew';
 import Articles from './components/admin Panel/articles/article';
 import AddJob from './components/admin Panel/add job/AddJob';
@@ -38,6 +38,11 @@ import { useDispatch } from 'react-redux';
 import {currentUser} from "./components/redux/reducers/authSlice"
 import Personal from './components/welcome/personal';
 import Addexam from './components/admin Panel/add exam/addexam';
+import UpdateJob from './components/admin Panel/update job/UpdateJob';
+import JobsListMain from './components/jobPage studentPortal/jobsListMain';
+import JobDetails from './components/jobPage studentPortal/jobDetails';
+import JobAddApplication from './components/jobPage studentPortal/JobAddApplication';
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -69,97 +74,135 @@ if (isLoading) {
   return null;
 }
     return (
-    <>
-    <div className="App">
-      <Toaster/>
-      <Navbar />
-      {/* <AdminSideBar/> */}
-      {/* <AdminPanel/> */}
-      {/* <Jobs/> */}
-      {/* <Coursedeatels/> */}
-      {/* <CvShape /> */}
-      {/* <Articles/> */}
-      {/* <AddJob /> */}
-      {/* <PersonalPage/> */}
-      {/* <AddUser/> */}
-    </div>
-       <Routes>
-       <Route path='/' element={<News/>}/>
-       <Route path='/showNews' element={<ShowNews/>}/>
-       <Route path='/about' element={<News/>}/>
-       <Route path='/business' element={<News/>}/>
-       <Route path='/security' element={<News/>}/>
-       <Route path='/sports' element={<News/>}/>
-       <Route path='/medical' element={<News/>}/>
-       <Route path='/startups' element={<News/>}/>
-       <Route path='/apps' element={<News/>}/>
-       <Route path='/login' element={<LoginComponent/>}/>
-       {console.log(user?.role )}
-      {isAuthenticated && <Route path='/jobs' element={<FindJobs/>}/>}
-      {isAuthenticated && (user?.role === 'Student' || user?.role === 'Instructor' || user?.role === 'Admin') && (
-      <Route path="/profile" element={<Profile />} />
-      )}    
-        {isAuthenticated && user?.role === 'Student'&& (<Route path='/createCv' element={<CvShape/>}/>)}
-        {isAuthenticated && user?.role === 'Student'&& (<Route path='/StudentPanel/coursedetails/:courseId' element={<Coursedeatels />}/>)}
-        
-        {isAuthenticated && user?.role === 'Student' &&(<Route path='/StudentPanel' element={<Personal />}/>)}
-        {isAuthenticated &&user?.role === 'Instructor' &&<Route path='/instructorPanel' element={<PersonalPage />}/>}
-        {isAuthenticated && user?.role === 'Instructor'&& (
-          <>
-            <Route path='/instructorPanel/coursedetails/:courseId' element={<Coursedeatels />}/>
-            <Route path="/instructorPanel/addexam" element={<Addexam />} />
-            <Route path="/instructorPanel/editexam/:examId" element={<Addexam type='edit' />} />
-          </>
-        )}
-        {isAuthenticated &&user?.role === 'Admin' && (
-              <Route path='/adminPanel' element={<AdminPanel/>}>
-              <Route path="articles" element={<Articles />} />
-              <Route
-                path="addarticles"
-                element={<AddArticles />}
-              />
-              <Route path="Jobbs" element={<Jobs />} />
-              <Route path="publishedarticles" element={<PublishedArticles />} />
-              <Route path="draftarticles" element={<DraftArticles />} />
-              <Route path="addjobs" element={<AddJob />} />
-              <Route
-                path="addcertificate" element={<AddCertificateDetails />} />
+			<>
+				<div className="App">
+					<Toaster />
+					<Navbar />
+					{/* <AdminSideBar/> */}
+					{/* <AdminPanel/> */}
+					{/* <Jobs/> */}
+					{/* <Coursedeatels/> */}
+					{/* <CvShape /> */}
+					{/* <Articles/> */}
+					{/* <AddJob /> */}
+					{/* <PersonalPage/> */}
+					{/* <AddUser/> */}
+				</div>
+				<Routes>
+					<Route path="/" element={<News />} />
+					<Route path="/showNews" element={<ShowNews />} />
+					<Route path="/about" element={<News />} />
+					<Route path="/business" element={<News />} />
+					<Route path="/security" element={<News />} />
+					<Route path="/sports" element={<News />} />
+					<Route path="/medical" element={<News />} />
+					<Route path="/startups" element={<News />} />
+					<Route path="/apps" element={<News />} />
+					<Route path="/login" element={<LoginComponent />} />
+					{console.log(user?.role)}
+					{/* {isAuthenticated && <Route path='/jobs' element={<FindJobs/>}/>} */}
+					{isAuthenticated &&
+						(user?.role === 'Student' ||
+							user?.role === 'Instructor' ||
+							user?.role === 'Admin') && (
+							<Route path="/profile" element={<Profile />} />
+						)}
+					{isAuthenticated && user?.role === 'Student' && (
+						<Route path="/createCv" element={<CvShape />} />
+					)}
+					{isAuthenticated && user?.role === 'Student' && (
+						<Route
+							path="/StudentPanel/coursedetails/:courseId"
+							element={<Coursedeatels />}
+						/>
+					)}
 
-              
+					{isAuthenticated && user?.role === 'Student' && (
+						<Route path="/StudentPanel" element={<Personal />} />
+					)}
+					{isAuthenticated && user?.role === 'Instructor' && (
+						<Route path="/instructorPanel" element={<PersonalPage />} />
+					)}
+					{isAuthenticated && user?.role === 'Instructor' && (
+						<>
+							<Route
+								path="/instructorPanel/coursedetails/:courseId"
+								element={<Coursedeatels />}
+							/>
+							<Route path="/instructorPanel/addexam" element={<Addexam />} />
+							<Route
+								path="/instructorPanel/editexam/:examId"
+								element={<Addexam type="edit" />}
+							/>
+						</>
+					)}
+					{isAuthenticated && user?.role === 'Admin' && (
+						<Route path="/adminPanel" element={<AdminPanel />}>
+							<Route path="articles" element={<Articles />} />
+							<Route path="addarticles" element={<AddArticles />} />
+							{/* <Route path="updatearticle" element={<UpdateArticle />} /> */}
+							<Route path="updatejob" element={<UpdateJob />} />
 
-              <Route path="courses" element={<Courses />} />
-							<Route path="courses/:courseId" element={<AddCourses type="edit" />} />
-							<Route path="addcourses" element={<AddCourses type='new' />} />
-							<Route path="courses/publishedcourses" element={<Courses StatusQuery = 'published' />} />
-							<Route path="courses/scheduledcourses" element={<Courses StatusQuery = 'scheduled' />} />
-							<Route path="courses/draftcourses" element={<Courses StatusQuery = 'draft' />} />							
+							<Route path="Jobbs" element={<Jobs />} />
+							<Route
+								path="/adminPanel/jobbs/:jobId/applications"
+								element={<Applications />}
+							/>
+							<Route path="publishedarticles" element={<PublishedArticles />} />
+							<Route path="draftarticles" element={<DraftArticles />} />
+							<Route path="addjobs" element={<AddJob />} />
+							<Route path="addcertificate" element={<AddCertificateDetails />} />
 
-              <Route path="users" element={<Users />} />
-              <Route path="addusers" element={<AddUser />} />
-              <Route path="edit-user" element={<EditUser />} />
-              <Route path="application" element={<Applications />} />
-              <Route
-                path="userstudents"
-                element={<UserStudents />}
-              />
-              <Route
-                path="userAdmins"
-                element={<UserAdmins />}
-              />
-              <Route
-                path="userInstructors"
-                element={<UserInstructors />}
-              />
+							<Route path="courses" element={<Courses />} />
+							<Route
+								path="courses/:courseId"
+								element={<AddCourses type="edit" />}
+							/>
+							<Route path="addcourses" element={<AddCourses type="new" />} />
+							<Route
+								path="courses/publishedcourses"
+								element={<Courses StatusQuery="published" />}
+							/>
+							<Route
+								path="courses/scheduledcourses"
+								element={<Courses StatusQuery="scheduled" />}
+							/>
+							<Route
+								path="courses/draftcourses"
+								element={<Courses StatusQuery="draft" />}
+							/>
 
-        </Route>
-        )}
+							<Route path="users" element={<Users />} />
+							<Route path="addusers" element={<AddUser />} />
+							<Route path="edit-user" element={<EditUser />} />
+							<Route path="application" element={<Applications />} />
+							<Route path="userstudents" element={<UserStudents />} />
+							<Route path="userAdmins" element={<UserAdmins />} />
+							<Route path="userInstructors" element={<UserInstructors />} />
+						</Route>
+					)}
 
-       
-    <Route path='*' element={<News/>} />
-      </Routes>
-      <Scroll />
-      </>
-  );
+					{isAuthenticated && (
+						<>
+							<Route path="/jobs" element={<JobsListMain />} />
+							<Route path="/jobs/:jobId" element={<JobDetails  />} />
+							<Route path="/jobs/:jobId/add-application" element={<JobAddApplication />} />
+						</>
+						// <Route path="/" element={<JobsListMain />}>
+						// 	{/* redirect to first route -------------------------------- */}
+						// 	{/* <Route index element={<Navigate replace to="/jobs/:jobId" />} /> */}
+
+						// 	<Route path="jobs-list" element={<UserInstructors />} />
+						// 	<Route path=":jobId" element={<UserInstructors />} />
+						// 	<Route path=":jobId/add-applications" element={<AddApplication />} />
+						// </Route>
+					)}
+
+					<Route path="*" element={<News />} />
+				</Routes>
+				<Scroll />
+			</>
+		);
 }
 
 export default App;
