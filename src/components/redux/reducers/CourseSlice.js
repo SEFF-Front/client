@@ -83,7 +83,17 @@ export const createCourse = createAsyncThunk(
 				console.log('its array');
 				error.response.data.error.map((e) => toast.error(e.message));
 				// toast.error(error.response.data.error.map((e) => e.message));
+			} else {
+				console.log('error.response.data', error.response.data.error || error.response.data.message);
+				toast.error(error.response.data.error || error.response.data.message);
 			}
+			// if (typeof error.response?.data?.error == 'string'){
+			// 	console.log('error.response.data', error.response.data.error || error.response.data.message);
+			// 		toast.error(error.response.data.error || error.response.data.message);
+			// }else{
+			// 	error.response.data.error.map((e) => toast.error(e.message));
+			// }
+			
 			return rejectWithValue(error.response.data.error);
 		}
 	}
@@ -103,9 +113,17 @@ export const updateCourse = createAsyncThunk(
 			return response.data;
 		} catch (error) {
 			console.log('error', error);
-			console.log('error.response.data', error.response.data.error);
-			error.response?.data?.error?.map((error) => toast.error(error?.message));
-			toast.error(error.response?.data?.error);
+			if (Array.isArray(error.response?.data?.error)) {
+				console.log('its array');
+				error.response.data.error.map((e) => toast.error(e.message));
+				// toast.error(error.response.data.error.map((e) => e.message));
+			} else {
+				console.log(
+					'error.response.data',
+					error.response.data.error || error.response.data.message
+				);
+				toast.error(error.response.data.error || error.response.data.message);
+			}
 			return rejectWithValue(error.response.data.error);
 		}
 	}

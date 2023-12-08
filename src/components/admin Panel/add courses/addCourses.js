@@ -85,15 +85,15 @@ function AddCourses({ type = 'new' }) {
 		console.log('data', data);
 
 		if (type === 'edit') {
-			dispatch(updateCourse({ id: courseId, data }));
-			if (isSubmitSuccessful) {
-				setSelectedStudents([]);
-			}
+			dispatch(updateCourse({ id: courseId, data })).unwrap();
+			setSelectedStudents([]);
+			reset();
+			navigate(`adminPanel/courses/${courseId}`);
 		} else {
 			try {
 				await dispatch(createCourse(data)).unwrap();
 				reset();
-				navigate(-1);
+				navigate(`adminPanel/courses/${courseId}`);
 			} catch (error) {
 				console.log(error);
 				toast.error(error.message);
@@ -124,7 +124,13 @@ function AddCourses({ type = 'new' }) {
 		if (type === 'edit') {
 			dispatch(getCourse({ role: 'admin', id: courseId }));
 		}
-	}, [type, courseId]);
+	}, [type, courseId, dispatch]);
+
+	useEffect(() => {
+		if (type === 'edit') {
+			dispatch(getCourse({ role: 'admin', id: courseId }));
+		}
+	}, [courseId, dispatch]);
 
 	// react-select --------------------------
 	useEffect(() => {
@@ -157,11 +163,14 @@ function AddCourses({ type = 'new' }) {
 		}
 	}, [type, course?.enrolledStudents]);
 
-	console.log('enrolledStudents', getValues());
+	console.log('values', getValues());
 	// ------------------------------ server ---------------------------
 
 	const handleFileDrop = (droppedFile) => {
-		setValue('image', droppedFile);
+		setValue('image', droppedFile, { shouldTouch: true });
+		console.log('values', getValues());
+		console.log('droppedFile', droppedFile);
+
 		// formInfo.set('image', droppedFile);
 	};
 
