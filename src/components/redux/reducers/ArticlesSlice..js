@@ -1,4 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Api from '../../../utils/Api';
+import { toast } from 'react-toastify';
 // import moment from 'moment';
 // const currentTime = moment().format('hh:mm A');
 // export const fetchArticles = createAsyncThunk(
@@ -10,61 +12,191 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //     }
 //   );
 
-export const ArticleSlice= createSlice({
-    name:"ArticleSlice",
-    initialState:[
-        {
-            articleTitle:'this is articleTitle',
-            category:'tech',
-            status:true,
-            content: '',
-            publishingDate: 'monday June 5th',
-            // publishingTime:currentTime,
-            uploadedFile: null ,
-            id:0,
-        },
-        {
-            articleTitle:'this is articleTitle',
-            category:'tech',
-            status:true,
-            content: '',
-            publishingDate: 'monday June 5th',
-            // publishingTime:currentTime,
-            uploadedFile: null ,
-            id:1,
-        },
-        {
-            articleTitle:'this is articleTitle',
-            category:'Education',
-            status:false,
-            content: '',
-            publishingDate: 'monday June 5th',
-            // publishingTime:currentTime,
-            uploadedFile: null ,
-            id:2,
-        },
-    ],
-    reducers:{
-        addArticle:(state,action)=>{
-                // state.push({...action.payload,id:state.length})
-                // const ids = state.map((article=>article.id))
-                // let index = state.findIndex(action.payload.id)
-                // if(index){
-                    // ids?.includes(action.payload.id) ? state[index] = ({...action.payload,id:action.payload.id})
-                // :
-                 state.push({...action.payload,id:state.length})
-                    // ;console.log(state)
-                // }
-        },
-        removeArticle:(state,action)=>{
-            return state.filter(article=>article.id!==action.payload.id)
-        }
-    },
-    // extraReducers: (builder) => {
-    //     builder.addCase(fetchArticles.fulfilled, (state, action) => {
-    //     state.all = action.payload;
-    //     })}
-})
+export const createArticle = createAsyncThunk(
+	'ArticleSlice/createArticle',
+	async (articleData, { rejectWithValue }) => {
+		try {
+			const response = await Api.post('/articles', articleData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+			return response.data.data;
+		} catch (error) {
+			throw rejectWithValue(error.response.data.error);
+		}
+	}
+);
 
-export const {addArticle , removeArticle} = ArticleSlice.actions;
+export const fetchAllArticles = createAsyncThunk(
+	'ArticleSlice/fetchAllArticles',
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await Api.get('/articles');
+			console.log(response.data.data);
+			return response.data.data;
+		} catch (error) {
+			throw rejectWithValue(error.response.data.message);
+		}
+	}
+);
+export const getArticle = createAsyncThunk(
+	'ArticleSlice/getArticle',
+	async (articleId, { rejectWithValue }) => {
+		try {
+			const response = await Api.get(`/articles/${articleId}`);
+			console.log(response);
+			return response.data;
+			// console.log(response);
+		} catch (error) {
+			throw rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+export const deleteArticle = createAsyncThunk(
+	'ArticleSlice/deleteArticle',
+	async (articleId, { rejectWithValue }) => {
+		try {
+			const response = await Api.delete(`/articles/${articleId}`);
+			return response.data.data;
+		} catch (error) {
+			throw rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+export const updateArticle = createAsyncThunk(
+	'ArticleSlice/updateArticle',
+	async ({ updatedData, articleId }, { rejectWithValue }) => {
+		try {
+			const response = await Api.patch(`/articles/${articleId}`, updatedData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+			console.log(response);
+			return response.data.data;
+		} catch (error) {
+			throw rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+export const ArticleSlice = createSlice({
+	name: 'ArticleSlice',
+	initialState: {
+		all: [],
+		getArticle: null,
+		pagination: [],
+		loading: false,
+		error: null,
+		success: true,
+	},
+	reducers: {},
+	extraReducers: (builder) => {
+		builder
+			.addCase(createArticle.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(createArticle.fulfilled, (state, { payload }) => {
+				state.loading = false;
+				state.success = true;
+			})
+			.addCase(createArticle.rejected, (state, { payload }) => {
+				state.loading = false;
+				if (payload) {
+					if (Array.isArray(payload.error)) {
+						console.log(payload.error);
+						payload.error.map((err) => toast.error(err[err].message));
+					} else if (payload.success === false && payload.error) {
+						state.error = payload.error;
+						state.success = payload.success;
+					} else {
+						state.error = 'An unknown error occurred';
+					}
+				} else {
+					state.error = 'Network error occurred';
+				}
+			})
+			.addCase(fetchAllArticles.pending, (state, { payload }) => {
+				// console.log(payload.pagination);
+				// state.pagination = payload.pagination;
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(fetchAllArticles.fulfilled, (state, action) => {
+				state.all = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchAllArticles.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.error.message;
+			})
+			.addCase(deleteArticle.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(deleteArticle.fulfilled, (state, action) => {
+				state.loading = false;
+				// Add logic to update state based on successful delete if needed
+			})
+			.addCase(deleteArticle.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.error.message;
+			})
+
+			.addCase(getArticle.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(getArticle.fulfilled, (state, { payload }) => {
+				state.loading = false;
+				state.success = true;
+				state.getArticle = payload.data;
+			})
+			.addCase(getArticle.rejected, (state, { payload }) => {
+				state.loading = false;
+				if (payload) {
+					if (payload.success === false && payload.error) {
+						state.error = payload.error;
+						state.success = payload.success;
+					} else {
+						state.error = 'An unknown error occurred';
+					}
+				} else {
+					state.error = 'Network error occurred';
+				}
+			})
+			.addCase(updateArticle.pending, (state, { payload }) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(updateArticle.fulfilled, (state, { payload }) => {
+				state.loading = false;
+				state.success = true;
+				state.getArticle = payload.data;
+				console.log(payload);
+			})
+			.addCase(updateArticle.rejected, (state, { payload }) => {
+				state.loading = false;
+				if (payload) {
+					if (Array.isArray(payload.error)) {
+						console.log(payload.error);
+						payload.error.map((err) => toast.error(err.message));
+					} else if (payload.success === false && payload.error) {
+						state.error = payload.error;
+						state.success = payload.success;
+					} else {
+						state.error = 'An unknown error occurred';
+					}
+				} else {
+					state.error = 'Network error occurred';
+				}
+			});
+	},
+});
+
+export const { addArticle, removeArticle } = ArticleSlice.actions;
 export default ArticleSlice.reducer;

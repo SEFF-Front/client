@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import "./updateJob.css";
 import { useDispatch, useSelector } from "react-redux";
 import {   updateJob } from "../../redux/reducers/JobSlice.";
-import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function UpdateJob() { 
   const { fetchOneJob:job } = useSelector((state) => state.jobs);

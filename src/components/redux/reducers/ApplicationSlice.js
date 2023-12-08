@@ -61,58 +61,60 @@ export const createApplication = createAsyncThunk(
 			return response.data;
 		} catch (error) {
 			console.log('error', error);
-			console.log('error.response.data', error.response.data.error);
+			console.log('error.response.data', error.response.data.message);
 			if (Array.isArray(error.response?.data?.error)) {
 				console.log('its array');
 				error.response.data.error.map((e) => toast.error(e.message));
 				// toast.error(error.response.data.error.map((e) => e.message));
+			}else{
+				toast.error(error.response?.data?.message);
 			}
 			return rejectWithValue(error.response.data.error);
 		}
 	}
 );
 
-export const updateApplication = createAsyncThunk(
-	'ApplicationSlice/updateApplication',
-	async ({ id, data }, { rejectWithValue }) => {
-		console.log('hhhh id', id);
-		console.log('hhhh data', data);
-		try {
-			const response = await Api.patch(`/applications/admin/${id}`, data, {
-				...apiOption,
-			});
-			console.log('response.data', response.data);
-			if (response.data?.message) {
-				toast.success(response.data?.message);
-			}
-			return response.data;
-		} catch (error) {
-			console.log('error', error);
-			console.log('error.response.data', error.response.data.error);
-			error.response?.data?.error?.map((error) => toast.error(error?.message));
-			toast.error(error.response?.data?.error);
-			return rejectWithValue(error.response.data.error);
-		}
-	}
-);
+// export const updateApplication = createAsyncThunk(
+// 	'ApplicationSlice/updateApplication',
+// 	async ({ id, data }, { rejectWithValue }) => {
+// 		console.log('hhhh id', id);
+// 		console.log('hhhh data', data);
+// 		try {
+// 			const response = await Api.patch(`/applications/admin/${id}`, data, {
+// 				...apiOption,
+// 			});
+// 			console.log('response.data', response.data);
+// 			if (response.data?.message) {
+// 				toast.success(response.data?.message);
+// 			}
+// 			return response.data;
+// 		} catch (error) {
+// 			console.log('error', error);
+// 			console.log('error.response.data', error.response.data.error);
+// 			error.response?.data?.error?.map((error) => toast.error(error?.message));
+// 			toast.error(error.response?.data?.error);
+// 			return rejectWithValue(error.response.data.error);
+// 		}
+// 	}
+// );
 
-export const deleteApplication = createAsyncThunk(
-	'ApplicationSlice/deleteApplication',
-	async (id, { rejectWithValue }) => {
-		try {
-			const response = await Api.delete(`/applications/admin/${id}`);
-			console.log('response.data', response.data);
-			toast.success(response.data?.message);
-			// fetchApplications({ role: 'admin', filter, ...queries, page: 1 })
-			return response.data;
-		} catch (error) {
-			console.log('error', error);
-			console.log('error.response.data', error.response.data.error);
-			toast.error(error.response?.data?.error);
-			return rejectWithValue(error.response.data.error);
-		}
-	}
-);
+// export const deleteApplication = createAsyncThunk(
+// 	'ApplicationSlice/deleteApplication',
+// 	async (id, { rejectWithValue }) => {
+// 		try {
+// 			const response = await Api.delete(`/applications/admin/${id}`);
+// 			console.log('response.data', response.data);
+// 			toast.success(response.data?.message);
+// 			// fetchApplications({ role: 'admin', filter, ...queries, page: 1 })
+// 			return response.data;
+// 		} catch (error) {
+// 			console.log('error', error);
+// 			console.log('error.response.data', error.response.data.error);
+// 			toast.error(error.response?.data?.error);
+// 			return rejectWithValue(error.response.data.error);
+// 		}
+// 	}
+// );
 
 export const ApplicationSlice = createSlice({
 	name: 'ApplicationSlice',
@@ -200,31 +202,31 @@ export const ApplicationSlice = createSlice({
 			state.success = false;
 		});
 
-		builder.addCase(updateApplication.pending, (state, action) => {
-			state.loading = true;
-			state.errors = '';
-			state.message = '';
-			state.application = {};
-			state.success = false;
-		});
-		builder.addCase(updateApplication.fulfilled, (state, action) => {
-			state.loading = false;
-			state.errors = '';
-			// state.success = action.error.success;
-			state.message = action.payload.message;
-			state.application = action.payload.data;
-			state.success = true;
-			console.log('fulfilled', action.payload);
-		});
-		builder.addCase(updateApplication.rejected, (state, action) => {
-			state.loading = false;
-			// state.success = action.error.success;
-			state.errors = action.error.message;
-			state.message = '';
-			state.application = {};
-			state.success = false;
-			console.log('rejected', action);
-		});
+		// builder.addCase(updateApplication.pending, (state, action) => {
+		// 	state.loading = true;
+		// 	state.errors = '';
+		// 	state.message = '';
+		// 	state.application = {};
+		// 	state.success = false;
+		// });
+		// builder.addCase(updateApplication.fulfilled, (state, action) => {
+		// 	state.loading = false;
+		// 	state.errors = '';
+		// 	// state.success = action.error.success;
+		// 	state.message = action.payload.message;
+		// 	state.application = action.payload.data;
+		// 	state.success = true;
+		// 	console.log('fulfilled', action.payload);
+		// });
+		// builder.addCase(updateApplication.rejected, (state, action) => {
+		// 	state.loading = false;
+		// 	// state.success = action.error.success;
+		// 	state.errors = action.error.message;
+		// 	state.message = '';
+		// 	state.application = {};
+		// 	state.success = false;
+		// 	console.log('rejected', action);
+		// });
 	},
 });
 

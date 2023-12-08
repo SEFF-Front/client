@@ -102,6 +102,8 @@ function AddApplication() {
 					<img
 						src={job?.companyLogo && domainBack + job?.companyLogo}
 						alt={job?.companyName || ''}
+						width="50"
+						height="50"
 					/>
 					{/* <span
 						style={{
