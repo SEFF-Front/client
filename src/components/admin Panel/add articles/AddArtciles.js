@@ -215,14 +215,14 @@ function AddArticles() {
 					</div>
 
 					{/* <div className="drag_drop_container">
-            <label
-              for="inputState"
-              className="form-label text-light mt-4 mb-3 fs-5 fw-medium"
-            >
-              Upload Cover Photo
-            </label>
-            <Dragdrop onFileDrop={handleImageChange} />
-          </div> */}
+						<label
+							for="inputState"
+							className="form-label text-light mt-4 mb-3 fs-5 fw-medium"
+						>
+							Upload Cover Photo
+						</label>
+						<Dragdrop onFileDrop={handleImageChange} />
+					</div> */}
 
 					<div classNameName="drag_drop_container">
 						<label

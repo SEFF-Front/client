@@ -3,10 +3,10 @@ import Dragdrop from "../../Drag drop/Dragdrop";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import  { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  createArticle, updateArticle } from "../../redux/reducers/ArticlesSlice";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { updateArticle } from "../../redux/reducers/ArticlesSlice.";
 
 function UpdateArticle(){  
 

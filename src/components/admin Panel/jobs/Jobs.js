@@ -41,7 +41,7 @@ function Jobs() {
 		dispatch(fetchOneJob(jobId))
 			.unwrap()
 			.then(() => {
-				navigate('/adminPanel/UpdateJob');
+				navigate('/adminPanel/updateJob');
 			});
 	};
 	const [search, setSearch] = useState('');

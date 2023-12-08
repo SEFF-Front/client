@@ -42,6 +42,7 @@ import UpdateJob from './components/admin Panel/update job/UpdateJob';
 import JobsListMain from './components/jobPage studentPortal/jobsListMain';
 import JobDetails from './components/jobPage studentPortal/jobDetails';
 import JobAddApplication from './components/jobPage studentPortal/JobAddApplication';
+import UpdateArticle from './components/admin Panel/update article/UpdateAricle';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -140,15 +141,18 @@ if (isLoading) {
 						<Route path="/adminPanel" element={<AdminPanel />}>
 							<Route path="articles" element={<Articles />} />
 							<Route path="addarticles" element={<AddArticles />} />
-							{/* <Route path="updatearticle" element={<UpdateArticle />} /> */}
+							<Route path="updatearticle" element={<UpdateArticle />} />
 							<Route path="updatejob" element={<UpdateJob />} />
 
 							<Route path="Jobbs" element={<Jobs />} />
+							<Route path="Jobbs-published" element={<Jobs />} />
+							<Route path="jobbs-drafts" element={<Jobs />} />
 							<Route
 								path="/adminPanel/jobbs/:jobId/applications"
 								element={<Applications />}
 							/>
 							<Route path="publishedarticles" element={<PublishedArticles />} />
+							<Route path="scheduledarticles" element={<PublishedArticles />} />
 							<Route path="draftarticles" element={<DraftArticles />} />
 							<Route path="addjobs" element={<AddJob />} />
 							<Route path="addcertificate" element={<AddCertificateDetails />} />
@@ -185,8 +189,11 @@ if (isLoading) {
 					{isAuthenticated && (
 						<>
 							<Route path="/jobs" element={<JobsListMain />} />
-							<Route path="/jobs/:jobId" element={<JobDetails  />} />
-							<Route path="/jobs/:jobId/add-application" element={<JobAddApplication />} />
+							<Route path="/jobs/:jobId" element={<JobDetails />} />
+							<Route
+								path="/jobs/:jobId/add-application"
+								element={<JobAddApplication />}
+							/>
 						</>
 						// <Route path="/" element={<JobsListMain />}>
 						// 	{/* redirect to first route -------------------------------- */}

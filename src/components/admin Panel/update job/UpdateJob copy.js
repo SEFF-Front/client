@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './updateJob.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOneJob, updateJob } from '../../redux/reducers/JobSlice.';
+import { updateJob } from '../../redux/reducers/JobSlice.';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';

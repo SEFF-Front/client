@@ -8,12 +8,12 @@ import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
 function DraftArticles(){
   var [search,setSearch]=useState("");
-  const articles = useSelector(state=>state.articles)
-  const draftArticles = articles.filter(article=>article.status === false);
+	const { all: articles } = useSelector((state) => state.articles);
+  const draftArticles = articles?.filter(article=>article.status === false);
   console.log(articles)
   let diplayedArr = draftArticles;
   if(search){
-    diplayedArr=draftArticles.filter((el)=>el?.articleTitle.toLowerCase()?.includes(search.toLowerCase()))
+    diplayedArr=draftArticles?.filter((el)=>el?.articleTitle?.toLowerCase()?.includes(search?.toLowerCase()))
   }else{
     diplayedArr = draftArticles;
   }

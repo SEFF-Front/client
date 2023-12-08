@@ -10,6 +10,7 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import Pagination from '../../pagination/pagination';
@@ -52,8 +53,8 @@ function Articles() {
 	const [recordsPerPage] = useState(2);
 	const indexOfLastRecord = currentPage * recordsPerPage;
 	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-	const currentRecords = diplayedArr.slice(indexOfFirstRecord, indexOfLastRecord);
-	const nPages = Math.ceil(diplayedArr.length / recordsPerPage);
+	const currentRecords = diplayedArr?.slice(indexOfFirstRecord, indexOfLastRecord);
+	const nPages = Math.ceil(diplayedArr?.length / recordsPerPage);
 	const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
 	const nextPage = () => {
 		if (currentPage !== nPages) setCurrentPage(currentPage + 1);
@@ -65,8 +66,8 @@ function Articles() {
 	diplayedArr = currentRecords;
 
 	if (search) {
-		diplayedArr = articles.filter((el) =>
-			el?.articleTitle.toLowerCase()?.includes(search.toLowerCase())
+		diplayedArr = articles?.filter((el) =>
+			el?.articleTitle?.toLowerCase()?.includes(search?.toLowerCase())
 		);
 	} else {
 		diplayedArr = articles;
@@ -212,7 +213,7 @@ function Articles() {
 								</tr>
 							</thead>
 							{diplayedArr?.map((article) => (
-								<tr key={article._id}>
+								<tr key={article.id}>
 									<td>{article.title}</td>
 									<td>{article.category}</td>
 									<td>

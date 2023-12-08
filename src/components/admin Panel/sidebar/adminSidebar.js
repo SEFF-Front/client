@@ -94,8 +94,8 @@ function AdminSideBar(){
         
           <div class="lg-ul">
             <ul>
-            <li><Link to="">Published Jobs</Link></li>
-            <li><Link to="">Saved Drafts</Link></li>
+            <li><Link to="Jobbs-published">Published Jobs</Link></li>
+            <li><Link to="jobbs-drafts">Saved Drafts</Link></li>
           </ul>
           </div>
         </div>
@@ -134,7 +134,7 @@ function AdminSideBar(){
               </button>
               <ul className='dropdown-menu bg-dark w-100 col-xs-12'>
                 <li><Link className='dropdown-item text-light' to="publishedarticles">Published articles</Link></li>
-                <li><Link className='dropdown-item text-light' to="#">Scheduled articles</Link></li>
+                <li><Link className='dropdown-item text-light' to="scheduledarticles">Scheduled articles</Link></li>
                 <li><Link className='dropdown-item text-light' to="draftarticles">Saved Drafts articles</Link></li>
               </ul>
             </div>):''
