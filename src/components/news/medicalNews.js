@@ -1,6 +1,5 @@
 import './news.css'
-import 'bootstrap/dist/css/bootstrap.css';
-import img from '../../assest/oooo.jpg';
+import 'bootstrap/dist/css/bootstrap.css'; 
 import { faChevronRight, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserRouter, Link, MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
@@ -8,11 +7,11 @@ import ShowNews from './showNew';
 import Footer from '../footer/Footer';
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import CustomUI from './../alert/CustomUi';
+import CustomUI from '../alert/CustomUi';
 import { useSelector ,useDispatch } from 'react-redux';
-import {  useEffect  } from "react";
+import {  useEffect, useState  } from "react";
 
-import LoginComponent from './../login/Login';
+import LoginComponent from '../login/Login';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './../alert/customUi.css';
 import Helmet from 'react-helmet';
@@ -22,14 +21,21 @@ import {
 } from "../redux/reducers/ArticlesSlice";
 import backimg from'./../../assest/main_background.jpg'
 import { formatDistanceToNow } from 'date-fns';
-function News(){
+function MedicalNews(){
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-    const { all: articles } = useSelector((state) => state.articles);
-    useEffect(() => {
-      dispatch(fetchAllArticles());
-    }, [dispatch]);
+   const { all: allArticles } = useSelector((state) => state.articles);
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => { 
+    dispatch(fetchAllArticles());
+  }, [dispatch]);
+
+  useEffect(() => { 
+    const techArticles = allArticles.filter((article) => article.category === 'medical');
+    setArticles(techArticles);
+  }, [allArticles]);
 
     const handleGetArticle = (articleId) => {
       dispatch(getArticle(articleId))
@@ -42,7 +48,7 @@ function News(){
     
          });
     };
-    
+
 
   const { isAuthenticated } = useSelector((state) => state.user);
   const submit1 = () => {
@@ -94,61 +100,54 @@ function News(){
                   <div class=" d-none d-md-block col-md-2">
                     <p class="FEATURED">FEATURED NEWS</p>
                   </div>
-                  <Link to='/showNews'>
-                  <div class="col-xs-12 col-md-10 w-100">
-                    <div class="EDUCATION">
-                      <p>EDUCATION</p>
-                      <div class="line"></div>
-                      <div class="row">
-                        <h3 class="col-9"> HERE'S THE TITLE OF THE ARTICLE</h3>
-                        <small class=" col-3 text-center fw-light">
-                        <FontAwesomeIcon className='text-secondary' icon={faClock} /> 2 h ago
-                        </small>
-                      </div>
-                      <p class="pr-5 justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-                        exerci eius maiores molestiae ducimus minus quae illum! Magni eum doloribus iusto vel
-                        exceptur et do
-                      </p>
-                    </div>
-                    
-                  </div>
-                </Link>
-                </div>
+                  {
+  articles.slice(0, 1).map((article) => (
+    <div key={article.id} onClick={() => { handleGetArticle(article._id) }}>
+      <div className="col-xs-12 col-md-10 w-100">
+        <div className="EDUCATION">
+          <p>{article.category}</p>
+          <div className="line"></div>
+          <div className="row">
+            <h3 className="col-9">{article.title}</h3>
+            <small className="col-3 text-center fw-light">
+              <FontAwesomeIcon className='text-secondary' icon={faClock} />                          {article?.publish_date && (
+  <p>{formatDistanceToNow(new Date(article.publish_date), { addSuffix: true })}</p>
+)}
+            </small>
+          </div>
+          <p className="pr-5 justify">{article.content}</p>
+        </div>
+      </div>
+    </div>
+  ))
+}
 
-                <div class="col-xs-12 col-md-6 d-flex flex-column">
-                <Link to='/ShowNews'>
+
+                 
+                </div>      <div class="col-xs-12 col-md-6 d-flex flex-column">
+
+{articles.slice(1,3).map((article)=>(
+  <div key={article.id} onClick={() => { handleGetArticle(article._id) }}>
                   <div class="EDUCATION">
-                    <p>EDUCATION</p>
+                    <p>{article.category}</p>
                     <div class="line"></div>
                     <div class="row">
-                      <h3 class="col-9"> HERE'S THE TITLE OF THE ARTICLE</h3>
+                      <h3 class="col-9"> {article.title}</h3>
                       <small class=" col-3 text-center fw-light">
-                        <FontAwesomeIcon className='text-secondary' icon={faClock} /> 2 h ago
+                        <FontAwesomeIcon className='text-secondary' icon={faClock} />                          {article?.publish_date && (
+  <p>{formatDistanceToNow(new Date(article.publish_date), { addSuffix: true })}</p>
+)}
                       </small>
                     </div>
-                    <p class="pr-5 justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-                      exerci eius maiores molestiae ducimus minus quae illum! Magni eum doloribus iusto vel
-                      exceptur et do
+                    <p class="pr-5 justify">
+                      {article.content}
                     </p>
                   </div>
-                  </Link>
-                  <Link to='/ShowNews'>
-                  <div class="EDUCATION">
-                    <p>EDUCATION</p>
-                    <div class="line"></div>
-                    <div class="row">
-                      <h3 class="col-9"> HERE'S THE TITLE OF THE ARTICLE</h3>
-                      <small class=" col-3 text-center fw-light">
-                        <FontAwesomeIcon className='text-secondary' icon={faClock} /> 2 h ago
-                      </small>
-                    </div>
-                    <p class="pr-5 justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-                      exerci eius maiores molestiae ducimus minus quae illum! Magni eum doloribus iusto vel
-                      exceptur et do
-                    </p>
                   </div>
-                  </Link>
-                </div>
+              
+            
+))}    </div>
+            
               </div>
             </div>
             <div class="margin_2"></div>
@@ -172,7 +171,9 @@ function News(){
                 <div class="row">
                   <h3 class="col-9"> {article.title}</h3>
                   <small class=" col-3 text-center fw-light">
-                        <FontAwesomeIcon className='text-secondary' icon={faClock} /> {article?.publish_date && (
+
+                        <FontAwesomeIcon className='text-secondary' icon={faClock} />
+                          {article?.publish_date && (
   <p>{formatDistanceToNow(new Date(article.publish_date), { addSuffix: true })}</p>
 )}
                   </small>
@@ -199,4 +200,4 @@ function News(){
     )
 }
 
-export default News ;
+export default MedicalNews ;

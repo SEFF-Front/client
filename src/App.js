@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import News from './components/news/news';
+import News from './components/news/techNews';
 import LoginComponent from './components/login/Login';
 import Scroll from './components/scroll/scroll';
 import { Route, Routes } from 'react-router-dom';
@@ -40,6 +40,13 @@ import { useNavigate,useLocation } from 'react-router-dom';
 import React, { useEffect ,useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {currentUser} from "./components/redux/reducers/authSlice"
+import TechNews from './components/news/techNews';
+import SportsNews from './components/news/sportsNews';
+import AboutNews from './components/news/aboutNews';
+import BusinessNews from './components/news/businessNews';
+import SecurityNews from './components/news/securityNews';
+import MedicalNews from './components/news/medicalNews';
+import StartupsNews from './components/news/startupsNews';
 function App() {  const dispatch =useDispatch()
 
   const [isLoading, setIsLoading] = useState(true);
@@ -90,15 +97,15 @@ if (isLoading) {
       {/* <AddUser/> */}
     </div>
        <Routes>
-       <Route path='/' element={<News/>}/>
+       <Route path='/' element={<TechNews/>}/>
        <Route path='/showNews' element={<ShowNews/>}/>
-       <Route path='/about' element={<News/>}/>
-       <Route path='/business' element={<News/>}/>
-       <Route path='/security' element={<News/>}/>
-       <Route path='/sports' element={<News/>}/>
-       <Route path='/medical' element={<News/>}/>
-       <Route path='/startups' element={<News/>}/>
-       <Route path='/apps' element={<News/>}/>
+       <Route path='/about' element={<AboutNews/>}/>
+       <Route path='/business' element={<BusinessNews/>}/>
+       <Route path='/security' element={<SecurityNews/>}/>
+       <Route path='/sports' element={<SportsNews/>}/>
+       <Route path='/medical' element={<MedicalNews/>}/>
+       <Route path='/startups' element={<StartupsNews/>}/>
+       <Route path='/apps' element={<TechNews/>}/>
        <Route path='/login' element={<LoginComponent/>}/>
        {console.log(user?.role )}
       {isAuthenticated && <Route path='/jobs' element={<FindJobs/>}/>}

@@ -1,5 +1,5 @@
 import React, {  useEffect, useRef, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faClock, faCloudArrowUp, faFilter, faLocationDot, faMagnifyingGlass, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
 import './Jobsstyle.css'
@@ -378,7 +378,9 @@ href='#'>
                 <h2>Job Requirments</h2>
                 <p class="p-general">{currentJob?.jobRequirements}</p>
               <div class="view-details row d-flex m-0 mt-5  p-0">
-                <div class=" col-6"><p class="p-details "><FontAwesomeIcon icon={faClock} style={{color:"grey"}}/>  2 h ago</p></div>
+                <div class=" col-6"><p class="p-details "><FontAwesomeIcon icon={faClock} style={{color:"grey"}}/>  {currentJob?.date && (
+  <p>{formatDistanceToNow(new Date(currentJob.date), { addSuffix: true })}</p>
+)}</p></div>
                 <div className="col-6 d-flex justify-content-end">
                 <button class="btn-details" onClick={()=>setForm(true)}>APPLY</button>
                 </div>
