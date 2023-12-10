@@ -24,7 +24,6 @@ function Addexam({ type = 'new' }) {
 	const { exam, loading, success } = useSelector((state) => state.exams);
 	const { courses } = useSelector((state) => state.courses);
 	const { user } = useSelector((state) => state.user);
-	console.log('certificate, loading', exam, loading);
 
 	const initialExams = {
 		course: '',

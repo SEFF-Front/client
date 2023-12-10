@@ -12,7 +12,6 @@ export const createJob = createAsyncThunk(
 				},
 			});
 		} catch (error) {
-			console.log(error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}
@@ -23,11 +22,9 @@ export const fetchAllJobs = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await Api.get('/jobs/get-all-jobs');
-			console.log(response.data);
 			// return response.data.data;
 			return response.data;
 		} catch (error) {
-			console.log(error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}
@@ -42,11 +39,8 @@ export const fetchAllJobsUsers = createAsyncThunk(
 				params: { filter },
 			});
 			// const response = await Api.get('/jobs/get-all-jobs');
-			console.log(response.data);
-			// return response.data.data;
 			return response.data;
 		} catch (error) {
-			console.log(error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}
@@ -70,7 +64,6 @@ export const fetchOneJob = createAsyncThunk(
 	async (jobId, { rejectWithValue }) => {
 		try {
 			const response = await Api.get(`/jobs/get-job/${jobId}`);
-			console.log('response.data', response.data);
 			return response.data;
 		} catch (error) {
 			throw rejectWithValue(error.response.data.error);
@@ -99,7 +92,6 @@ export const updateJob = createAsyncThunk(
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			console.log(response);
 			return response.data.data;
 		} catch (error) {
 			throw rejectWithValue(error.response.data.error);
@@ -135,7 +127,6 @@ export const jobSlice = createSlice({
 				state.loading = false;
 				if (payload) {
 					if (Array.isArray(payload.error)) {
-						console.log(payload.error);
 						payload.error.map((err) => toast.error(err[err].message));
 					} else if (payload.success === false && payload.error) {
 						state.error = payload.error;
@@ -169,7 +160,6 @@ export const jobSlice = createSlice({
 				state.loading = false;
 				state.success = true;
 				state.job = payload.data;
-				console.log('payload', payload);
 			})
 			.addCase(fetchOneJob.rejected, (state, { payload }) => {
 				state.loading = false;
@@ -203,13 +193,11 @@ export const jobSlice = createSlice({
 				state.loading = false;
 				state.success = true;
 				state.job = payload.data;
-				console.log(payload.data);
 			})
 			.addCase(updateJob.rejected, (state, { payload }) => {
 				state.loading = false;
 				if (payload) {
 					if (Array.isArray(payload.error)) {
-						console.log(payload.error);
 						payload.error.map((err) => toast.error(err.message));
 					} else if (payload.success === false && payload.error) {
 						state.error = payload.error;

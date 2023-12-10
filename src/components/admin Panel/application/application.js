@@ -17,9 +17,7 @@ function Applications() {
 		(state) => state.applications
 	);
 	const { job } = useSelector((state) => state.jobs);
-	console.log('applications', applications);
-	console.log('location', location.state);
-	console.log('job', job);
+
 	const { total, limit, page, pages } = pagination;
 
 	// pagination -----------------------------------

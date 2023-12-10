@@ -27,8 +27,6 @@ function Jobs() {
 	const { all: jobs } = useSelector((state) => state.jobs);
 	const dispatch = useDispatch();
 
-	console.log('jobs', jobs);
-
 	useEffect(() => {
 		dispatch(fetchAllJobs());
 	}, []);

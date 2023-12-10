@@ -84,8 +84,6 @@ function AddArticles() {
 
 	const { register, handleSubmit, setValue, reset, getValues } = useForm();
 	const onSubmit = (data) => {
-		console.log('getValues', data);
-		console.log('data', data);
 		const articleData = Object.fromEntries(
 			Object.entries(data).filter(([key, value]) => value !== undefined)
 		);
@@ -96,15 +94,13 @@ function AddArticles() {
 			toast.warn('No data to submit.');
 			return;
 		}
-		console.log(articleData);
 		dispatch(createArticle(articleData))
 			.unwrap()
 			.then(() => {
 				toast.success('Article successfully added');
-				// navigate('/adminpanel/articles');
+				navigate('/adminpanel/articles');
 			})
 			.catch((backendError) => {
-				console.log(backendError);
 				if (Array.isArray(backendError)) {
 					backendError.map((error) => {
 						toast.error(error.message);
@@ -113,8 +109,6 @@ function AddArticles() {
 					toast.error(backendError.error || 'An unknown error occurred');
 				}
 			});
-
-		console.log(articleData);
 	};
 
 	return (
@@ -124,14 +118,13 @@ function AddArticles() {
 			<div className="line_article mt-2"></div>
 
 			<form onSubmit={handleSubmit(onSubmit)} className="bg-container mt-4">
-				<div style={{ marginTop: '-60px' }} className='d-flex justify-content-end'>
+				<div style={{ marginTop: '-60px' }} className="d-flex justify-content-end">
 					<button
-						type='submit'
+						type="submit"
 						// className="btn btn_publish1 btn_article text-light ps-4 pe-4  position-absolute end-0 me-5 fw-bold rounded-1"
 						className="btn btn_publish1 btn_article text-light ps-4 pe-4 fw-bold rounded-1"
 						style={{ background: '#bf9b30' }}
 						onClick={() => {
-							console.log('btn btn_publish1');
 							setValue('isPublished', true);
 							handleSubmit(onSubmit);
 						}}
@@ -282,7 +275,7 @@ function AddArticles() {
 						CANCEL
 					</button>
 					<button
-						type='submit'
+						type="submit"
 						className="btn btn_save btn_article  text-light fw-bold rounded-1"
 						style={{ background: '#bf9b30' }}
 						onClick={() => setValue('isPublished', false)}
@@ -290,7 +283,7 @@ function AddArticles() {
 						SAVE
 					</button>
 					<button
-						type='submit'
+						type="submit"
 						className="btn btn_publish2 btn_article  text-light fw-bold rounded-1 d-none"
 						style={{ background: '#bf9b30' }}
 						onClick={() => setValue('isPublished', true)}

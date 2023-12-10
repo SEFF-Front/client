@@ -23,7 +23,6 @@ function DraftArticles() {
 
 	const { all: allArticles } = useSelector((state) => state.articles);
 	const [articles, setArticles] = useState([]);
-	console.log(allArticles);
 
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -59,7 +58,6 @@ function DraftArticles() {
 	} else {
 		diplayedArr = articles;
 	}
-	console.log(articles);
 	const navigate = useNavigate();
 	const handleDeleteArticle = (articleId) => {
 		dispatch(deleteArticle(articleId));

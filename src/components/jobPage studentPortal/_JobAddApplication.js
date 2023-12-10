@@ -30,10 +30,6 @@ function JobsListMain() {
 	const { all: jobs, loading } = useSelector((state) => state.jobs);
 	const { user } = useSelector((state) => state.user);
 
-	console.log('jobs', jobs);
-	console.log('user', user);
-	console.log('useLocation state', state);
-
 	useEffect(() => {
 		dispatch(fetchAllJobs());
 	}, []);

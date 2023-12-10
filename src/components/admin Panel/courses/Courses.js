@@ -92,7 +92,6 @@ function Courses({ StatusQuery }) {
 	const [isMobile, setIsMobile] = useState(false);
 	const [availableWidth, setAvailableWidth] = useState(window.innerWidth);
 	const handleMobileView = useCallback(() => {
-		console.log(availableWidth, isMobile);
 		if (availableWidth <= 778) {
 			setIsMobile(true);
 		} else {

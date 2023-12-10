@@ -34,7 +34,6 @@ export const updateUserProfile = createAsyncThunk('user/update-profile',async(us
 export const getAllUsers = createAsyncThunk('users/get-all',async(queries,{rejectWithValue})=>{
   try {
     const {page,fieldValue,fieldName,searchBy,searchValue}=queries
-    console.log( {page,fieldValue,fieldName,searchBy,searchValue});
     const response =await Api.get(`/users/get-all?page=${page}&fieldName=${fieldName}&fieldValue=${fieldValue}&searchBy=${searchBy}&searchValue=${searchValue}`)
     return response.data 
   } catch (error) {
@@ -59,7 +58,6 @@ export const getUser = createAsyncThunk('users/get-one',async(_id,{rejectWithVal
 })
 export const updateUser = createAsyncThunk('users/update-by-admin',async({_id,userData},{rejectWithValue})=>{
   try {
-    console.log(_id,userData)
     const response =await Api.patch(`/users/update-by-admin/${_id}`,userData)
     return response.data
   } catch (error) {
@@ -68,7 +66,6 @@ export const updateUser = createAsyncThunk('users/update-by-admin',async({_id,us
 })
 export const deleteUser = createAsyncThunk('users/delete-user',async({_id},{rejectWithValue})=>{
   try {
-    console.log(_id)
     const response =await Api.delete(`/users/delete-user/${_id}`)
     return response.data
   } catch (error) {
@@ -103,7 +100,6 @@ const userSlice = createSlice({
                 state.user= payload.data
             })
             .addCase(currentUser.fulfilled, (state, { payload }) => {
-                // console.log("currentUser",payload);
                 state.loading = false
                 state.success = true
                 state.isAuthenticated = true
@@ -113,7 +109,6 @@ const userSlice = createSlice({
                 state.loading = false;
                 if (payload) {
                     if (Array.isArray(payload.error)) {
-                        console.log(payload.error);
                         payload.error.map(err => toast.error(err.message));
                     } else if (payload.success === false && payload.error) {
                         state.error = payload.error;
@@ -126,7 +121,6 @@ const userSlice = createSlice({
                 }
             })
             .addCase(currentUser.rejected,(state,{payload})=>{
-                console.log("currentUser error",payload);
                 state.error = payload.error;
                 state.success = payload.success;
             })
@@ -143,7 +137,6 @@ const userSlice = createSlice({
               state.loading = false;
               if (payload) {
                   if (Array.isArray(payload.error)) {
-                      console.log(payload.error);
                       payload.error.map(err => toast.error(err.message));
                   } else if (payload.success === false && payload.error) {
                       state.error = payload.error;
@@ -168,7 +161,6 @@ const userSlice = createSlice({
               state.loading = false;
               if (payload) {
                   if (Array.isArray(payload.error)) {
-                      console.log(payload.error);
                       payload.error.map(err => toast.error(err.message));
                   } else if (payload.success === false && payload.error) {
                       state.error = payload.error;
@@ -187,7 +179,6 @@ const userSlice = createSlice({
             .addCase(getAllUsers.fulfilled, (state, { payload }) => {
               state.loading = false
               state.success = true
-              console.log(payload.pagination)
               state.pagination=payload.pagination
               state.users= payload.data
           })
@@ -259,7 +250,6 @@ const userSlice = createSlice({
               state.loading = false;
               if (payload) {
                   if (Array.isArray(payload.error)) {
-                      console.log(payload.error);
                       payload.error.map(err => toast.error(err.message));
                   } else if (payload.success === false && payload.error) {
                       state.error = payload.error;

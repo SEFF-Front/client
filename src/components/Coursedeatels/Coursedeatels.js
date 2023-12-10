@@ -32,9 +32,6 @@ const Coursedeatels = () => {
 		dispatch( getCourse(
 			{ role: user?.role?.toLowerCase(), id: courseId }));
 	}, []);
-	console.log(course, loading);
-	console.log('user.role', user.role);
-	console.log('courseId', courseId);
 	// ----------------------server----------------------------
 
 	// const [activeAccordion, setActiveAccordion] = useState(null);

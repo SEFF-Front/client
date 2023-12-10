@@ -20,10 +20,8 @@ export const fetchApplications = createAsyncThunk(
 				`/applications/?page=${page}&limit=${limit}&searchBy=${searchBy}&searchValue=${searchValue}`,
 				{ params: { filter } }
 			);
-			console.log('response.data', response.data);
 			return response.data;
 		} catch (error) {
-			console.log('error', error);
 			return rejectWithValue(error.response.data);
 		}
 	}
@@ -60,14 +58,11 @@ export const createApplication = createAsyncThunk(
 			}
 			return response.data;
 		} catch (error) {
-			console.log('error', error);
-			console.log('error.response.data', error.response.data.message);
 			if (Array.isArray(error.response?.data?.error)) {
-				console.log('its array');
 				error.response.data.error.map((e) => toast.error(e.message));
-				// toast.error(error.response.data.error.map((e) => e.message));
 			}else{
-				toast.error(error.response?.data?.message);
+				const errorMes =error.response?.data?.error || error.response?.data?.message;
+				toast.error(errorMes);
 			}
 			return rejectWithValue(error.response.data.error);
 		}
@@ -142,8 +137,6 @@ export const ApplicationSlice = createSlice({
 			state.message = action.payload.message;
 			state.applications = action.payload.data;
 			state.pagination = action.payload?.pagination;
-			console.log('fulfilled', action.payload);
-			console.log('pagination', action.payload?.pagination);
 		});
 		builder.addCase(fetchApplications.rejected, (state, action) => {
 			state.loading = false;

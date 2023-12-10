@@ -23,7 +23,6 @@ function UpdateArticle() {
 	const imgInput = useRef();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	console.log(article);
 
 	const initialArticleDataRef = useRef({
 		title: article?.title ?? null,
@@ -52,7 +51,6 @@ function UpdateArticle() {
 	const initialPublishDate = initialArticleDataRef?.current?.publish_date?.slice(0, 10);
 
 	const onSubmit = (data) => {
-		console.log(data);
 
 		<input
 			type="date"
@@ -82,7 +80,6 @@ function UpdateArticle() {
 				reset();
 			})
 			.catch((backendError) => {
-				console.log(backendError);
 				if (Array.isArray(backendError)) {
 					backendError.map((error) => {
 						toast.error(error.message);
@@ -107,7 +104,6 @@ function UpdateArticle() {
 						className="btn btn_publish1 btn_article text-light ps-4 pe-4 fw-bold rounded-1"
 						style={{ background: '#bf9b30' }}
 						onClick={() => {
-							console.log('btn btn_publish1');
 							setValue('isPublished', true);
 							handleSubmit(onSubmit);
 						}}

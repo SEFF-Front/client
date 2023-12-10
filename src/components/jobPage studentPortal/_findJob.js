@@ -27,9 +27,6 @@ export default function FindJobs() {
 	const { all: jobs, loading } = useSelector((state) => state.jobs);
 	const { user } = useSelector((state) => state.user);
 
-	console.log('jobs', jobs);
-	console.log('user', user);
-
 	useEffect(() => {
 		dispatch(fetchAllJobs());
 	}, []);

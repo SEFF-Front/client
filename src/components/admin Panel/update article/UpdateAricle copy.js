@@ -22,7 +22,6 @@ function UpdateArticle() {
 	const imgInput = useRef();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	console.log(article);
 
 	const initialArticleDataRef = useRef({
 		title: article?.title ?? null,
@@ -80,7 +79,6 @@ function UpdateArticle() {
 				reset();
 			})
 			.catch((backendError) => {
-				console.log(backendError);
 				if (Array.isArray(backendError)) {
 					backendError.map((error) => {
 						toast.error(error.message);

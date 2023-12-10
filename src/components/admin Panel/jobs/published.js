@@ -26,7 +26,6 @@ function PublishedJobs() {
 	// };
 	const { all: allJobs } = useSelector((state) => state.jobs);
 	const [jobs, setJobs] = useState([]);
-	console.log(allJobs);
 
 	const dispatch = useDispatch();
 	useEffect(() => {

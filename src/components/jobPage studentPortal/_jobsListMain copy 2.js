@@ -32,11 +32,6 @@ function JobsListMain() {
 	const { all: jobs, job, loading, locations } = useSelector((state) => state.jobs);
 	const { user } = useSelector((state) => state.user);
 
-	console.log('jobs', jobs);
-	console.log('locations', locations);
-	console.log('user', user);
-	console.log('pathname', pathname);
-
 	useEffect(() => {
 		dispatch(fetchAllJobs());
 	}, [pathname]);
@@ -174,8 +169,7 @@ function JobsListMain() {
 		if (currentPage !== 1) setCurrentPage(currentPage - 1);
 	};
 	jobData = currentRecords;
-	console.log('jobData', jobData);
-	console.log('currentRecords', currentRecords);
+
 	return (
 		<>
 			<meta

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
 import './Add_Certificate_Details.css';
 import Dragdrop from '../../Drag drop/Dragdrop';
 import { useDispatch, useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
 import moment from 'moment';
 import { fetchCourses } from '../../redux/reducers/CourseSlice';
 import { useForm } from 'react-hook-form';
@@ -39,7 +37,6 @@ const AddCertificateDetails = ({ type = 'new' }) => {
 		setValue,
 		setError,
 		reset,
-		getValues,
 		formState: { errors, isSubmitting, touchedFields },
 	} = useForm({
 		defaultValues: initialCertificate,
@@ -63,19 +60,16 @@ const AddCertificateDetails = ({ type = 'new' }) => {
 
 		if (type === 'edit') {
 			// add only changed fields ----------------touchedFields
-			for (const key in data) {
-				if (Object.hasOwnProperty.call(data, key) && touchedFields[key]) {
-					formInfo.set(key, data[key]);
-					console.log('formInfo.set', key, data[key]);
-				}
-			}
+			// for (const key in data) {
+			// 	if (Object.hasOwnProperty.call(data, key) && touchedFields[key]) {
+			// 		formInfo.set(key, data[key]);
+			// 	}
+			// }
 			// dispatch(updateCertificate({ id: courseId, data: formInfo }));
 		} else {
 			for (const key in data) {
 				formInfo.set(key, data[key]);
-				console.log('formInfo.set', key, data[key]);
 			}
-			console.log('formInfo.get', formInfo.get('certificate_file'));
 
 			dispatch(createCertificate(formInfo));
 			if (success) {
@@ -117,35 +111,6 @@ const AddCertificateDetails = ({ type = 'new' }) => {
 		formInfo.set('certificate_file', droppedFile);
 		setIsSelectFile(droppedFile ? true : false);
 	};
-	// const [formData, setFormData] = useState();
-	// const handleInputChange = (event) => {
-	// 	const { id, value } = event.target;
-	// 	setFormData({ ...formData, [id]: value });
-	// };
-
-	// const handleSubmit2 = (event) => {
-	// 	event.preventDefault();
-	// 	const required = Object.keys(formData).every((key) => {
-	// 		if (formData[key] !== undefined && formData[key] !== '') {
-	// 			return true;
-	// 		} else {
-	// 			return false;
-	// 		}
-	// 	});
-	// 	required ? handleSuccess() : toast.error('fill all fields');
-
-	// 	// You can use 'formData' to send it to the server or perform other operations.
-	// };
-	// const handleSuccess = () => {
-	// 	// dispatch(addCertificate(formData));
-	// 	setFormData({
-	// 		studentname: '',
-	// 		date_acquired: '',
-	// 		upload_date: '',
-	// 		course: '',
-	// 	});
-	// 	toast.success('successfully uploaded');
-	// };
 
 	return (
 		<>

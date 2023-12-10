@@ -15,7 +15,6 @@ import { toast } from 'react-toastify';
 export const createArticle = createAsyncThunk(
 	'ArticleSlice/createArticle',
 	async (articleData, { rejectWithValue }) => {
-		console.log('articleData', articleData);
 		try {
 			const response = await Api.post('/articles', articleData, {
 				headers: {
@@ -24,7 +23,6 @@ export const createArticle = createAsyncThunk(
 			});
 			return response.data.data;
 		} catch (error) {
-			console.log('error',error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}
@@ -35,7 +33,6 @@ export const fetchAllArticles = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await Api.get('/articles');
-			console.log(response.data.data);
 			return response.data.data;
 		} catch (error) {
 			throw rejectWithValue(error.response.data.message);
@@ -47,9 +44,7 @@ export const getArticle = createAsyncThunk(
 	async (articleId, { rejectWithValue }) => {
 		try {
 			const response = await Api.get(`/articles/${articleId}`);
-			console.log(response);
 			return response.data;
-			// console.log(response);
 		} catch (error) {
 			throw rejectWithValue(error.response.data.error);
 		}
@@ -77,7 +72,6 @@ export const updateArticle = createAsyncThunk(
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			console.log(response);
 			return response.data.data;
 		} catch (error) {
 			throw rejectWithValue(error.response.data.error);
@@ -110,7 +104,6 @@ export const ArticleSlice = createSlice({
 				state.loading = false;
 				if (payload) {
 					if (Array.isArray(payload.error)) {
-						console.log(payload.error);
 						payload.error.map((err) => toast.error(err[err].message));
 					} else if (payload.success === false && payload.error) {
 						state.error = payload.error;
@@ -123,8 +116,6 @@ export const ArticleSlice = createSlice({
 				}
 			})
 			.addCase(fetchAllArticles.pending, (state, { payload }) => {
-				// console.log(payload.pagination);
-				// state.pagination = payload.pagination;
 				state.loading = true;
 				state.error = null;
 			})
@@ -179,13 +170,11 @@ export const ArticleSlice = createSlice({
 				state.loading = false;
 				state.success = true;
 				state.getArticle = payload.data;
-				console.log(payload);
 			})
 			.addCase(updateArticle.rejected, (state, { payload }) => {
 				state.loading = false;
 				if (payload) {
 					if (Array.isArray(payload.error)) {
-						console.log(payload.error);
 						payload.error.map((err) => toast.error(err.message));
 					} else if (payload.success === false && payload.error) {
 						state.error = payload.error;

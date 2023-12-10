@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 function UpdateJob() {
 	const { job } = useSelector((state) => state.jobs);
-	console.log(job);
 	const dispatch = useDispatch();
 
 	const [img, setImg] = useState(null);
@@ -57,7 +56,6 @@ function UpdateJob() {
 			salary: job?.salary || 0,
 		};
 	}, [job]);
-	console.log('Initial Job Type:', initialJobDataRef.current.jobType);
 
 	const { register, handleSubmit, reset } = useForm();
 	const onSubmit = (data) => {
@@ -78,10 +76,8 @@ function UpdateJob() {
 				navigate('/adminpanel/jobbs/');
 			})
 			.catch((backendError) => {
-				console.log(backendError);
 				toast.error(backendError.error);
 			});
-		console.log(jobData);
 	};
 
 	return (

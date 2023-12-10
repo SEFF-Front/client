@@ -9,13 +9,11 @@ export const fetchCertificates = createAsyncThunk(
 	async ({ role, filter = {} }, { rejectWithValue }) => {
 		try {
 			const response = await Api.get(`/certificates/${'student'}`);
-			console.log('response.data', response.data);
 			return response.data;
 		} catch (error) {
-			console.log('error', error);
-			console.log('error.response.data', error.response.data.message);
-			toast.error(error.response?.data?.message);
-			return rejectWithValue(error.response.data);
+			const errorMes = error.response?.data?.error || error.response?.data?.message;
+			toast.error(errorMes);
+			return rejectWithValue(error.response.data.error);
 		}
 	}
 );
@@ -25,18 +23,16 @@ export const createCertificate = createAsyncThunk(
 	async (data, { rejectWithValue }) => {
 		try {
 			const response = await Api.post('certificates/admin', data, apiOption);
-			console.log('response.data', response.data);
 			if (response.data?.message) {
 				toast.success(response.data?.message);
 			}
 			return response.data;
 		} catch (error) {
-			console.log('error', error);
-			console.log('error.response.data', error.response.data.error);
 			if (Array.isArray(error.response?.data?.error)) {
-				console.log('its array');
-				error.response.data.error.map((e) => e.message);
 				toast.error(error.response.data.error.map((e) => e.message));
+			}else{
+				const errorMes = error.response?.data?.error || error.response?.data?.message;
+				toast.error(errorMes);
 			}
 			return rejectWithValue(error.response.data.error);
 		}
@@ -48,12 +44,10 @@ export const getCertificate = createAsyncThunk(
 	async (id, { rejectWithValue }) => {
 		try {
 			const response = await Api(`certificates/admin/${id}`);
-			console.log('response.data', response.data);
 			return response.data;
 		} catch (error) {
-			console.log('error', error);
-			console.log('error.response.data', error.response.data.error);
-			toast.error(error.response?.data?.error);
+			const errorMes = error.response?.data?.error || error.response?.data?.message;
+			toast.error(errorMes);
 			return rejectWithValue(error.response.data.error);
 		}
 	}
@@ -144,7 +138,6 @@ export const CertificateSlice = createSlice({
 			state.errors = '';
 			state.message = action.payload.message;
 			state.certificates = action.payload.data;
-			console.log('fulfilled', action.payload);
 		});
 		builder.addCase(fetchCertificates.rejected, (state, action) => {
 			state.loading = false;

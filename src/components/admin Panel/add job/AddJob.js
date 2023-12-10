@@ -120,7 +120,6 @@ function AddJob() {
 				navigate('/adminpanel/jobbs/');
 			})
 			.catch((backendError) => {
-				console.log(backendError);
 				if (Array.isArray(backendError)) {
 					backendError.map((error) => {
 						toast.error(error.message);
@@ -129,7 +128,6 @@ function AddJob() {
 					toast.error(backendError.error || 'An unknown error occurred');
 				}
 			});
-		console.log(jobData);
 	};
 
 	return (

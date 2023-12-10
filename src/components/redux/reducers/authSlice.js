@@ -41,7 +41,6 @@ const authSlice = createSlice({
                 state.user= payload.data
             })
             .addCase(currentUser.fulfilled, (state, { payload }) => {
-                // console.log("currentUser",payload);
                 state.loading = false
                 state.success = true
                 state.isAuthenticated = true
@@ -51,7 +50,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 if (payload) {
                     if (Array.isArray(payload.error)) {
-                        console.log(payload.error);
                         payload.error.map(err => toast.error(err.message));
                     } else if (payload.success === false && payload.error) {
                         state.error = payload.error;
@@ -64,7 +62,6 @@ const authSlice = createSlice({
                 }
             })
             .addCase(currentUser.rejected,(state,{payload})=>{
-                console.log("currentUser error",payload);
                 state.error = payload.error;
                 state.success = payload.success;
             })

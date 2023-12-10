@@ -13,7 +13,6 @@ function EditUser() {
   const { getUser:user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate =useNavigate()
-  console.log(user)
   if (!user) {
     navigate("/adminPanel/users");
   }
@@ -55,7 +54,6 @@ function EditUser() {
       toast.warn("No data to submit.");
       return;
     }
-    console.log(filteredData);
     if (filteredData.password === filteredData.passwordConfirmation) {
       delete filteredData.passwordConfirmation;
       delete filteredData.password;
@@ -67,7 +65,6 @@ function EditUser() {
           reset();
         })
         .catch((backendError) => {
-          console.log(backendError);
           toast.error(backendError.error);
         });
     } else {

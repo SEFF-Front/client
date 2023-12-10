@@ -75,7 +75,6 @@ function Articles() {
 	} else {
 		diplayedArr = articles;
 	}
-	console.log(articles);
 	const navigate = useNavigate();
 	const handleDeleteArticle = (articleId) => {
 		dispatch(deleteArticle(articleId));

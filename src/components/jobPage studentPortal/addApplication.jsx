@@ -11,6 +11,7 @@ import img from '../../assest/oooo.jpg';
 import { createApplication } from '../redux/reducers/ApplicationSlice';
 import { fetchOneJob } from '../redux/reducers/JobSlice.';
 import { newApplicationValidation } from '../../validation/application.validation';
+import { toast } from 'react-toastify';
 
 function AddApplication() {
 	// ------------------------------ server ---------------------------
@@ -59,7 +60,7 @@ function AddApplication() {
 			reset();
 			navigate(-1);
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message)
 		}
 	};
 

@@ -47,7 +47,6 @@ function AddCourses({ type = 'new' }) {
 		for (const key in initial) {
 			info[key] = data[key] || '';
 		}
-		console.log('info', info);
 		return info;
 	};
 
@@ -57,7 +56,7 @@ function AddCourses({ type = 'new' }) {
 		reset,
 		setValue,
 		getValues,
-		formState: { errors, isSubmitting, touchedFields, isSubmitSuccessful },
+		formState: { errors, isSubmitting, touchedFields },
 	} = useForm({
 		mode: 'all',
 		criteriaMode: 'all',
@@ -78,30 +77,20 @@ function AddCourses({ type = 'new' }) {
 		),
 	});
 
-	console.log('errors', errors);
-	// const formInfo = new FormData();
-
 	const submitCourse = async (data) => {
-		console.log('data', data);
-
-		if (type === 'edit') {
-			await dispatch(updateCourse({ id: courseId, data })).unwrap();
+		try {
+			if (type === 'edit') {
+				await dispatch(updateCourse({ id: courseId, data })).unwrap();
+			} else {
+				await dispatch(createCourse(data)).unwrap();
+			}
 			setSelectedStudents([]);
 			reset();
 			navigate(`/adminPanel/courses`);
-		} else {
-			try {
-				await dispatch(createCourse(data)).unwrap();
-				setSelectedStudents([]);
-				reset();
-				navigate(`/adminPanel/courses`);
-			} catch (error) {
-				console.log(error);
-				toast.error(error.message);
-			}
+		} catch (error) {
+			toast.error(error.message);
 		}
 	};
-
 	const [Instructors, setInstructors] = useState([]);
 	const [students, setStudents] = useState([]);
 	const [availableStudents, setAvailableStudents] = useState([]);
@@ -115,7 +104,6 @@ function AddCourses({ type = 'new' }) {
 				});
 				setData(res.data?.data);
 			} catch (error) {
-				console.log(error);
 				toast.error(error.message);
 			}
 		};
@@ -164,16 +152,11 @@ function AddCourses({ type = 'new' }) {
 		}
 	}, [type, course?.enrolledStudents]);
 
-	console.log('values', getValues());
-	// ------------------------------ server ---------------------------
-
 	const handleFileDrop = (droppedFile) => {
 		setValue('image', droppedFile, { shouldTouch: true });
-		console.log('values', getValues());
-		console.log('droppedFile', droppedFile);
-
 		// formInfo.set('image', droppedFile);
 	};
+	// ------------------------------ server ---------------------------
 
 	return (
 		<div class="container ">
