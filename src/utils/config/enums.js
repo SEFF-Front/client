@@ -10,5 +10,6 @@ export const enum_ArticlesCategory = [
 	'sports',
 	'medical',
 	'startups',
-	'about',
+	// 'about',
+	'apps'
 ];

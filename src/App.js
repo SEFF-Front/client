@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import News from './components/news/news';
+// import News from './components/news/news';
 import LoginComponent from './components/login/Login';
 import Scroll from './components/scroll/scroll';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -17,7 +17,7 @@ import AddUser from './components/admin Panel/add users/addUser';
 import EditUser from './components/admin Panel/edit users/editUser';
 import Profile from './components/profile/profile';
 import AddArticles from './components/admin Panel/add articles/AddArtciles';
-import FindJobs from './components/jobPage studentPortal/findJob';
+import FindJobs from './components/jobPage studentPortal/_findJob.js';
 import Applications from './components/admin Panel/application/application';
 import UserStudents from './components/admin Panel/users-students/UsersStudents';
 import UserInstructors from './components/admin Panel/users-students/userInstructor';
@@ -40,41 +40,54 @@ import Personal from './components/welcome/personal';
 import Addexam from './components/admin Panel/add exam/addexam';
 import UpdateJob from './components/admin Panel/update job/UpdateJob';
 import JobsListMain from './components/jobPage studentPortal/jobsListMain';
-import JobDetails from './components/jobPage studentPortal/jobDetails';
-import JobAddApplication from './components/jobPage studentPortal/JobAddApplication';
+import JobDetails from './components/jobPage studentPortal/_jobDetails.js';
+import JobAddApplication from './components/jobPage studentPortal/_JobAddApplication.js';
 import UpdateArticle from './components/admin Panel/update article/UpdateAricle';
+import AboutNews from './components/news/aboutNews';
+import BusinessNews from './components/news/businessNews';
+import MedicalNews from './components/news/medicalNews';
+import SecurityNews from './components/news/securityNews';
+import SportsNews from './components/news/sportsNews';
+import StartupsNews from './components/news/startupsNews';
+import TechNews from './components/news/techNews';
+import HomeNews from './components/news/homeNews';
+import AppsNews from './components/news/appsNews';
+import PublishedJobs from './components/admin Panel/jobs/published';
+import DraftJobs from './components/admin Panel/jobs/draft';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const { user, isAuthenticated } = useSelector((state) => state.user);
-  const [cookies] = useCookies([]);
-  let navigate = useNavigate()
-  const dispatch =useDispatch()
-  const location = useLocation();
-  const currentRoute = location.pathname;
+	const [isLoading, setIsLoading] = useState(true);
+	const { user, isAuthenticated } = useSelector((state) => state.user);
+	const [cookies] = useCookies([]);
+	let navigate = useNavigate()
+	const dispatch =useDispatch()
+	const location = useLocation();
+	const currentRoute = location.pathname;
 
-  useEffect(() => {
-  const handleNavigation = async () => {
-    if (currentRoute !== "/articles") {
-      // if (!cookies.accessToken && !cookies.refreshToken) {
-      //   navigate('/login');
-      // } else {
-        try {
-          await dispatch(currentUser()).unwrap();
-        } catch (error) {
-          console.error("Error fetching current user:", error);
-          navigate('/login');
-        }
-      }
-  // }
-    setIsLoading(false); 
-  };
-  handleNavigation();
-}, [cookies.refreshToken, cookies.accessToken, currentRoute, dispatch, navigate])
-if (isLoading) {
-  return null;
-}
-    return (
+	useEffect(() => {
+		const handleNavigation = async () => {
+			if (currentRoute !== "/articles") {
+				// if (!cookies.accessToken && !cookies.refreshToken) {
+				//   navigate('/login');
+				// } else {
+				try {
+					await dispatch(currentUser()).unwrap();
+				} catch (error) {
+					console.error("Error fetching current user:", error);
+					navigate('/login');
+				}
+			}
+
+			setIsLoading(false); 
+		};
+		handleNavigation();
+	}, [cookies.refreshToken, cookies.accessToken, currentRoute, dispatch, navigate])
+	
+	if (isLoading) {
+		return null;
+	}
+
+		return (
 			<>
 				<div className="App">
 					<Toaster />
@@ -90,15 +103,31 @@ if (isLoading) {
 					{/* <AddUser/> */}
 				</div>
 				<Routes>
-					<Route path="/" element={<News />} />
-					<Route path="/showNews" element={<ShowNews />} />
-					<Route path="/about" element={<News />} />
-					<Route path="/business" element={<News />} />
-					<Route path="/security" element={<News />} />
-					<Route path="/sports" element={<News />} />
-					<Route path="/medical" element={<News />} />
-					<Route path="/startups" element={<News />} />
-					<Route path="/apps" element={<News />} />
+					<Route path="/" element={<HomeNews />} />
+					{/* <Route path="/showNews" element={<ShowNews />} /> */}
+					{/* <Route path="/about" element={<AboutNews />} /> */}
+					<Route path="/business" element={<BusinessNews />} />
+					<Route path="/security" element={<SecurityNews />} />
+					<Route path="/sports" element={<SportsNews />} />
+					<Route path="/medical" element={<MedicalNews />} />
+					<Route path="/startups" element={<StartupsNews />} />
+					<Route path="/apps" element={<AppsNews />} />
+					<Route path="/tech" element={<TechNews />} />
+					{/* <Route path="/apps" element={<AppsNews />} /> */}
+					<Route path="/articles/:articleId" element={<ShowNews />} />
+
+					{/* <Route path="/" element={<ShowNews />} /> */}
+					{/* <Route path="/" element={<News />} /> */}
+					{/* <Route path="/showNews" element={< />} /> */}
+					{/* <Route path="/about" element={<AboutNews />} />
+					<Route path="/business" element={<BusinessNews />} />
+					<Route path="/security" element={<SecurityNews />} />
+					<Route path="/sports" element={<SportsNews />} />
+					<Route path="/medical" element={<MedicalNews />} />
+					<Route path="/startups" element={<StartupsNews />} />
+					<Route path="/tech" element={<TechNews />} /> */}
+					{/* <Route path="/apps" element={<News />} /> */}
+
 					<Route path="/login" element={<LoginComponent />} />
 					{console.log(user?.role)}
 					{/* {isAuthenticated && <Route path='/jobs' element={<FindJobs/>}/>} */}
@@ -145,8 +174,8 @@ if (isLoading) {
 							<Route path="updatejob" element={<UpdateJob />} />
 
 							<Route path="Jobbs" element={<Jobs />} />
-							<Route path="Jobbs-published" element={<Jobs />} />
-							<Route path="jobbs-drafts" element={<Jobs />} />
+							<Route path="Jobbs-published" element={<PublishedJobs />} />
+							<Route path="jobbs-drafts" element={<DraftJobs />} />
 							<Route
 								path="/adminPanel/jobbs/:jobId/applications"
 								element={<Applications />}
@@ -188,11 +217,17 @@ if (isLoading) {
 
 					{isAuthenticated && (
 						<>
-							<Route path="/jobs" element={<JobsListMain />} />
+							{/* <Route path="/jobs" element={<JobsListMain />} />
 							<Route path="/jobs/:jobId" element={<JobDetails />} />
 							<Route
 								path="/jobs/:jobId/add-application"
 								element={<JobAddApplication />}
+							/> */}
+							<Route path="/jobs" element={<JobsListMain />} />
+							<Route path="/jobs/:jobId" element={<JobsListMain />} />
+							<Route
+								path="/jobs/:jobId/add-application"
+								element={<JobsListMain />}
 							/>
 						</>
 						// <Route path="/" element={<JobsListMain />}>
@@ -205,7 +240,7 @@ if (isLoading) {
 						// </Route>
 					)}
 
-					<Route path="*" element={<News />} />
+					<Route path="*" element={<ShowNews />} />
 				</Routes>
 				<Scroll />
 			</>

@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 export const createArticle = createAsyncThunk(
 	'ArticleSlice/createArticle',
 	async (articleData, { rejectWithValue }) => {
+		console.log('articleData', articleData);
 		try {
 			const response = await Api.post('/articles', articleData, {
 				headers: {
@@ -23,6 +24,7 @@ export const createArticle = createAsyncThunk(
 			});
 			return response.data.data;
 		} catch (error) {
+			console.log('error',error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}

@@ -82,18 +82,18 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/">HOME</Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="/about">ABOUT</Link>
-                </li>
+                </li> */}
                 <li class="nav-item dropdown">
                   <Link class="nav-link dropdown-toggle" to="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     TECH
                   </Link>
                   <ul class="dropdown-menu">
-                    <li><Link className="dropdown-item" to="/">Action</Link></li>
-                    <li><Link className="dropdown-item" to="/">Another action</Link></li>
+                    <li><Link className="dropdown-item" to="/tech">Action</Link></li>
+                    <li><Link className="dropdown-item" to="/tech">Another action</Link></li>
 
-                    <li><Link className="dropdown-item" to="/">Something else here</Link></li>
+                    <li><Link className="dropdown-item" to="/tech">Something else here</Link></li>
                   </ul>
                 </li>
                 <li className="nav-item">
@@ -118,9 +118,9 @@ const Navbar = () => {
                     <Link className="nav-link ms-2" to="/jobs">JOBS</Link>
                   </li>
                 }
-                <li className="nav-item rounded ms-2 py-2 nav-con">
+                {/* <li className="nav-item rounded ms-2 py-2 nav-con">
                   <Link className="nav-contact" to="/contactus">CONTACT US</Link>
-                </li>
+                </li> */}
               </ul>
 
             </div>

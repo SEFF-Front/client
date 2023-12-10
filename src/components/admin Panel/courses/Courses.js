@@ -21,16 +21,17 @@ function Courses({ StatusQuery }) {
 	const { total, limit, page, pages } = pagination;
 
 	// pagination -----------------------------------
-	const [queries, setQueries] = useState({
-		searchBy: 'name',
-		searchValue: '',
-	});
+	// const [queries, setQueries] = useState({
+	// 	searchBy: 'name',
+	// 	searchValue: '',
+	// });
 
 	// const [searchParams, setSearchParams] = useSearchParams();
 	// console.log('searchParams', searchParams);
 
 	const handlePageChange = (page) => {
-		setQueries((prevQueries) => ({ ...prevQueries, page }));
+		setFilters((prev) => ({ ...prev, page }));
+		// setQueries((prevQueries) => ({ ...prevQueries, page }));
 		// setSearchParams({ searchValue: search, page });
 	};
 
@@ -38,15 +39,15 @@ function Courses({ StatusQuery }) {
 
 	const handelSearchInput = (e) => {
 		setSearch(e.target.value);
-		setQueries((prev) => ({ ...prev, page: 1, searchValue: search }));
+		// setQueries((prev) => ({ ...prev, page: 1, searchValue: search }));
 	};
-	const handleSearch = (e) => {
-		setQueries((prev) => ({ ...prev, page: 1, searchValue: search }));
-		// setSearchParams({ searchValue: search, page: 1 });
-	};
+	// const handleSearch = (e) => {
+	// 	setQueries((prev) => ({ ...prev, page: 1, searchValue: search }));
+	// 	// setSearchParams({ searchValue: search, page: 1 });
+	// };
 
 	useEffect(() => {
-		setQueries((prev) => ({ ...prev, searchValue: '' }));
+		setSearch('');
 	}, [location.pathname]);
 
 	const [filter, setFilter] = useState({});
@@ -61,20 +62,29 @@ function Courses({ StatusQuery }) {
 		} else if (StatusQuery === 'draft') {
 			setFilter({ isPublished: false });
 		}
-	}, [StatusQuery, queries]);
+	}, [StatusQuery]);
+
+	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
-		dispatch(fetchCourses({ role: 'admin', filter, ...queries, page: 1 }));
-	}, [filter, dispatch, queries]);
+		setFilters({ role: 'admin', filter, page: 1 });
+
+		if (search) {
+			setFilters({
+				role: 'admin',
+				filter: {...filter,  name: { $regex: search, $options: 'i' } },
+				page: 1,
+			});
+		}
+	}, [filter, search]);
 
 	useEffect(() => {
-		setSearch('');
-		setQueries((prev) => ({ ...prev, searchValue: '' }));
-	}, [location, StatusQuery, dispatch]);
+		dispatch(fetchCourses(filters));
+	}, [filters, dispatch]);
 
 	const handelDeleteCourse = async (id) => {
 		await dispatch(deleteCourse(id)).then(() => {
-			dispatch(fetchCourses({ role: 'admin', filter, ...queries, page: 1 }));
+			dispatch(fetchCourses(filters));
 		});
 	};
 	// ------------------------- server --------------------------
@@ -204,7 +214,7 @@ function Courses({ StatusQuery }) {
 							<FontAwesomeIcon
 								icon={faSearch}
 								className="text-warning"
-								onClick={handleSearch}
+								onClick={handelSearchInput}
 							/>
 						</div>
 					</div>

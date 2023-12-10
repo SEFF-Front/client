@@ -1,45 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Dragdrop from '../Drag drop/Dragdrop';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { domainBack } from '../../utils/Api';
+import img from '../../assest/oooo.jpg';
 import { createApplication } from '../redux/reducers/ApplicationSlice';
-import { toast } from 'react-toastify';
-import { fetchAllJobs, fetchOneJob } from '../redux/reducers/JobSlice.';
+import { fetchOneJob } from '../redux/reducers/JobSlice.';
 import { newApplicationValidation } from '../../validation/application.validation';
-// import { newApplicationValidation } from '../../validation/application.validation';
 
 function AddApplication() {
 	// ------------------------------ server ---------------------------
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { state } = useLocation();
-	console.log('useLocation state', state);
 
 	const { job, loading } = useSelector((state) => state.jobs);
 	const { user } = useSelector((state) => state.user);
 
 	const initialApplication = {
 		name: `${user?.firstName || ''} ${user?.lastName || ''}`,
-		// major: user?.major || '',
 		email: user?.email || '',
 		mobileNumber: user?.mobileNumber || '',
 		exp: '',
 		job: state?.jobId,
 		cv: '',
 	};
-	// const editableData = (data, initial) => {
-	// 	let info = {};
-	// 	for (const key in initial) {
-	// 		info[key] = data[key] || '';
-	// 	}
-	// 	console.log('info', info);
-	// 	return info;
-	// };
 
 	useEffect(() => {
 		dispatch(fetchOneJob(state?.jobId));
@@ -49,7 +38,6 @@ function AddApplication() {
 		handleSubmit,
 		reset,
 		setValue,
-		getValues,
 		formState: { errors, isSubmitting, touchedFields },
 	} = useForm({
 		mode: 'all',
@@ -57,10 +45,7 @@ function AddApplication() {
 		reValidateMode: 'onChange',
 		defaultValues: initialApplication,
 
-		resolver: joiResolver(
-			// type === 'edit' ? updateApplicationValidation : newApplicationValidation
-			newApplicationValidation
-		),
+		resolver: joiResolver(newApplicationValidation),
 	});
 
 	const handleFileDrop = (droppedFile) => {
@@ -69,20 +54,15 @@ function AddApplication() {
 	};
 
 	const submitApplication = async (data) => {
-		console.log('data', data);
-
 		try {
 			await dispatch(createApplication(data)).unwrap();
 			reset();
 			navigate(-1);
 		} catch (error) {
 			console.log(error);
-			toast.error(error.message);
 		}
 	};
 
-	console.log('errors', errors);
-	console.log('getValues', getValues());
 	// ------------------------------ server ---------------------------
 	// const [dragActive, setDragActive] = useState(false);
 	// const handleDrag = function (e) {
@@ -100,7 +80,7 @@ function AddApplication() {
 			<div class="dd-info row">
 				<div class="spn col-1 p-0 d-flex justify-content-center">
 					<img
-						src={job?.companyLogo && domainBack + job?.companyLogo}
+						src={job?.companyLogo ? domainBack + job?.companyLogo : img}
 						alt={job?.companyName || ''}
 						width="50"
 						height="50"

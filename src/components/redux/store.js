@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ArticlesSlice from './reducers/ArticlesSlice.';
+import ArticlesSlice from './reducers/ArticlesSlice';
 import JobSlice from './reducers/JobSlice.';
 import CourseSlice from './reducers/CourseSlice';
 import cvDataSlice from './reducers/cvDataSlice';

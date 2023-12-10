@@ -12,7 +12,7 @@ export const createJob = createAsyncThunk(
 				},
 			});
 		} catch (error) {
-         console.log(error);
+			console.log(error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}
@@ -23,19 +23,54 @@ export const fetchAllJobs = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await Api.get('/jobs/get-all-jobs');
-			console.log(response.data.data);
-			return response.data.data;
+			console.log(response.data);
+			// return response.data.data;
+			return response.data;
 		} catch (error) {
 			console.log(error);
 			throw rejectWithValue(error.response.data.error);
 		}
 	}
 );
+
+export const fetchAllJobsUsers = createAsyncThunk(
+	'jobSlice/fetchAllJobsUsers',
+	async (queries, { rejectWithValue }) => {
+		const { filter = {}, page = 1, limit = 10 } = queries;
+		try {
+			const response = await Api.get(`/jobs/get-all-jobs?page=${page}`, {
+				params: { filter },
+			});
+			// const response = await Api.get('/jobs/get-all-jobs');
+			console.log(response.data);
+			// return response.data.data;
+			return response.data;
+		} catch (error) {
+			console.log(error);
+			throw rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+export const fetchOneJobUsers = createAsyncThunk(
+	'jobSlice/fetchOneJobUsers',
+	async (jobId, { rejectWithValue }) => {
+		try {
+			const response = await Api.get(`/jobs/get-job/${jobId}`);
+			return response.data;
+		} catch (error) {
+			throw rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
+
 export const fetchOneJob = createAsyncThunk(
 	'jobSlice/fetchOneJob',
 	async (jobId, { rejectWithValue }) => {
 		try {
 			const response = await Api.get(`/jobs/get-job/${jobId}`);
+			console.log('response.data', response.data);
 			return response.data;
 		} catch (error) {
 			throw rejectWithValue(error.response.data.error);
@@ -79,6 +114,11 @@ export const jobSlice = createSlice({
 		job: null,
 		loading: false,
 		error: null,
+		pagination: null,
+
+		locations: [],
+		jobsUsers: [],
+		jobUsers: null,
 	},
 	reducers: {},
 	extraReducers: (builder) => {
@@ -112,8 +152,10 @@ export const jobSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchAllJobs.fulfilled, (state, action) => {
-				state.all = action.payload;
+				state.all = action?.payload?.data;
 				state.loading = false;
+				state.pagination = action.payload?.pagination;
+				state.locations = action.payload?.locations;
 			})
 			.addCase(fetchAllJobs.rejected, (state, action) => {
 				state.loading = false;
@@ -127,6 +169,7 @@ export const jobSlice = createSlice({
 				state.loading = false;
 				state.success = true;
 				state.job = payload.data;
+				console.log('payload', payload);
 			})
 			.addCase(fetchOneJob.rejected, (state, { payload }) => {
 				state.loading = false;
@@ -159,8 +202,8 @@ export const jobSlice = createSlice({
 			.addCase(updateJob.fulfilled, (state, { payload }) => {
 				state.loading = false;
 				state.success = true;
-				state.job = payload;
-				console.log(payload);
+				state.job = payload.data;
+				console.log(payload.data);
 			})
 			.addCase(updateJob.rejected, (state, { payload }) => {
 				state.loading = false;
@@ -177,7 +220,46 @@ export const jobSlice = createSlice({
 				} else {
 					state.error = 'Network error occurred';
 				}
-			});
+			})
+
+			.addCase(fetchAllJobsUsers.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(fetchAllJobsUsers.fulfilled, (state, action) => {
+				state.all = action?.payload?.data;
+				state.loading = false;
+				state.pagination = action.payload?.pagination;
+				state.locations = action.payload?.locations;
+				state.jobsUsers = action.payload?.data;
+
+			})
+			.addCase(fetchAllJobsUsers.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.error.message;
+			})
+			.addCase(fetchOneJobUsers.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(fetchOneJobUsers.fulfilled, (state, { payload }) => {
+				state.loading = false;
+				state.success = true;
+				state.jobUsers = payload.data;
+			})
+			.addCase(fetchOneJobUsers.rejected, (state, { payload }) => {
+				state.loading = false;
+				if (payload) {
+					if (payload.success === false && payload.error) {
+						state.error = payload.error;
+						state.success = payload.success;
+					} else {
+						state.error = 'An unknown error occurred';
+					}
+				} else {
+					state.error = 'Network error occurred';
+				}
+			})
 	},
 });
 

@@ -2,6 +2,7 @@ import { faClock, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { domainBack } from '../../utils/Api';
+import img from '../../assest/oooo.jpg';
 import moment from 'moment';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -12,10 +13,11 @@ function JobListHeader({ type = 'list', job, children }) {
 			<div class="dd-info row">
 				<div class="col-1 p-0 d-flex justify-content-center ">
 					<img
-						src={job?.companyLogo && domainBack + job?.companyLogo}
+						src={job?.companyLogo ? domainBack + job?.companyLogo : img}
 						alt={job?.companyName || ''}
 						// width='100%' height='auto'
-						width='50' height='50'
+						width="50"
+						height="50"
 					/>
 					{/* <span
 						style={{

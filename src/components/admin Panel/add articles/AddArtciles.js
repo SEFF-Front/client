@@ -3,10 +3,11 @@ import Dragdrop from '../../Drag drop/Dragdrop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { createArticle } from '../../redux/reducers/ArticlesSlice.';
+import { createArticle } from '../../redux/reducers/ArticlesSlice';
+import { enum_ArticlesCategory } from '../../../utils/config/enums';
+import { toast } from 'react-toastify';
 
 function AddArticles() {
 	// const [articleDetails, setArticleDetails] = useState({
@@ -81,8 +82,10 @@ function AddArticles() {
 		setShow(URL.createObjectURL(file));
 	};
 
-	const { register, handleSubmit, reset } = useForm();
+	const { register, handleSubmit, setValue, reset, getValues } = useForm();
 	const onSubmit = (data) => {
+		console.log('getValues', data);
+		console.log('data', data);
 		const articleData = Object.fromEntries(
 			Object.entries(data).filter(([key, value]) => value !== undefined)
 		);
@@ -93,11 +96,12 @@ function AddArticles() {
 			toast.warn('No data to submit.');
 			return;
 		}
+		console.log(articleData);
 		dispatch(createArticle(articleData))
 			.unwrap()
 			.then(() => {
 				toast.success('Article successfully added');
-				navigate('/adminpanel/articles');
+				// navigate('/adminpanel/articles');
 			})
 			.catch((backendError) => {
 				console.log(backendError);
@@ -116,17 +120,25 @@ function AddArticles() {
 	return (
 		<div className="container-fluid1 px-5 py-5 position-relative">
 			<h4 className="add_article d-inline text-light">Add Article Details</h4>
-			<button
-				type="button"
-				className="btn btn_publish1 btn_article text-light ps-4 pe-4  position-absolute end-0 me-5 fw-bold rounded-1"
-				style={{ background: '#bf9b30' }}
-			>
-				PUBLISH
-			</button>
 
 			<div className="line_article mt-2"></div>
 
 			<form onSubmit={handleSubmit(onSubmit)} className="bg-container mt-4">
+				<div style={{ marginTop: '-60px' }} className='d-flex justify-content-end'>
+					<button
+						type='submit'
+						// className="btn btn_publish1 btn_article text-light ps-4 pe-4  position-absolute end-0 me-5 fw-bold rounded-1"
+						className="btn btn_publish1 btn_article text-light ps-4 pe-4 fw-bold rounded-1"
+						style={{ background: '#bf9b30' }}
+						onClick={() => {
+							console.log('btn btn_publish1');
+							setValue('isPublished', true);
+							handleSubmit(onSubmit);
+						}}
+					>
+						PUBLISH
+					</button>
+				</div>
 				<div className="article_form_container col-sm-12 sm-column-reverse">
 					<div className="article_form ">
 						<div className="row">
@@ -139,12 +151,12 @@ function AddArticles() {
 								</label>
 								<input
 									type="text"
-									className="form-control "
+									className="form-control border-0"
 									placeholder=""
-									aria-label="First name"
+									aria-label="title"
 									id="title"
 									{...register('title')}
-									// value={articleDetails.title}
+									// value={article?.category}
 									// onChange={handleInputChange}
 								/>
 							</div>
@@ -155,22 +167,41 @@ function AddArticles() {
 								>
 									Category
 								</label>
-								<div className="input-group mb-3 ">
+								<div class="btn-group">
 									<input
 										type="text"
-										className="form-control border-0 "
-										aria-describedby="basic-addon1"
-										id="category"
+										className="form-control rounded-end-0 dropdown-toggle"
+										placeholder=""
+										aria-label="First name"
+										id="title"
 										{...register('category')}
-										// value={articleDetails.category}
+										// value={article?.category}
 										// onChange={handleInputChange}
 									/>
-									<span className="input-group-text border-0 opacity-75">
-										<FontAwesomeIcon
-											icon={faChevronDown}
-											classNameName="color-yellow "
-										/>{' '}
-									</span>
+									<button
+										type="button"
+										class="btn dropdown-toggle dropdown-toggle-split btn-secondary"
+										data-bs-toggle="dropdown"
+										aria-expanded="false"
+									>
+										<span class="visually-hidden">Toggle Dropdown</span>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-start">
+										{enum_ArticlesCategory?.map((category) => (
+											<li
+												class="dropdown-item"
+												key={category}
+												value={category}
+												onClick={() =>
+													setValue('category', category, {
+														shouldTouch: true,
+													})
+												}
+											>
+												{category}{' '}
+											</li>
+										))}
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -196,10 +227,7 @@ function AddArticles() {
 							</label>
 							<div className="input-group mb-3 ">
 								<span className="input-group-text border-0 text-white bg-secondary opacity-75">
-									<FontAwesomeIcon
-										icon={faCalendar}
-										classNameName="color-yellow "
-									/>
+									<FontAwesomeIcon icon={faCalendar} className="color-yellow " />
 								</span>
 								<input
 									type="date"
@@ -224,7 +252,7 @@ function AddArticles() {
 						<Dragdrop onFileDrop={handleImageChange} />
 					</div> */}
 
-					<div classNameName="drag_drop_container">
+					<div className="drag_drop_container">
 						<label
 							htmlFor="inputState"
 							className="form-label text-light mt-4 mb-3 fs-5 fw-medium text-white"
@@ -248,23 +276,24 @@ function AddArticles() {
 
 				<div className="buttons_article d-flex justify-content-end mt-4 md-d-flex md-flex-column mb-3">
 					<button
-						type="button"
+						type="reset"
 						className="btn btn_cancel btn_article btn-secondary text-light fw-bold rounded-1 fs-9 me-2"
 					>
 						CANCEL
 					</button>
 					<button
-						type="submit"
+						type='submit'
 						className="btn btn_save btn_article  text-light fw-bold rounded-1"
 						style={{ background: '#bf9b30' }}
-						// onClick={saveData}
+						onClick={() => setValue('isPublished', false)}
 					>
 						SAVE
 					</button>
 					<button
-						type="reset"
+						type='submit'
 						className="btn btn_publish2 btn_article  text-light fw-bold rounded-1 d-none"
 						style={{ background: '#bf9b30' }}
+						onClick={() => setValue('isPublished', true)}
 					>
 						PUBLISH
 					</button>

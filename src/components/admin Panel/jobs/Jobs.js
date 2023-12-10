@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { deleteJob, fetchAllJobs, fetchOneJob } from '../../redux/reducers/JobSlice.';
-import Pagination from '../../pagination/pagination';
+// import Pagination from '../../pagination/pagination';
 
 import moment from 'moment';
 function Jobs() {
@@ -26,11 +26,12 @@ function Jobs() {
 	};
 	const { all: jobs } = useSelector((state) => state.jobs);
 	const dispatch = useDispatch();
-	const date = moment();
+
+	console.log('jobs', jobs);
 
 	useEffect(() => {
 		dispatch(fetchAllJobs());
-	}, [dispatch]);
+	}, []);
 
 	const navigate = useNavigate();
 
@@ -83,12 +84,7 @@ function Jobs() {
 			{isMobile ? (
 				<div class="row m-0 mt-5 col-12" id="items">
 					{diplayedArr?.map((job) => (
-						<div
-							class="col-12 text-light  user-part"
-							key={job.id}
-							id="item"
-							onClick={() => navigate(`${job?._id}/applications`)}
-						>
+						<div class="col-12 text-light  user-part" key={job.id} id="item">
 							<button
 								className={
 									job.isAvailable
@@ -185,13 +181,7 @@ function Jobs() {
 							</thead>
 							<tbody>
 								{diplayedArr?.map((job, index) => (
-									<tr
-										key={index}
-										className="text-light"
-										onClick={() =>
-											navigate(`${job?._id}/applications`, { state: job })
-										}
-									>
+									<tr key={index} className="text-light">
 										<td>{job.companyName}</td>
 										<td>{job.position}</td>
 										<td>
@@ -210,7 +200,13 @@ function Jobs() {
 											<br />
 											{job.time}
 										</td>
-										<td>{job.application}</td>
+										<td
+											onClick={() =>
+												navigate(`${job?._id}/applications`, { state: job })
+											}
+										>
+											{job?.applications?.length || 0}
+										</td>
 										<td>
 											<Link
 												to="/adminPanel/updateJob"

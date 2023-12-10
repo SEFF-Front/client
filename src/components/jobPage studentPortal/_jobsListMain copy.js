@@ -1,124 +1,169 @@
 import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import {
+	faChevronLeft,
+	faChevronRight,
+	faClock,
+	faCloudArrowUp,
+	faFilter,
+	faLocationDot,
+	faMagnifyingGlass,
+	faMapMarkedAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import './Jobsstyle.css';
 import Title from '../title/title';
+import Dragdrop from '../Drag drop/Dragdrop';
 import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../footer/Footer';
-import { useLocation, useParams } from 'react-router-dom';
-import { fetchAllJobsUsers, fetchOneJob } from '../redux/reducers/JobSlice.';
+import { createApplication } from '../redux/reducers/ApplicationSlice';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { fetchAllJobs } from '../redux/reducers/JobSlice.';
+import moment from 'moment';
 import JobListHeader from './jobListHeader';
-import AddApplication from './addApplication';
-import Pagination from '../pagination/pagination';
 
 function JobsListMain() {
 	// ------------------------------ server ---------------------------
-	const { pathname } = useLocation();
-	const { jobId } = useParams();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const {
-		all: jobs,
-		job,
-		loading,
-		locations, //get locations exist in database documents for filter
-		pagination,
-	} = useSelector((state) => state.jobs);
+	const { all: jobs, loading } = useSelector((state) => state.jobs);
+	const { user } = useSelector((state) => state.user);
 
-	const [searchInput, setSearchInput] = useState('');
-	const [filter, setFilter] = useState({});
-	const [changePage, setChangePage] = useState(1);
-
-	const handlePageChange = (page) => {
-		setChangePage(page);
-		// setSearchParams({ searchValue: search, page });
-	};
+	console.log('jobs', jobs);
+	console.log('user', user);
 
 	useEffect(() => {
-		if (jobId) {
-			// dispatch(fetchAllJobs());
-			dispatch(fetchOneJob(jobId));
-		}
-	}, [jobId, dispatch]);
+		dispatch(fetchAllJobs());
+	}, []);
 
-	const salaryRangeArray = [
-		{ 'salary.to': { $lte: 4000 } },
-		{
-			salary: [
-				{
-					$elemMatch: {
-						from: { $gte: 4000 },
-						to: { $lte: 10000 },
-					},
-				},
-			],
-		},
-		{ 'salary.to': { $gte: 10000 } },
-	];
-
-	const [location, setLocation] = useState('');
-	const [jobType, setJobType] = useState([]);
-	const [jobLevel, setjobLevel] = useState([]);
-	const [salaryRangeIndexes, setSalaryRangeIndexes] = useState([]);
-	const [salaryRange, setSalaryRange] = useState([]);
-
-	var [menu, setMenu] = useState(false);
-	var selectRef = useRef(null);
-
-	const handelCheckSalary = (e) => {
-		let updatedIndexes = [...salaryRangeIndexes];
-
-		if (e.target.checked) {
-			updatedIndexes.push(e?.target?.value);
-		} else {
-			updatedIndexes = updatedIndexes.filter((item) => item !== e?.target?.value);
-		}
-
-		setSalaryRange(updatedIndexes.map((index) => salaryRangeArray[index]));
-		setSalaryRangeIndexes(updatedIndexes);
-	};
-
-	useEffect(() => {
-		setFilter({ jobType, $or: [...salaryRange] });
-
-		if (location) {
-			setFilter({ location, jobType, $or: [...salaryRange] });
-		}
-		if (searchInput) {
-			setFilter({
-				jobType,
-				// jobLevel,
-				$or: [...salaryRange],
-				$text: { $search: searchInput },
-			});
-		}
-		if (location && searchInput) {
-			setFilter({
-				location,
-				jobType,
-				// jobLevel,
-				$or: [...salaryRange],
-				$text: { $search: searchInput },
-			});
-		}
-		setChangePage(1);
-	}, [dispatch, location, jobType, jobLevel, salaryRange, searchInput]);
-
-	useEffect(() => {
-		dispatch(fetchAllJobsUsers({ filter, page: changePage }));
-	}, [dispatch, filter, changePage]);
 	// ------------------------------ server ---------------------------
 
+	var jobData = jobs;
+	var [location, setLocation] = useState('');
+	var [jobType, setJobType] = useState([]);
+	var [jobLevel, setjobLevel] = useState([]);
+	var [salaryRange, setSalaryRange] = useState([]);
+	var [details, setDetails] = useState(false);
+	var [form, setForm] = useState(false);
+	var [search, setSearch] = useState('');
+	var [clicked, setClicked] = useState(false);
+	var [menu, setMenu] = useState(false);
+	var [file, setFile] = useState(null);
+	var [currentJob, setCurrentJob] = useState({});
+	var selectRef = useRef(null);
+	const inputRef = React.useRef(null);
+	const [dragActive, setDragActive] = React.useState(false);
+	const handleDrag = function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		if (e.type === 'dragenter' || e.type === 'dragover') {
+			setDragActive(true);
+		} else if (e.type === 'dragleave') {
+			setDragActive(false);
+		}
+	};
+	const [formData, setFormData] = useState([
+		{
+			email: '',
+			experience: '',
+			mobNum: '',
+			uploadedFile: null,
+		},
+	]);
+	const handleInputChange = (e) => {
+		const { id, value } = e.target;
+		setFormData({ ...formData, [id]: value });
+	};
+
+	const handleFileDrop = (droppedFile) => {
+		setFormData({ ...formData, uploadedFile: droppedFile });
+	};
+	const handleSubmit = () => {
+		dispatch(createApplication(formData));
+	};
+
+	const onButtonClick = () => {
+		inputRef.current.click();
+	};
 	var handleClear = () => {
 		const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
 		checkboxes.forEach((checkbox) => (checkbox.checked = false));
 		setLocation('');
 		setJobType('');
 		setjobLevel('');
-		setSalaryRange({ $or: [] });
+		setSalaryRange('');
 		selectRef.current.value = '';
 	};
+	var handleDetails = (id) => {
+		setDetails(true);
+		var job = jobs.find((el) => el.id == id);
+		setCurrentJob(job);
+	};
+	var data = jobData;
+	if (search && clicked) {
+		data = data.filter((el) => el?.title?.includes(search));
+	}
+	if (location) {
+		data = data.filter((el) => el?.location?.includes(location));
+	}
+	if (jobType?.length > 0) {
+		var arr = [];
+		for (let item of jobType) {
+			for (let el of data) {
+				if (el?.jobType?.includes(item)) {
+					arr.push(el);
+				}
+			}
+		}
+		data = arr;
+	}
+	if (jobLevel?.length > 0) {
+		var arr = [];
+		for (let item of jobLevel) {
+			for (let el of data) {
+				if (el?.jobLevel?.includes(item)) {
+					arr.push(el);
+				}
+			}
+		}
+		data = arr;
+	}
+	if (salaryRange?.length > 0) {
+		var arr = [];
+		for (let item of salaryRange) {
+			for (let el of data) {
+				var tot;
+				if (el.salary < 4000) {
+					tot = '4000';
+				} else if (el.salary >= 4000 && el.salary <= 10000) {
+					tot = '4000-10000';
+				} else {
+					tot = '10000';
+				}
+				if (tot == item) {
+					arr.push(el);
+				}
+			}
+		}
+		data = arr;
+	}
+	const [currentPage, setCurrentPage] = useState(1);
+	const [recordsPerPage] = useState(2);
+	const indexOfLastRecord = currentPage * recordsPerPage;
+	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+	const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
+	const nPages = Math.ceil(data?.length / recordsPerPage);
+	const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
+	const nextPage = () => {
+		if (currentPage !== nPages) setCurrentPage(currentPage + 1);
+	};
 
+	const prevPage = () => {
+		if (currentPage !== 1) setCurrentPage(currentPage - 1);
+	};
+	jobData = currentRecords;
+	console.log('jobData', jobData);
+	console.log('currentRecords', currentRecords);
 	return (
 		<>
 			<meta
@@ -152,15 +197,11 @@ function JobsListMain() {
 								<input
 									placeholder="Search for a job"
 									onChange={(e) => {
-										// setSearch(e.target.value);
-										// setClicked(false);
-										setSearchInput(e.target.value);
+										setSearch(e.target.value);
+										setClicked(false);
 									}}
 								></input>
-								<button
-									type="button"
-									// onClick={() => setClicked(true)}
-								>
+								<button type="button" onClick={() => setClicked(true)}>
 									SEARCH
 								</button>
 								<button type="button" id="menu" onClick={() => setMenu(!menu)}>
@@ -191,23 +232,18 @@ function JobsListMain() {
 										</label>
 										<select
 											id="location"
-											class="form-select text-light border-0"
+											class="form-select  text-light border-0"
 											ref={selectRef}
 											onChange={(e) => setLocation(e.target.value)}
 										>
 											<option value="">All</option>
-											{locations.map((location, index) => (
-												<option key={index} value={location}>
-													{location}
-												</option>
-											))}
-											{/* <option value="New York">New York</option>
-											<option value="San Francisco">San Francisco</option> */}
+											<option value="New York">New York</option>
+											<option value="San Francisco">San Francisco</option>
 										</select>
 									</div>
 									<div class="filter-item">
 										<label class="text-white">Job Type:</label>
-										{/* <div class="form-check">
+										<div class="form-check">
 											<input
 												type="checkbox"
 												id="full-time"
@@ -221,7 +257,7 @@ function JobsListMain() {
 																jobType.filter(
 																	(item) => item !== e.target.value
 																)
-														);
+														  );
 												}}
 											/>
 											<label
@@ -230,15 +266,14 @@ function JobsListMain() {
 											>
 												Full-time
 											</label>
-										</div> */}
+										</div>
 										<div class="form-check">
 											<input
 												type="checkbox"
 												id="part-time"
 												class="form-check-input"
 												name="jobType"
-												// value="Part-time"
-												value="onSite"
+												value="Part-time"
 												onChange={(e) => {
 													e.target.checked
 														? setJobType([...jobType, e.target.value])
@@ -253,7 +288,7 @@ function JobsListMain() {
 												for="part-time"
 												class="form-check-label text-white"
 											>
-												OnSite
+												Part-time
 											</label>
 										</div>
 										<div class="form-check">
@@ -262,7 +297,7 @@ function JobsListMain() {
 												id="remote"
 												class="form-check-input"
 												name="jobType"
-												value="remote"
+												value="Remote"
 												onChange={(e) => {
 													e.target.checked
 														? setJobType([...jobType, e.target.value])
@@ -286,7 +321,7 @@ function JobsListMain() {
 												id="entry-level"
 												class="form-check-input"
 												name="jobLevel"
-												value="1"
+												value="Entry-level"
 												onChange={(e) => {
 													e.target.checked
 														? setjobLevel([...jobLevel, e.target.value])
@@ -310,7 +345,7 @@ function JobsListMain() {
 												id="intermediate"
 												class="form-check-input"
 												name="jobLevel"
-												value="2"
+												value="Intermediate"
 												onChange={(e) => {
 													e.target.checked
 														? setjobLevel([...jobLevel, e.target.value])
@@ -334,7 +369,7 @@ function JobsListMain() {
 												id="expert"
 												class="form-check-input"
 												name="jobLevel"
-												value="3"
+												value="Expert"
 												onChange={(e) => {
 													e.target.checked
 														? setjobLevel([...jobLevel, e.target.value])
@@ -356,8 +391,19 @@ function JobsListMain() {
 												id="salary-1"
 												class="form-check-input"
 												name="salaryRange"
-												value={0}
-												onChange={handelCheckSalary}
+												value="4000"
+												onChange={(e) => {
+													e.target.checked
+														? setSalaryRange([
+																...salaryRange,
+																e.target.value,
+														  ])
+														: setSalaryRange(
+																salaryRange.filter(
+																	(item) => item !== e.target.value
+																)
+														  );
+												}}
 											/>
 											<label
 												for="salary-1"
@@ -372,9 +418,19 @@ function JobsListMain() {
 												id="salary-2"
 												class="form-check-input"
 												name="salaryRange"
-												// value="4000-10000"
-												value={1}
-												onChange={handelCheckSalary}
+												value="4000-10000"
+												onChange={(e) => {
+													e.target.checked
+														? setSalaryRange([
+																...salaryRange,
+																e.target.value,
+														  ])
+														: setSalaryRange(
+																salaryRange.filter(
+																	(item) => item !== e.target.value
+																)
+														  );
+												}}
 											/>
 											<label
 												for="salary-2"
@@ -389,9 +445,19 @@ function JobsListMain() {
 												id="salary-3"
 												class="form-check-input"
 												name="salaryRange"
-												// value="10000"
-												value={2}
-												onChange={handelCheckSalary}
+												value="10000"
+												onChange={(e) => {
+													e.target.checked
+														? setSalaryRange([
+																...salaryRange,
+																e.target.value,
+														  ])
+														: setSalaryRange(
+																salaryRange.filter(
+																	(item) => item !== e.target.value
+																)
+														  );
+												}}
 											/>
 											<label
 												for="salary-3"
@@ -410,30 +476,13 @@ function JobsListMain() {
 
 						<div class="pl-3 flex-grow-1">
 							{/* <Outlet context={[jobData]} /> */}
-							{pathname === '/jobs' ? (
-								jobs?.length < 1 ? (
-									<h6 className="text-light text-center">
-										There is no data to display
-									</h6>
-								) : (
-									jobs?.map((job) => <JobListHeader key={job?._id} job={job} />)
-								)
-							) : pathname?.includes('/add-application') ? (
-								<AddApplication />
+							{jobs?.length < 1 ? (
+								<h6>There is no data to display</h6>
 							) : (
-								<JobListHeader type="details" job={job} />
+								jobs?.map((job) => <JobListHeader key={job?._id} job={job} />)
 							)}
 						</div>
 					</div>
-					{pathname === '/jobs' && (
-						<Pagination
-							total={pagination?.total}
-							pages={pagination?.pages}
-							currentPage={pagination?.page}
-							limit={pagination?.limit}
-							onPageChange={handlePageChange}
-						/>
-					)}
 				</div>
 			</div>
 			<Footer />

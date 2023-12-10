@@ -292,22 +292,22 @@ export default function Profile() {
 								/>
 								<h4>Contact Info</h4>
 								{/* <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className="profileemail"
-                  style={{ color: "#bf9b30" }}
-                />
-                <p class="text-white inputlabel">Email</p>
-                <input
-                  type="text"
-                  id="Email"
-                  name="Email"
-                  defaultValue={initialProfileData.email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  class={
-                    editMode ? " profileinput2" : " profileinput2 disabled"
-                  }
-                  disabled={!editMode}
-                /> */}
+								icon={faEnvelope}
+								className="profileemail"
+								style={{ color: "#bf9b30" }}
+								/>
+								<p class="text-white inputlabel">Email</p>
+								<input
+									type="text"
+									id="Email"
+									name="Email"
+									defaultValue={initialProfileData.email}
+									onChange={(e) => setEmail(e.target.value)}
+									class={
+									editMode ? " profileinput2" : " profileinput2 disabled"
+									}
+									disabled={!editMode}
+								/> */}
 								<FontAwesomeIcon
 									icon={faPhoneVolume}
 									className="profileemail"

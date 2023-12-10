@@ -83,7 +83,7 @@ function AdminSideBar(){
           <div class="lg-ul">
             <ul>
             <li><Link to="publishedarticles">Published Articles</Link></li>
-            <li><Link to="">Scheduled Articles</Link></li>
+            {/* <li><Link to="">Scheduled Articles</Link></li> */}
             <li><Link to="draftarticles">Saved Drafts</Link></li>
           </ul>
           </div>
@@ -134,7 +134,7 @@ function AdminSideBar(){
               </button>
               <ul className='dropdown-menu bg-dark w-100 col-xs-12'>
                 <li><Link className='dropdown-item text-light' to="publishedarticles">Published articles</Link></li>
-                <li><Link className='dropdown-item text-light' to="scheduledarticles">Scheduled articles</Link></li>
+                {/* <li><Link className='dropdown-item text-light' to="scheduledarticles">Scheduled articles</Link></li> */}
                 <li><Link className='dropdown-item text-light' to="draftarticles">Saved Drafts articles</Link></li>
               </ul>
             </div>):''
@@ -146,9 +146,9 @@ function AdminSideBar(){
                 jobs
               </button>
               <ul className='dropdown-menu bg-dark w-100 col-xs-12'>
-                <li><Link className='dropdown-item text-light' to="#">Published jobs</Link></li>
-                <li><Link className='dropdown-item text-light' to="#">Scheduled jobs</Link></li>
-                <li><Link className='dropdown-item text-light' to="#">Saved Drafts</Link></li>
+                <li><Link className='dropdown-item text-light' to="Jobbs-published">Published jobs</Link></li>
+                {/* <li><Link className='dropdown-item text-light' to="#">Scheduled jobs</Link></li> */}
+                <li><Link className='dropdown-item text-light' to="jobbs-drafts">Saved Drafts</Link></li>
               </ul>
             </div>):''
             }

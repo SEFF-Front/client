@@ -17,26 +17,26 @@ import Dragdrop from '../Drag drop/Dragdrop';
 import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../footer/Footer';
 import { createApplication } from '../redux/reducers/ApplicationSlice';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import { fetchAllJobs, fetchOneJob } from '../redux/reducers/JobSlice.';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { fetchAllJobs } from '../redux/reducers/JobSlice.';
 import moment from 'moment';
-import JobListHeader from './jobListHeader';
+import AddApplication from './addApplication';
 
 function JobsListMain() {
 	// ------------------------------ server ---------------------------
 	const navigate = useNavigate();
-	const {jobId} = useParams()
+	const { state } = useLocation();
 	const dispatch = useDispatch();
-	const { all: jobs, job, loading } = useSelector((state) => state.jobs);
+	const { all: jobs, loading } = useSelector((state) => state.jobs);
 	const { user } = useSelector((state) => state.user);
 
 	console.log('jobs', jobs);
 	console.log('user', user);
+	console.log('useLocation state', state);
 
 	useEffect(() => {
-		// dispatch(fetchAllJobs());
-		dispatch(fetchOneJob(jobId));
-	}, [jobId, dispatch]);
+		dispatch(fetchAllJobs());
+	}, []);
 
 	// ------------------------------ server ---------------------------
 
@@ -476,7 +476,7 @@ function JobsListMain() {
 
 						<div class="pl-3 flex-grow-1">
 							{/* <Outlet context={[jobData]} /> */}
-							<JobListHeader type="details" job={job} />
+							<AddApplication />
 						</div>
 					</div>
 				</div>

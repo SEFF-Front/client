@@ -10,14 +10,15 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+
+import moment from 'moment';
+import { useCallback, useEffect, useState } from 'react';
+import Pagination from '../../pagination/pagination';
 import {
 	deleteArticle,
 	fetchAllArticles,
 	getArticle,
-} from '../../redux/reducers/ArticlesSlice.js';
-import moment from 'moment';
-import { useCallback, useEffect, useState } from 'react';
-// import Pagination from '../../pagination/pagination';
+} from '../../redux/reducers/ArticlesSlice';
 
 function Articles() {
 	const dispatch = useDispatch();
@@ -47,17 +48,17 @@ function Articles() {
 	// }, [dispatch, queries]);
 
 	// const { all: articles ,pagination } = useSelector((state) =>  state.articles);
-	// const {total, limit, page, pages}=pagination
 
 	const { all: articles } = useSelector((state) => state.articles);
+	// const {total, limit, page, pages}=pagination
 
 	let diplayedArr = articles;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [recordsPerPage] = useState(2);
 	const indexOfLastRecord = currentPage * recordsPerPage;
 	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-	const currentRecords = diplayedArr.slice(indexOfFirstRecord, indexOfLastRecord);
-	const nPages = Math.ceil(diplayedArr.length / recordsPerPage);
+	const currentRecords = diplayedArr?.slice(indexOfFirstRecord, indexOfLastRecord);
+	const nPages = Math.ceil(diplayedArr?.length / recordsPerPage);
 	const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
 	const nextPage = () => {
 		if (currentPage !== nPages) setCurrentPage(currentPage + 1);
@@ -69,8 +70,8 @@ function Articles() {
 	diplayedArr = currentRecords;
 
 	if (search) {
-		diplayedArr = articles.filter((el) =>
-			el?.articleTitle.toLowerCase()?.includes(search.toLowerCase())
+		diplayedArr = articles?.filter((el) =>
+			el?.articleTitle?.toLowerCase()?.includes(search?.toLowerCase())
 		);
 	} else {
 		diplayedArr = articles;
@@ -84,7 +85,7 @@ function Articles() {
 		dispatch(getArticle(articleId))
 			.unwrap()
 			.then(() => {
-				navigate('/adminPanel/UpdateArticle');
+				navigate('/adminPanel/Updatearticle');
 			});
 	};
 
@@ -160,16 +161,16 @@ function Articles() {
 							<div class="col-12 text-light  user-part" id="item" key={article.id}>
 								<button
 									className={
-										article.isPublished
+										article?.isPublished
 											? 'table_btn publish_btn Active'
 											: 'Active bg-secondary table_btn text-light'
 									}
 								>
-									{article.isPublished ? 'published' : 'draft'}
+									{article?.isPublished ? 'published' : 'draft'}
 								</button>{' '}
 								<h4>Title</h4>
 								<p>{article.title}</p>
-								<div class="d-flex  justify-content-between">
+								<div class="d-flex justify-content-between">
 									<div>
 										<h4>Category </h4>
 										<p>{article.category}</p>
@@ -222,10 +223,10 @@ function Articles() {
 									<td>
 										<button
 											className={
-												article.isPublished ? '' : 'bg-secondary text-light'
+												article?.isPublished ? '' : 'bg-secondary text-light'
 											}
 										>
-											{article.isPublished ? 'published' : 'draft'}
+											{article?.isPublished ? 'published' : 'draft'}
 										</button>
 									</td>
 									<td>

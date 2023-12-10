@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { updateArticle } from '../../redux/reducers/ArticlesSlice';
-import { enum_ArticlesCategory } from '../../../utils/config/enums';
 
 function UpdateArticle() {
 	const handleImageChange = (e) => {
@@ -46,7 +45,6 @@ function UpdateArticle() {
 		register,
 		handleSubmit,
 		reset,
-		setValue,
 		formState: { isSubmitSuccessful },
 	} = useForm();
 	const initialPublishDate = initialArticleDataRef?.current?.publish_date?.slice(0, 10);
@@ -94,27 +92,21 @@ function UpdateArticle() {
 	};
 
 	return (
-		<div className="container-fluid1 px-5 py-5 position-relative">
-			<h4 className="add_article d-inline text-light">Update Article</h4>
-
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className="container-fluid1 px-5 py-5 position-relative"
+		>
+			<h4 className="add_article d-inline text-light">Update Article </h4>
+			<button
+				type="button"
+				className="btn btn_publish1 btn_article text-light ps-4 pe-4 position-absolute end-0 me-5 fw-bold rounded-1"
+				style={{ background: '#bf9b30' }}
+			>
+				PUBLISH
+			</button>
 			<div className="line_article mt-2"></div>
 
-			<form onSubmit={handleSubmit(onSubmit)} className="bg-container mt-4">
-				<div style={{ marginTop: '-60px' }} className="d-flex justify-content-end">
-					<button
-						type="submit"
-						// className="btn btn_publish1 btn_article text-light ps-4 pe-4  position-absolute end-0 me-5 fw-bold rounded-1"
-						className="btn btn_publish1 btn_article text-light ps-4 pe-4 fw-bold rounded-1"
-						style={{ background: '#bf9b30' }}
-						onClick={() => {
-							console.log('btn btn_publish1');
-							setValue('isPublished', true);
-							handleSubmit(onSubmit);
-						}}
-					>
-						PUBLISH
-					</button>
-				</div>
+			<div className="bg-container mt-4">
 				<div className="article_form_container col-sm-12 sm-column-reverse">
 					<div className="article_form ">
 						<div className="row">
@@ -123,18 +115,16 @@ function UpdateArticle() {
 									for="inputState"
 									className="form-label text-light mt-4 me-2 fw-medium"
 								>
-									Article Title
+									Update Article Title
 								</label>
 								<input
 									type="text"
-									className="form-control border-0"
+									className="form-control "
 									placeholder=""
-									aria-label="title"
+									aria-label="First name"
 									id="title"
 									defaultValue={initialArticleDataRef.current.title}
 									{...register('title')}
-									// value={article?.category}
-									// onChange={handleInputChange}
 								/>
 							</div>
 							<div className="col-md-4 text-light">
@@ -142,44 +132,23 @@ function UpdateArticle() {
 									for="inputState"
 									className="form-label text-light mt-4 fw-medium"
 								>
-									Category
+									Update Category
 								</label>
-								<div class="btn-group">
+								<div className="input-group mb-3 ">
 									<input
 										type="text"
-										className="form-control rounded-end-0 dropdown-toggle"
-										placeholder=""
-										aria-label="First name"
+										className="form-control border-0 "
+										aria-describedby="basic-addon1"
 										id="category"
 										defaultValue={initialArticleDataRef.current.category}
 										{...register('category')}
-										// value={article?.category}
-										// onChange={handleInputChange}
 									/>
-									<button
-										type="button"
-										class="btn dropdown-toggle dropdown-toggle-split btn-secondary"
-										data-bs-toggle="dropdown"
-										aria-expanded="false"
-									>
-										<span class="visually-hidden">Toggle Dropdown</span>
-									</button>
-									<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-start">
-										{enum_ArticlesCategory?.map((category) => (
-											<li
-												class="dropdown-item"
-												key={category}
-												value={category}
-												onClick={() =>
-													setValue('category', category, {
-														shouldTouch: true,
-													})
-												}
-											>
-												{category}{' '}
-											</li>
-										))}
-									</ul>
+									<span className="input-group-text border-0 opacity-75">
+										<FontAwesomeIcon
+											icon={faChevronDown}
+											className="color-yellow "
+										/>{' '}
+									</span>
 								</div>
 							</div>
 						</div>
@@ -188,7 +157,7 @@ function UpdateArticle() {
 								for="inputState"
 								className="form-label text-light mt-4 fw-medium"
 							>
-								Content
+								Update Content
 							</label>
 							<textarea
 								className="form-control border-0 fw-bold opacity-25 rounded-1"
@@ -196,13 +165,11 @@ function UpdateArticle() {
 								id="content"
 								defaultValue={initialArticleDataRef.current.content}
 								{...register('content')}
-								// value={articleDetails.content}
-								// onChange={handleInputChange}
 							></textarea>
 						</div>
 						<div className="col-sm-3">
 							<label for="inputState" className="form-label text-light fw-medium">
-								Publishing Date
+								Update Publishing Date
 							</label>
 							<div className="input-group mb-3 ">
 								<span className="input-group-text border-0 text-white bg-secondary opacity-75">
@@ -213,33 +180,21 @@ function UpdateArticle() {
 									className="form-control border-0  opacity-75 "
 									aria-describedby="basic-addon1"
 									id="publish_date"
-									defaultValue={initialArticleDataRef.current.publish_date}
+									defaultValue={initialPublishDate}
 									{...register('publish_date')}
-									// value={articleDetails.publish_date}
-									// onChange={handleInputChange}
 								/>
 							</div>
 						</div>
 					</div>
 
-					{/* <div className="drag_drop_container">
+					<div className="drag_drop_container">
 						<label
 							for="inputState"
 							className="form-label text-light mt-4 mb-3 fs-5 fw-medium"
 						>
-							Upload Cover Photo
+							Upload Updated Cover Photo
 						</label>
-						<Dragdrop onFileDrop={handleImageChange} />
-					</div> */}
-
-					<div className="drag_drop_container">
-						<label
-							htmlFor="inputState"
-							className="form-label text-light mt-4 mb-3 fs-5 fw-medium text-white"
-						>
-							Upload Cover Photo
-						</label>
-
+						{/* <Dragdrop onFileDrop={handleFileDrop} /> */}
 						<div>
 							{show && (
 								<img
@@ -256,16 +211,15 @@ function UpdateArticle() {
 
 				<div className="buttons_article d-flex justify-content-end mt-4 md-d-flex md-flex-column mb-3">
 					<button
-						type="reset"
+						type="button"
 						className="btn btn_cancel btn_article btn-secondary text-light fw-bold rounded-1 fs-9 me-2"
 					>
 						CANCEL
 					</button>
 					<button
-						type="button"
+						type="submit"
 						className="btn btn_save btn_article  text-light fw-bold rounded-1"
 						style={{ background: '#bf9b30' }}
-						onClick={() => setValue('isPublished', false)}
 					>
 						SAVE
 					</button>
@@ -273,13 +227,12 @@ function UpdateArticle() {
 						type="button"
 						className="btn btn_publish2 btn_article  text-light fw-bold rounded-1 d-none"
 						style={{ background: '#bf9b30' }}
-						onClick={() => setValue('isPublished', true)}
 					>
 						PUBLISH
 					</button>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	);
 }
 export default UpdateArticle;

@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 function UpdateJob() {
-	const { fetchOneJob: job } = useSelector((state) => state.jobs);
+	const { job } = useSelector((state) => state.jobs);
 	console.log(job);
 	const dispatch = useDispatch();
 

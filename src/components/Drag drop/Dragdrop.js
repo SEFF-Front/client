@@ -74,8 +74,9 @@ function Dragdrop({ size, useFor, onFileDrop }) {
 		}
 		if (useFor == 'personal') {
 			dispatch(addPersonalPhoto(file));
+		} else {
+			onFileDrop(file);
 		}
-		onFileDrop(file);
 	};
 
 	return (
@@ -127,6 +128,7 @@ function Dragdrop({ size, useFor, onFileDrop }) {
 												<img
 													src={uploadIcon}
 													className={draggingOver ? 'hidden' : ''}
+                          alt=''
 												/>
 											</div>
 										)}

@@ -85,15 +85,16 @@ function AddCourses({ type = 'new' }) {
 		console.log('data', data);
 
 		if (type === 'edit') {
-			dispatch(updateCourse({ id: courseId, data })).unwrap();
+			await dispatch(updateCourse({ id: courseId, data })).unwrap();
 			setSelectedStudents([]);
 			reset();
-			navigate(`adminPanel/courses/${courseId}`);
+			navigate(`/adminPanel/courses`);
 		} else {
 			try {
 				await dispatch(createCourse(data)).unwrap();
+				setSelectedStudents([]);
 				reset();
-				navigate(`adminPanel/courses/${courseId}`);
+				navigate(`/adminPanel/courses`);
 			} catch (error) {
 				console.log(error);
 				toast.error(error.message);

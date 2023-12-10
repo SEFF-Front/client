@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-function CvDesign(){
+function CvDesign({showDownload}){
 const cvData = useSelector(state=>state.cvData)
 const mainData = cvData.mainData;
 const aboutData = cvData.aboutData;
@@ -160,7 +160,9 @@ const generatePDF = () => {
                 </div>
             </div>
         </div> 
-            <button onClick={generatePDF} className={setTimeout(()=>{},100)}>Download PDF</button>
+                {
+                    showDownload ?(<button onClick={generatePDF} className="bg-warning ps-4 btn pe-4 p-2 text-light ms-auto mt-3" >Download PDF</button>):""
+                }
     </div>
     )
 }

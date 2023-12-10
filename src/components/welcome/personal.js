@@ -2,11 +2,11 @@ import './personalPage.css';
 import img from '../../assest/oooo.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-	faCalendarAlt,
 	faCheckCircle,
-	faFileAlt,
-	faPenToSquare,
-	faUser,
+	// faCalendarAlt,
+	// faFileAlt,
+	// faPenToSquare,
+	// faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import Footer from '../footer/Footer';
 import Title from '../title/title';
@@ -24,9 +24,7 @@ function Personal() {
 	const { user } = useSelector((state) => state.user);
 	const { courses } = useSelector((state) => state.courses);
 	const { exams } = useSelector((state) => state.exams);
-	const { certificates, loading } = useSelector(
-		(state) => state.certificates
-	);
+	const { certificates, loading } = useSelector((state) => state.certificates);
 
 	useEffect(() => {
 		dispatch(
@@ -45,7 +43,9 @@ function Personal() {
 
 	useEffect(() => {
 		setUpComingExams(
-			exams?.filter((ele) => ele?.status?.includes('coming') || new Date(ele?.date)  > Date.now())
+			exams?.filter(
+				(ele) => ele?.status?.includes('coming') || new Date(ele?.date) > Date.now()
+			)
 		);
 	}, [exams]);
 

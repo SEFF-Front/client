@@ -39,17 +39,13 @@ function Pagination({ total, limit, pages, currentPage: activePage, onPageChange
 				{pageNumbers.map((pgNumber) => (
 					<li
 						key={pgNumber}
-						className={`page-itm  rounded-circle border-1 border-warning border ${
-							currentPage == pgNumber
-								? 'actve'
+						className={`page-itm rounded-circle border-1 border-warning border ${
+							currentPage === pgNumber
+								? 'active'
 								: 'border border-light rounded-circle border-1'
-						} `}
+						}`}
 					>
-						<span
-							onClick={() => changeByNumber(pgNumber)}
-							// className={`page-itm`}
-							className={`page-itm ${currentPage == pgNumber ? 'actve' : ''} `}
-						>
+						<span onClick={() => changeByNumber(pgNumber)} className={`page-itm`}>
 							{pgNumber}
 						</span>
 					</li>

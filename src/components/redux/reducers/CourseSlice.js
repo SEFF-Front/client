@@ -11,13 +11,12 @@ export const fetchCourses = createAsyncThunk(
 			role,
 			filter = {},
 			page,
-			searchBy = '',
-			searchValue = '',
 			limit = 10,
 		} = queries;
 		try {
 			const response = await Api.get(
-				`/courses/${role}?page=${page}&limit=${limit}&searchBy=${searchBy}&searchValue=${searchValue}`,
+				`/courses/${role}?page=${page}&limit=${limit}`,
+				// `/courses/${role}?page=${page}&limit=${limit}&searchBy=${searchBy}&searchValue=${searchValue}`,
 				{ params: { filter } }
 			);
 			console.log('response.data', response.data);
@@ -223,6 +222,7 @@ export const CourseSlice = createSlice({
 			state.message = action.payload.message;
 			state.course = action.payload.data;
 			state.success = true;
+			console.log('action.payload.data', action.payload.data);
 		});
 		builder.addCase(createCourse.rejected, (state, action) => {
 			state.loading = false;

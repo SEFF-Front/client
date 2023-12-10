@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './cvShape.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import CvDesign from '../cv style shape/cvdesign';
@@ -41,8 +41,15 @@ function CvShape(){
             containerSteps.current.scrollLeft -= 250;
         }
     }
-
-
+    const [showDownload ,setShowDownload]= useState(false)
+    console.log(showDownload);
+        useEffect(()=>{
+            if(formstepnum ===7 ){
+                setShowDownload(true)
+            }else{
+                setShowDownload(false)
+            }
+        },[formstepnum])
     return(
         <section class="main-sec">
         <div class="container">
@@ -111,7 +118,7 @@ function CvShape(){
                     {/* <div class="drag-drop"></div> */}
                     </div>
                     <div class="col-xs-12 order-xs-12 col-lg-6 phone-none">
-                        <CvDesign/>
+                        <CvDesign showDownload={showDownload}/>
                     </div>
                 </div>
 
